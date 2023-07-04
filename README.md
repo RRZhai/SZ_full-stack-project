@@ -1,1 +1,0 @@
-# SZ_full-stack-project
