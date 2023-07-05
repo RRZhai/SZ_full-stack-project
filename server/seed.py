@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Standard library imports
-from random import randint, choice as rc
+from random import randint, random, choice as rc
 
 # Remote library imports
 from faker import Faker
@@ -33,7 +33,7 @@ if __name__ == '__main__':
         role_list = ['employer', 'job seeker']
         
         users = []
-        for _ in range(10):
+        for _ in range(50):
             user = User(
                 email=fake.email(),
                 email=fake.email(),
@@ -45,5 +45,51 @@ if __name__ == '__main__':
             users.append(user)
         db.session.add_all(users)
         
-        print("Starting seed...")
-        # Seed code goes here!
+        print("Creating jobs...")
+        class JobProvider(BaseProvider):
+            def random_from_joblist(self, job_list):
+                return self.random_element(job_list)
+        fake.add_provider(JobProvider)
+        job_list = ['Babysitting', 'House Cleaning', 'Tutoring', 'Dog Walking', 'Delivery Service', 'Event Staffing', 'Handyman Service', 'Modeling']
+        jobs = []
+        for _ in range(30):
+            job = Job(
+                job_type=fake.fake.random_from_joblist(job_list),
+                description=fake.text(),
+                pay_rate=round(random.uniform(15.5, 100.0), 1),
+                city=fake.city(),
+                state=fake.state(),
+                employee_id=randint(1, 50),
+                job_seeker_id=randint(1, 50),
+                start_time=fake.date_time(),
+                end_time=fake.date_time(),
+                status=rc(['pending', 'accepted', 'completed', 'cancelled'])
+            )
+            jobs.append(job)
+        db.session.add_all(jobs)
+
+        print("Creating reviews...")
+        reviews = []
+        for _ in range(20):
+            review = Review(
+                content=fake.text(),
+                rating=randint(1, 5),
+                job_id=randint(1, 10),
+                user_id=randint(1, 50)
+            )
+            reviews.append(review)
+        db.session.add_all(reviews)
+
+        print("Creating blacklists ...")
+        blacklists = []
+        for _ in range(5):
+            blacklist = Blacklist(
+                email=fake.email(),
+            )
+            blacklists.append(blacklist)
+        db.session.add_all(blacklists)
+
+        print("Committing ...")
+        db.session.commit()
+
+        print("Done!")
