@@ -6,7 +6,7 @@ from blueprints import request, session, Resource, Blueprint, make_response, g, 
 from flask import Flask, jsonify
 job_schema = JobSchema()
 job_by_id_bp = Blueprint("job_by_id", __name__, 
-                                    url_prefix="/job/<int:id>")
+                                    url_prefix="/jobs/<int:id>")
 
 class JobById(Resource):
     def get(self, id):
