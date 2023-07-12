@@ -15,10 +15,13 @@ class User(db.Model):
     updated_at = db.Column(db.DateTime, onupdate = db.func.now())
 
     #relationship
+    jobs = db.relationship("Job", back_populates="user", cascade="all, delete-orphan")
+    hires = db.relationship("Hire", back_populates="user", cascade="all, delete-orphan")
+    reviews = db.relationship("Review", back_populates="user", cascade="all, delete-orphan")
 
 
     def __repr__(self):
-        return f"User #{self.id}: {self.username}"
+        return f"User #{self.id}: {self.email}"
     
     @hybrid_property
     def password_hash(self):

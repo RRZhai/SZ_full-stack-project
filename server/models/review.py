@@ -11,7 +11,7 @@ class Review(db.Model):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
 
     job = db.relationship("Job", back_populates="reviews")
-    reviewer = db.relationship("User", back_populates="reviews")
+    user = db.relationship("User", back_populates="reviews")
 
     def __repr__(self):
         return (

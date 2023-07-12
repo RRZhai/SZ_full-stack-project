@@ -9,11 +9,11 @@ class Hire(db.Model):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     #relationship
     job = db.relationship("Job", back_populates="hires")
-    job_seeker = db.relationship("User", back_populates="hires")
+    user = db.relationship("User", back_populates="hires")
 
     def __repr__(self):
         return (
             f"Hire #{self.id}: "
-            + f"{self.job.user}"
+            + f"{self.job}"
             + f"{self.job_seeker}"
         )

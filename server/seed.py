@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
 # Standard library imports
-from random import randint, random, choice as rc
+from random import choice as rc
+from random import randint
+import random
 
 # Remote library imports
 from faker import Faker
@@ -42,15 +44,12 @@ if __name__ == '__main__':
         db.session.add_all(users)
         
         print("Creating jobs...")
-        class JobProvider(BaseProvider):
-            def random_from_joblist(self, job_list):
-                return self.random_element(job_list)
-        fake.add_provider(JobProvider)
+
         job_list = ['Babysitting', 'House Cleaning', 'Tutoring', 'Dog Walking', 'Delivery Service', 'Event Staffing', 'Handyman Service', 'Modeling']
         jobs = []
         for _ in range(30):
             job = Job(
-                job_type=fake.fake.random_from_joblist(job_list),
+                job_type=rc(job_list),
                 description=fake.text(),
                 pay_rate=round(random.uniform(15.5, 100.0), 1),
                 address=fake.address(),
@@ -58,7 +57,6 @@ if __name__ == '__main__':
                 state=fake.state(),
                 employee_id=randint(1, 50),
                 hire_id=randint(1, 10),
-                job_seeker_id=randint(1, 50),
                 start_time=fake.date_time(),
                 end_time=fake.date_time(),
                 status=rc(['pending', 'accepted', 'completed', 'cancelled'])

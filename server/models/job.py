@@ -19,7 +19,7 @@ class Job(db.Model):
     
     user = db.relationship("User", back_populates="jobs")
     reviews = db.relationship("Review", back_populates="job")
-    hire = db.relationship("Hire", back_populates="job")
+    hires = db.relationship("Hire", back_populates="job")
 
 
     def __repr__(self):
