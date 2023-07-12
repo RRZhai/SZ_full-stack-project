@@ -11,7 +11,6 @@ class User(db.Model):
     name = db.Column(db.String, nullable=False)
     bio = db.Column(db.String, nullable=True)
     profile_pic_url = db.Column(db.Integer)
-    role = db.Column(db.String, nullable=False)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate = db.func.now())
 

@@ -2,18 +2,29 @@
 
 # Remote library imports
 from flask import Flask
+from flask_bcrypt import Bcrypt
 from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
+from werkzeug.utils import secure_filename
+from os import environ
+from dotenv import load_dotenv
+import uuid as uuid
+import os
 
 # Local imports
 
 # Instantiate app, set attributes
 app = Flask(__name__)
+
+load_dotenv(".env")
+app.secret_key=environ.get("SECRET_KEY")
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_ECHO'] = True
 app.json.compact = False
 
 # Define metadata, instantiate db
@@ -29,3 +40,9 @@ api = Api(app)
 
 # Instantiate CORS
 CORS(app)
+
+bcrypt = Bcrypt(app)
+
+#Upload Config
+UPLOAD_PATH = "static/profile_images/"
+app.config['UPLOAD_PATH'] = UPLOAD_PATH
