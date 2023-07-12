@@ -11,7 +11,7 @@ class Job(db.Model):
     city = db.Column(db.String,nullable=False)
     state = db.Column(db.String,nullable=False)
     employee_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    job_seeker_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=True)
+    hire_id = db.Column(db.Integer, db.ForeignKey("hires.id"))
     start_time = db.Column(db.DateTime, nullable=False)
     end_time = db.Column(db.DateTime, nullable=False)
     status = db.Column(db.String)
@@ -19,13 +19,16 @@ class Job(db.Model):
     
     user = db.relationship("User", back_populates="jobs")
     reviews = db.relationship("Review", back_populates="job")
+    hires = db.relationship("Hire", back_populates="job")
+
 
     def __repr__(self):
         return (
             f"Post #{self.id}: "
-            + f"{self.content}"
+            + f"{self.job_type}"
+            + f"{self.description}"
             + f"{self.pay_rate}"
             + f"{self.employee_id}"
-            + f"{self.job_seeker_id}"
+            + f"{self.hire}"
             + f"{self.status}"
         )

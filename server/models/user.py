@@ -11,15 +11,17 @@ class User(db.Model):
     name = db.Column(db.String, nullable=False)
     bio = db.Column(db.String, nullable=True)
     profile_pic_url = db.Column(db.Integer)
-    role = db.Column(db.String, nullable=False)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate = db.func.now())
 
     #relationship
+    jobs = db.relationship("Job", back_populates="user", cascade="all, delete-orphan")
+    hires = db.relationship("Hire", back_populates="user", cascade="all, delete-orphan")
+    reviews = db.relationship("Review", back_populates="user", cascade="all, delete-orphan")
 
 
     def __repr__(self):
-        return f"User #{self.id}: {self.username}"
+        return f"User #{self.id}: {self.email}"
     
     @hybrid_property
     def password_hash(self):
