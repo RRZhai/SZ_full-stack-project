@@ -7,7 +7,7 @@ user_schema = UserSchema()
 user_by_name_bp = Blueprint("user_by_name", __name__, 
                                     url_prefix="/users/<string:username>")
 
-class UserByName(Resource):
+class UserByEmail(Resource):
     def get(self, email):
         if user := User.query.filter(User.email == email).first(): 
             return make_response(user_schema.dump(user), 200)
