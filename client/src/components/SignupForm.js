@@ -1,6 +1,6 @@
-const SignupForm = ({ updateCurrentUser }) => {
-    return (
-        <div className="signup-form"></div>
+const SignupForm = () => {
+    return(
+        <div className='form'></div>
     )
 }
 

@@ -24,7 +24,6 @@ const App = () => {
       }
     });
   }, []);
-
   useEffect(() => {
     fetch("/jobs")
       .then((r) => r.json())
@@ -72,7 +71,7 @@ const App = () => {
       <HeaderBar currentUser={currentUser} updateCurrentUser={updateCurrentUser} />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<LoginForm currentUser={currentUser} updateCurrentUser={updateCurrentUser} />} />
+        {/* <Route path="/login" element={<LoginForm currentUser={currentUser} updateCurrentUser={updateCurrentUser} />} />
         <Route path="/signup" element={<SignupForm updateCurrentUser={updateCurrentUser} />} />
         <Route path="/profile/:username" element={<Profile currentUser={currentUser} updateCurrentUser={updateCurrentUser} />} />
         <Route path="/account_deletion" element={<DeleteUser updateCurrentUser={updateCurrentUser} />} />
@@ -99,11 +98,10 @@ const App = () => {
             )
           }
         />
-        <Route path="*" element={<Error404 />} />
+        <Route path="*" element={<Error404 />} /> */}
       </Routes>
     </div>
   )
 }
 
 export default App;
-

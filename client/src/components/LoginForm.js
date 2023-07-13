@@ -23,6 +23,7 @@ import * as yup from 'yup'
 import Error404 from "./Error404";
 
 const LoginForm = ({ currentUser, updateCurrentUser }) => {
+    debugger
     const defaultTheme = createTheme();
     const navigate = useNavigate();
     if (currentUser) {
@@ -31,8 +32,6 @@ const LoginForm = ({ currentUser, updateCurrentUser }) => {
 
     const [showPassword, setShowPassword] = useState(false);
     const [errors, setErrors] = useState(null);
-    
-  
     const handleClickShowPassword = () => setShowPassword((show) => !show);
   
     const handleMouseDownPassword = (event) => {
