@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from 'react';
 import { Routes, Route } from "react-router-dom";
 import HeaderBar from "./HeaderBar";
 import Home from "./Home";
@@ -6,16 +6,14 @@ import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
 import DeleteUser from "./DeleteUser";
 import JobForm from "./JobForm";
-import JobContainer from "./JobContainer";
+import JobsContainer from "./JobsContainer";
 import Job from "./Job";
 import Profile from "./Profile";
-import Review from "./Review";
+import Reviews from "./Reviews";
 import Error404 from "./Error404";
-import "./App.css";
-import DeleteUser from "./DeleteUser";
 
 const App = () => {
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState(false);
   const [jobs, setJobs] = useState([]);
   const [reviews, setReviews] = useState([]);
 
@@ -74,7 +72,7 @@ const App = () => {
       <HeaderBar currentUser={currentUser} updateCurrentUser={updateCurrentUser} />
       <Routes>
         <Route path="/" element={<Home />} />
-      <Route path="/login" element={<LoginForm currentUser={currentUser} updateCurrentUser={updateCurrentUser} />} />
+        <Route path="/login" element={<LoginForm currentUser={currentUser} updateCurrentUser={updateCurrentUser} />} />
         <Route path="/signup" element={<SignupForm updateCurrentUser={updateCurrentUser} />} />
         <Route path="/profile/:username" element={<Profile currentUser={currentUser} updateCurrentUser={updateCurrentUser} />} />
         <Route path="/account_deletion" element={<DeleteUser updateCurrentUser={updateCurrentUser} />} />
@@ -83,8 +81,8 @@ const App = () => {
           element={
             currentUser ? (
               [
-                <PostForm handleSubmitPost={handleSubmitPost} />,
-                <PostsContainer
+                <JobForm handleSubmitJob={handleSubmitJob} />,
+                <JobsContainer
                   currentUser={currentUser}
                   jobs={jobs}
                   handleJobDelete={handleJobDelete}
@@ -92,7 +90,7 @@ const App = () => {
                 />,
               ]
             ) : (
-              <PostsContainer
+              <JobsContainer
                 currentUser={currentUser}
                 jobs={jobs}
                 handleJobDelete={handleJobDelete}

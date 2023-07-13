@@ -4,13 +4,13 @@ from models.hire import Hire
 from models.user import User
 from schemas.hire_schema import HireSchema
 
-hire_schema = HireSchema(many=True)
+hires_schema = HireSchema(many=True)
 hires_bp = Blueprint("hires", __name__, url_prefix="/hires")
 
 class Hires(Resource):
     def get(self):
-        hire = hire_schema.dump(db.session.get(Hire, id))
-        return make_response(hire, 200)
+        hires = hires_schema.dump(Hire.query.all())
+        return make_response(hires, 200)
     
     def post(self):
         try:

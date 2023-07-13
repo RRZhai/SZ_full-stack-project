@@ -15,14 +15,14 @@ class HireSchema(ma.SQLAlchemySchema):
         fields = ("id", "job_id", "job_seeker_id", "url")
     
     job = fields.Nested("JobSchema", only=("id", "url"))
-    user = fields.Nested("UserSchema", only=("id", "email", "url"))
+    user = fields.Nested("UserSchema", only=("id", "username", "url"))
 
     url = ma.Hyperlinks(
         {
             "self": ma.URLFor(
-                "postlikebyid",
+                "hirebyid",
                 values=dict(id="<id>")
             ),
-            "collection": ma.URLFor("postlikes")
+            "collection": ma.URLFor("hires")
         }
     )

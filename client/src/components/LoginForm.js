@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { InputAdornment, IconButton,  } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -10,6 +11,7 @@ import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { VisibilityOff, Visibility} from '@mui/icons-material';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
@@ -18,7 +20,7 @@ import { useState } from "react";
 import { useFormik } from 'formik'
 import * as yup from 'yup'
 
-import Error from "./Error";
+import Error404 from "./Error404";
 
 const LoginForm = ({ currentUser, updateCurrentUser }) => {
     const defaultTheme = createTheme();
@@ -146,7 +148,7 @@ const LoginForm = ({ currentUser, updateCurrentUser }) => {
                     />
                     <p style={{ color: "red" }}>{formik.errors.password}</p>
                 </Grid>
-                { errors ? <Error msg={errors} /> : null }
+                { errors ? <Error404 msg={errors} /> : null }
                 <FormControlLabel
                   control={<Checkbox value="remember" color="primary" />}
                   label="Remember me"
@@ -171,7 +173,7 @@ const LoginForm = ({ currentUser, updateCurrentUser }) => {
                     </Link>
                   </Grid>
                 </Grid>
-                <Copyright sx={{ mt: 5 }} />
+                {/* <Copyright sx={{ mt: 5 }} /> */}
               </Box>
             </Box>
           </Grid>

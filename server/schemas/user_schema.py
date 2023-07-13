@@ -26,9 +26,9 @@ class UserSchema(ma.SQLAlchemySchema):
                         allow_none=True)
     profile_pic_url = fields.String(required=True, 
                                     validate=validate.URL(error="Invalid URL"))
-    jobs = fields.Nested("JobsSchema", only=("id", "job_type", "pay_rate", "status"), many=True)
-    hires = fields.Nested('HiresSchema', only=("id", "job_id"), many=True)
-    reviews = fields.Nested("ReviewsSchema", 
+    jobs = fields.Nested("JobSchema", only=("id", "job_type", "pay_rate", "status"), many=True)
+    hires = fields.Nested('HireSchema', only=("id", "job_id"), many=True)
+    reviews = fields.Nested("ReviewSchema", 
                         only=("id", "rating", "job_id"), many=True)
     url = ma.Hyperlinks(
         {

@@ -15,10 +15,10 @@ from models.review import Review
 from models.blacklist import Blacklist
 from models.hire import Hire
 
-from blueprints.blacklist_by_email import BlacklistByEmail
+from blueprints.blacklists import Blacklists
 from blueprints.check_session import CheckSession
 from blueprints.hire_by_id import HireById
-from blueprints.hire import Hire
+from blueprints.hires import Hires
 from blueprints.job_by_id import JobById
 from blueprints.jobs import Jobs
 from blueprints.login import Login
@@ -30,10 +30,10 @@ from blueprints.user_by_email import UserByEmail
 from blueprints.user_by_id import UserById
 from blueprints.users import Users
 
-api.add_resource(BlacklistByEmail, "/blacklist/<string:email>")
+api.add_resource(Blacklists, "/blacklists")
 api.add_resource(CheckSession, "/checksession") 
 api.add_resource(HireById, "/hires/<int:id>")
-api.add_resource(Hire, "/hires")
+api.add_resource(Hires, "/hires")
 api.add_resource(JobById, "/jobs/<int:id>")
 api.add_resource(Jobs, "/jobs")
 api.add_resource(Login, "/login")
