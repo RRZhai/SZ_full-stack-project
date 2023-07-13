@@ -1,5 +1,6 @@
 from marshmallow import (fields, validate, validates, ValidationError)
 from flask_marshmallow import Marshmallow
+from marshmallow_sqlalchemy import SQLAlchemySchema
 
 from models.blacklist import Blacklist
 from models.hire import Hire
