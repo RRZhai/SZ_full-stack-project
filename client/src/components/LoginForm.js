@@ -31,8 +31,6 @@ const LoginForm = ({ currentUser, updateCurrentUser }) => {
 
     const [showPassword, setShowPassword] = useState(false);
     const [errors, setErrors] = useState(null);
-    
-  
     const handleClickShowPassword = () => setShowPassword((show) => !show);
   
     const handleMouseDownPassword = (event) => {
