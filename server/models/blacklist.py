@@ -11,5 +11,5 @@ class Blacklist(db.Model):
 
 
     def __repr__(self):
-        return f"User #{self.id}: {self.username}"
+        return f"Blacklist #{self.id}: {self.email}"
     

@@ -15,5 +15,5 @@ class Hire(db.Model):
         return (
             f"Hire #{self.id}: "
             + f"{self.job}"
-            + f"{self.job_seeker}"
+            + f"{self.job_seeker_id}"
         )

@@ -24,11 +24,11 @@ class Job(db.Model):
 
     def __repr__(self):
         return (
-            f"Post #{self.id}: "
+            f"Job #{self.id}: "
             + f"{self.job_type}"
             + f"{self.description}"
             + f"{self.pay_rate}"
             + f"{self.employee_id}"
-            + f"{self.hire}"
+            + f"{self.hires}"
             + f"{self.status}"
         )

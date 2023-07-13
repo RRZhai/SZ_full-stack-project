@@ -4,24 +4,25 @@ from .__init__ import (
     validates, 
     ValidationError, 
     ma, 
-    Review
+    Hire
 )
 
-class ReviewSchema(ma.SQLAlchemySchema):
+class HireSchema(ma.SQLAlchemySchema):
     class Meta(): 
-        model = Review
+        model = Hire
         load_instance = True
         ordered = True
-        fields = ("id", "content", "rating", 'job_id', 'reviewer_id', "url")
+        fields = ("id", "job_id", "job_seeker_id", "url")
     
     job = fields.Nested("JobSchema", only=("id", "url"))
-    user = fields.Nested("UserSchema", only=("id", "email", "url"))
+    user = fields.Nested("UserSchema", only=("id", "username", "url"))
+
     url = ma.Hyperlinks(
         {
             "self": ma.URLFor(
-                "reviewbyid",
+                "hirebyid",
                 values=dict(id="<id>")
             ),
-            "collection": ma.URLFor("reviews")
+            "collection": ma.URLFor("hires")
         }
     )
