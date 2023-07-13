@@ -14,6 +14,7 @@ import Error404 from "./Error404";
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState(false);
+  const [userRole, setUserRole] = useState('');
   const [jobs, setJobs] = useState([]);
   const [reviews, setReviews] = useState([]);
 
@@ -66,19 +67,23 @@ const App = () => {
     setCurrentUser(updated_user);
   };
 
+  const handleSetRole = (role) => {
+    setUserRole(role);
+  }
+
   return(
     <div className='app'>
       <HeaderBar currentUser={currentUser} updateCurrentUser={updateCurrentUser} />
       <Routes>
-        <Route path="/" element={<Home />} />
-        {/* <Route path="/login" element={<LoginForm currentUser={currentUser} updateCurrentUser={updateCurrentUser} />} />
+        <Route path="/" element={<Home handleSetRole={handleSetRole} />} />
+        <Route path="/login" element={<LoginForm currentUser={currentUser} updateCurrentUser={updateCurrentUser} />} />
         <Route path="/signup" element={<SignupForm updateCurrentUser={updateCurrentUser} />} />
-        <Route path="/profile/:username" element={<Profile currentUser={currentUser} updateCurrentUser={updateCurrentUser} />} />
+        <Route path="/:username" element={<Profile currentUser={currentUser} updateCurrentUser={updateCurrentUser} />} />
         <Route path="/account_deletion" element={<DeleteUser updateCurrentUser={updateCurrentUser} />} />
         <Route
-          path="/"
+          path="/jobs"
           element={
-            currentUser ? (
+            userRole === 'employee' ? (
               [
                 <JobForm handleSubmitJob={handleSubmitJob} />,
                 <JobsContainer
@@ -98,7 +103,7 @@ const App = () => {
             )
           }
         />
-        <Route path="*" element={<Error404 />} /> */}
+        <Route path="*" element={<Error404 />} />
       </Routes>
     </div>
   )

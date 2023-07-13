@@ -23,7 +23,6 @@ import * as yup from 'yup'
 import Error404 from "./Error404";
 
 const LoginForm = ({ currentUser, updateCurrentUser }) => {
-    debugger
     const defaultTheme = createTheme();
     const navigate = useNavigate();
     if (currentUser) {
