@@ -1,21 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import HeaderBar from "./HeaderBar";
 import Home from "./Home";
 import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
 import DeleteUser from "./DeleteUser";
-import JobForm from "./JobForm";
 import JobsContainer from "./JobsContainer";
 import Job from "./Job";
 import Profile from "./Profile";
 import Reviews from "./Reviews";
 import Error404 from "./Error404";
+import JobForm from "./JobForm";
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState(false);
-  const [userRole, setUserRole] = useState('');
+  const [userRole, setUserRole] = useState("");
   const [jobs, setJobs] = useState([]);
+  const [filterJobs, setFilterJobs] = useState(jobs);
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
@@ -69,44 +70,68 @@ const App = () => {
 
   const handleSetRole = (role) => {
     setUserRole(role);
-  }
+  };
 
-  return(
-    <div className='app'>
-      <HeaderBar currentUser={currentUser} updateCurrentUser={updateCurrentUser} />
+  const handleJobsByLocation = (type) => {
+    setFilterJobs(
+      jobs.filter((job) => job.city.toLowerCase().includes(type.toLowerCase()))
+    );
+  };
+
+  console.log(filterJobs);
+  return (
+    <div className="app">
+      <HeaderBar
+        currentUser={currentUser}
+        userRole={userRole}
+      />
       <Routes>
         <Route path="/" element={<Home handleSetRole={handleSetRole} />} />
-        <Route path="/login" element={<LoginForm currentUser={currentUser} updateCurrentUser={updateCurrentUser} />} />
-        <Route path="/signup" element={<SignupForm updateCurrentUser={updateCurrentUser} />} />
-        <Route path="/:username" element={<Profile currentUser={currentUser} updateCurrentUser={updateCurrentUser} />} />
-        <Route path="/account_deletion" element={<DeleteUser updateCurrentUser={updateCurrentUser} />} />
+        <Route
+          path="/login"
+          element={
+            <LoginForm
+              currentUser={currentUser}
+            />
+          }
+        />
+        <Route
+          path="/signup"
+          element={<SignupForm updateCurrentUser={updateCurrentUser} />}
+        />
+        <Route
+          path="/:username"
+          element={
+            <Profile
+              currentUser={currentUser}
+            />
+          }
+        />
+        <Route
+          path="/account_deletion"
+          element={<DeleteUser updateCurrentUser={updateCurrentUser} />}
+        />
+        <Route
+          path="/newjob"
+          element={<JobForm currentUser={currentUser} handleSubmitJob={handleSubmitJob} />}
+        />
         <Route
           path="/jobs"
           element={
-            userRole === 'employee' ? (
-              [
-                <JobForm handleSubmitJob={handleSubmitJob} />,
-                <JobsContainer
-                  currentUser={currentUser}
-                  jobs={jobs}
-                  handleJobDelete={handleJobDelete}
-                  handleSubmitJob={handleSubmitJob}
-                />,
-              ]
-            ) : (
-              <JobsContainer
-                currentUser={currentUser}
-                jobs={jobs}
-                handleJobDelete={handleJobDelete}
-                handleSubmitJob={handleSubmitJob}
-              />
-            )
+            <JobsContainer
+              userRole={userRole}
+              handleJobsByLocation={handleJobsByLocation}
+              currentUser={currentUser}
+              jobs={jobs}
+              handleJobDelete={handleJobDelete}
+              handleSubmitJob={handleSubmitJob}
+            />
           }
         />
         <Route path="*" element={<Error404 />} />
       </Routes>
     </div>
-  )
-}
+  );
+};
 
 export default App;
