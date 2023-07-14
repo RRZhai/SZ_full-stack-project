@@ -16,20 +16,24 @@ const App = () => {
   const [currentUser, setCurrentUser] = useState(false);
   const [userRole, setUserRole] = useState("");
   const [jobs, setJobs] = useState([]);
-  const [filterJobs, setFilterJobs] = useState(jobs);
   const [reviews, setReviews] = useState([]);
+  const [filterJobs, setFilterJobs] = useState(jobs);
 
   useEffect(() => {
-    fetch("/check_session").then((res) => {
+    fetch("/checksession").then((res) => {
       if (res.ok) {
         res.json().then(setCurrentUser);
       }
     });
   }, []);
+
   useEffect(() => {
     fetch("/jobs")
       .then((r) => r.json())
-      .then(setJobs)
+      .then(data => {
+        setJobs(data)
+        setFilterJobs(data)
+      })
       .catch((err) => console.error(err));
   }, []);
 
@@ -44,13 +48,6 @@ const App = () => {
     fetch("/reviews")
       .then((r) => r.json())
       .then(setReviews)
-      .catch((err) => console.error(err));
-  };
-
-  const handleSetJobs = () => {
-    fetch("/jobs")
-      .then((r) => r.json())
-      .then(setJobs)
       .catch((err) => console.error(err));
   };
 
@@ -73,12 +70,11 @@ const App = () => {
   };
 
   const handleJobsByLocation = (type) => {
-    setFilterJobs(
-      jobs.filter((job) => job.city.toLowerCase().includes(type.toLowerCase()))
-    );
-  };
+      setFilterJobs(
+        jobs.filter((job) => job.city.toLowerCase().includes(type.toLowerCase()))
+      );
+    }
 
-  console.log(filterJobs);
   return (
     <div className="app">
       <HeaderBar
@@ -100,7 +96,7 @@ const App = () => {
           element={<SignupForm updateCurrentUser={updateCurrentUser} />}
         />
         <Route
-          path="/:username"
+          path="/:name"
           element={
             <Profile
               currentUser={currentUser}
@@ -120,11 +116,11 @@ const App = () => {
           element={
             <JobsContainer
               userRole={userRole}
-              handleJobsByLocation={handleJobsByLocation}
               currentUser={currentUser}
-              jobs={jobs}
+              jobs={filterJobs}
               handleJobDelete={handleJobDelete}
               handleSubmitJob={handleSubmitJob}
+              handleJobsByLocation={handleJobsByLocation}
             />
           }
         />
