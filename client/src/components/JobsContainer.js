@@ -1,6 +1,6 @@
 import React from "react";
-import JobForm from "./JobForm";
-
+import { useState } from "react";
+import Job from "./Job";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { AppBar } from "@mui/material";
 import { Box } from "@mui/material";
@@ -12,7 +12,8 @@ import { GlobalStyles } from "@mui/material";
 import { TextField } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
-const JobContainer = ({ handleJobsByLocation, userRole }) => {
+const JobContainer = ({ userRole, jobs, handleJobsByLocation }) => {
+
   return (
     <div>
       {userRole === "employee" ? null : (
@@ -30,6 +31,7 @@ const JobContainer = ({ handleJobsByLocation, userRole }) => {
           <SearchIcon style={{ fill: "blue" }} />
         </div>
       )}
+      <div>{jobs ? jobs.map(job => <Job key={job.id} job={job}/>) : null}</div>
     </div>
   );
 };
