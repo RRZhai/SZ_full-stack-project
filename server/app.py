@@ -26,7 +26,7 @@ from blueprints.logout import Logout
 from blueprints.review_by_id import ReviewById
 from blueprints.reviews import Reviews
 from blueprints.signup import Signup
-from blueprints.user_by_email import UserByEmail
+from blueprints.user_by_name import UserByName
 from blueprints.user_by_id import UserById
 from blueprints.users import Users
 
@@ -41,7 +41,7 @@ api.add_resource(Logout, "/logout")
 api.add_resource(ReviewById, "/reviews/<int:id>")
 api.add_resource(Reviews, "/reviews")
 api.add_resource(Signup, "/signup")
-api.add_resource(UserByEmail, "/users/<string:email>")
+api.add_resource(UserByName, "/users/<string:name>")
 api.add_resource(UserById, "/users/<int:id>")
 api.add_resource(Users, "/users")
 
