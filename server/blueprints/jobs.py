@@ -1,4 +1,4 @@
-from blueprints import session, request, Resource, Blueprint, make_response, g, abort 
+from blueprints import login_required, session, request, Resource, Blueprint, make_response, g, abort 
 from blueprints.job_by_id import job_schema
 from models import db
 from models.job import Job
@@ -13,6 +13,7 @@ class Jobs(Resource):
         jobs = jobs_schema.dump(Job.query.order_by(Job.created_at.desc()).all())
         return make_response(jobs, 200)
     
+    @login_required
     def post(self):
         try:
             data = request.get_json()

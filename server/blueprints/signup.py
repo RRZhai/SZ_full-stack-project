@@ -17,7 +17,6 @@ class Signup(Resource):
             email = data.get("email")
             name = data.get("name")
             password = data.get("password")
-            # import ipdb; ipdb.set_trace()
 
             if User.query.filter(User.email == email).first(): 
                 return make_response({"error": "Email must be unique"}, 400)
@@ -28,6 +27,7 @@ class Signup(Resource):
             db.session.commit()
 
             session['user_id'] = new_user.id 
+
             return make_response(user_schema.dump(new_user), 201)
         except Exception as e: 
             return make_response({"error": [str(e)]}, 400)

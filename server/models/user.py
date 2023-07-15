@@ -8,7 +8,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String, nullable=False)
     _password_hash = db.Column(db.String)
-    name = db.Column(db.String, nullable=True)
+    name = db.Column(db.String)
     bio = db.Column(db.String)
     profile_pic_url = db.Column(db.String)
     created_at = db.Column(db.DateTime, server_default=db.func.now())

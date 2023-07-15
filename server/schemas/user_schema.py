@@ -20,7 +20,7 @@ class UserSchema(ma.SQLAlchemySchema):
     email = fields.String(required=True, validate=validate.Email(error="Invalid email address"))
     name = fields.String(validate=validate.Length(min=5, max=50, \
                     error="Display name must be between 5 and 50 chars"),
-                    allow_none=True)
+                    )
     bio = fields.String(validate=validate.Length(max=250, \
                         error="Bio must be less than 250 chars"),
                         allow_none=True)

@@ -59,7 +59,7 @@ if __name__ == '__main__':
                 hire_id=randint(1, 10),
                 start_time=fake.date_time(),
                 end_time=fake.date_time(),
-                status=rc(['pending', 'accepted', 'completed', 'cancelled'])
+                status=rc(['active', 'accepted', 'completed', 'cancelled'])
             )
             jobs.append(job)
         db.session.add_all(jobs)
