@@ -46,9 +46,11 @@ const LoginForm = ({ currentUser, updateCurrentUser }) => {
     initialValues: {
       email: "",
       password: "",
+      name:''
     },
     validationSchema: userSchema,
     onSubmit: (values) => {
+      debugger
       fetch("/login", {
         method: "POST",
         headers: {
@@ -59,6 +61,7 @@ const LoginForm = ({ currentUser, updateCurrentUser }) => {
         .then((res) => {
           if (res.ok) {
             res.json().then((data) => {
+              console.log(data);
               updateCurrentUser(data);
               navigate("/");
             });
@@ -105,14 +108,9 @@ const LoginForm = ({ currentUser, updateCurrentUser }) => {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign in
+              Log in
             </Typography>
-            <Box
-              component="form"
-              noValidate
-              onSubmit={formik.handleSubmit}
-              sx={{ mt: 1 }}
-            >
+            <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 3 }}>
               <Grid item xs={12}>
                 <TextField
                   margin="normal"
@@ -121,10 +119,9 @@ const LoginForm = ({ currentUser, updateCurrentUser }) => {
                   id="email"
                   label="Email Address"
                   name="email"
-                  autoComplete="email"
-                  autoFocus
+                  onChange={formik.handleChange}
                 />
-                <p style={{ color: "red" }}>{formik.errors.username}</p>
+                <p style={{ color: "red" }}>{formik.errors.email}</p>
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -135,7 +132,6 @@ const LoginForm = ({ currentUser, updateCurrentUser }) => {
                   label="Password"
                   type={showPassword ? "text" : "password"}
                   id="password"
-                  autoComplete="current-password"
                   onChange={formik.handleChange}
                   InputProps={{
                     endAdornment: (

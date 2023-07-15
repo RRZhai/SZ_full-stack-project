@@ -39,10 +39,7 @@ const SignUpForm = ({ currentUser, updateCurrentUser }) => {
   };
 
   const userSchema = yup.object().shape({
-    email: yup
-      .string()
-      .email()
-      .required("Email is required"),
+    email: yup.string().email().required("Email is required"),
     password: yup
       .string()
       .min(10, "Password must be at least 10 characters")
@@ -53,27 +50,16 @@ const SignUpForm = ({ currentUser, updateCurrentUser }) => {
     initialValues: {
       email: "",
       password: "",
+      name: "",
     },
     validationSchema: userSchema,
     onSubmit: (values) => {
-      fetch("/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(values),
-      })
-      console.log(values)
-        .then((res) => {
-          if (res.ok) {
-            res.json().then((data) => {
-              updateCurrentUser(data);
-              navigate("/");
-            });
-          } else {
-            res.json().then((err) => setErrors(err.error));
-          }
-        })
+        fetch('signup',{
+            method: 'POST',
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(values)
+        }).then(resp => resp.json())
+        .then(data => updateCurrentUser(data))
         .catch((err) => setErrors("Sign up not successful, please try again"));
     },
   });
@@ -132,6 +118,17 @@ const SignUpForm = ({ currentUser, updateCurrentUser }) => {
                   <TextField
                     required
                     fullWidth
+                    id="name"
+                    label="Name"
+                    name="name"
+                    onChange={formik.handleChange}
+                  />
+                  <p style={{ color: "red" }}>{formik.errors.name}</p>
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
                     name="password"
                     label="Password"
                     id="password"
@@ -166,7 +163,7 @@ const SignUpForm = ({ currentUser, updateCurrentUser }) => {
               <Grid container>
                 <Grid item xs>
                   <Link href="/login" variant="body2">
-                    {'Already have an account? Log in'}
+                    {"Already have an account? Log in"}
                   </Link>
                 </Grid>
               </Grid>

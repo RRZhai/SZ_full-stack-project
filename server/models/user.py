@@ -8,9 +8,9 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String, nullable=False)
     _password_hash = db.Column(db.String)
-    name = db.Column(db.String, nullable=False)
-    bio = db.Column(db.String, nullable=True)
-    profile_pic_url = db.Column(db.Integer)
+    name = db.Column(db.String, nullable=True)
+    bio = db.Column(db.String)
+    profile_pic_url = db.Column(db.String)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate = db.func.now())
 
