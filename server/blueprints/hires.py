@@ -23,12 +23,12 @@ class Hires(Resource):
                 new_hire = Hire(content=content)
                 new_hire.user = current_user
 
-                hire_schema.validate(new_hire)
+                hires_schema.validate(new_hire)
 
                 db.session.add(new_hire)
                 db.session.commit()
                 
-                return make_response(hire_schema.dump(new_hire), 201)
+                return make_response(hires_schema.dump(new_hire), 201)
         except Exception as e: 
             db.session.rollback()
             return make_response({"errors": [str(e)]}, 400)
