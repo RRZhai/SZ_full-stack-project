@@ -46,6 +46,7 @@ const LoginForm = ({ currentUser, updateCurrentUser }) => {
     initialValues: {
       email: "",
       password: "",
+      name: "",
     },
     validationSchema: userSchema,
     onSubmit: (values) => {

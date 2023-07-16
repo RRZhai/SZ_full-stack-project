@@ -43,7 +43,7 @@ const App = () => {
       .then((r) => r.json())
       .then(data => {
         setJobs(data)
-        setFilterJobs(data)
+        setFilterJobs(data.filter((job) => job.status === 'active'))
       })
       .catch((err) => console.error(err));
   }, []);
@@ -78,6 +78,7 @@ const App = () => {
 
   const handleSetRole = (role) => {
     setUserRole(role);
+    setFilterJobs(jobs.filter((job) => job.status === 'active'));
   };
 
   const handleJobsByLocation = (type) => {

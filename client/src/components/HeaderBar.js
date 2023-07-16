@@ -70,16 +70,29 @@ function HeaderBar({
               Company
             </Link>
           </Typography>
+
           {userRole === "employee" ? (
-            <Link
+            <Typography
               variant="button"
               color="text.primary"
               component={Link}
               to="/newjob"
+              noWrap
+              sx={{ flexGrow: 1 }}
             >
               Add New
-            </Link>
+            </Typography>
           ) : null}
+          <Typography
+            noWrap
+            sx={{ flexGrow: 1 }}
+            variant="button"
+            color="text.primary"
+            component={Link}
+            to="/jobs"
+          >
+            All Active Jobs
+          </Typography>
           <div>
             <TextField
               id="search-bar"
@@ -91,7 +104,6 @@ function HeaderBar({
               variant="outlined"
               size="small"
             />
-            <SearchIcon style={{ fill: "blue" }} />
           </div>
           <nav>
             {currentUser ? (
