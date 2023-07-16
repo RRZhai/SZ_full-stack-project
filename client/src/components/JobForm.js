@@ -12,13 +12,14 @@ import { FormControl, FormLabel } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { TimeField } from "@mui/x-date-pickers/TimeField";
 
 const JobForm = ({ handleSubmitJob, currentUser }) => {
   const [error, setError] = useState(null);
+
   const jobSchema = yup.object().shape({
     description: yup
       .string()
@@ -35,14 +36,15 @@ const JobForm = ({ handleSubmitJob, currentUser }) => {
 
   const formik = useFormik({
     initialValues: {
-      job_type: "",
+      job_type: "Babysitting",
       description: "",
       pay_rate: "",
       address: "",
       city: "",
       state: "",
-      employee_id: currentUser?.id,
-      hire_id: "",
+      employee_id: currentUser.id,
+      hire_id: null,
+      date: "",
       start_time: "",
       end_time: "",
       status: "active",
@@ -54,19 +56,17 @@ const JobForm = ({ handleSubmitJob, currentUser }) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
       })
-      .then((res) => {
-        console.log(res)
-        if (res.ok) {
-          res.json()
-          .then(data => {
-            handleSubmitJob(data);
-            debugger
-            navigate("/jobs");
-          });
-        } else {
-          res.json().then((error) => setError(error.message));
-        }
-      })
+        .then((res) => {
+          if (res.ok) {
+            res.json().then((data) => {
+              handleSubmitJob(data);
+              console.log(data);
+              navigate("/jobs");
+            });
+          } else {
+            res.json().then((error) => setError(error.message));
+          }
+        })
         .catch(setError("New job not published, please try again"));
     },
   });
@@ -159,7 +159,7 @@ const JobForm = ({ handleSubmitJob, currentUser }) => {
       <TextField
         fullWidth
         required
-        name="city" 
+        name="city"
         label="City"
         placeholder="Please enter the city"
         onChange={formik.handleChange}
@@ -167,14 +167,29 @@ const JobForm = ({ handleSubmitJob, currentUser }) => {
       <TextField
         fullWidth
         required
-        name="state"  
+        name="state"
         label="State"
         placeholder="Please enter the state"
         onChange={formik.handleChange}
       />
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DatePicker />
-    </LocalizationProvider>
+        <DatePicker name="date" label="Date" value={formik.values.date} onChange={date => formik.setFieldValue('date', date)} />
+        <TimeField
+          fullWidth
+          name="start_time"
+          value={formik.values.start_time}
+          onChange={time => formik.setFieldValue('start_time', time)}
+          format="HH:mm"
+        />
+        <TimeField
+          fullWidth
+          name="end_time"
+          value={formik.values.end_time}
+          onChange={time => formik.setFieldValue('end_time', time)}
+          format="HH:mm"
+        />
+
+      </LocalizationProvider>
       <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
         Submit
       </Button>
@@ -183,4 +198,3 @@ const JobForm = ({ handleSubmitJob, currentUser }) => {
 };
 
 export default JobForm;
-
