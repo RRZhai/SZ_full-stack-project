@@ -4,6 +4,7 @@
 from random import choice as rc
 from random import randint
 import random
+from datetime import date, time
 
 # Remote library imports
 from faker import Faker
@@ -48,6 +49,9 @@ if __name__ == '__main__':
         job_list = ['Babysitting', 'House Cleaning', 'Tutoring', 'Dog Walking', 'Delivery Service', 'Event Staffing', 'Handyman Service', 'Modeling']
         jobs = []
         for _ in range(30):
+            random_date = fake.date_between(start_date='-1y')
+            random_time1 = fake.time_object()
+            random_time2 = fake.time_object()
             job = Job(
                 job_type=rc(job_list),
                 description=fake.text(),
@@ -57,8 +61,9 @@ if __name__ == '__main__':
                 state=fake.state(),
                 employee_id=randint(1, 50),
                 hire_id=randint(1, 10),
-                start_time=fake.date_time(),
-                end_time=fake.date_time(),
+                date=random_date,
+                start_time=random_time1,
+                end_time=random_time2,
                 status=rc(['active', 'accepted', 'completed', 'cancelled'])
             )
             jobs.append(job)
@@ -85,7 +90,7 @@ if __name__ == '__main__':
             blacklists.append(blacklist)
         db.session.add_all(blacklists)
 
-        print("Creating hiress ...")
+        print("Creating hires ...")
         hires = []
         for _ in range(5):
             hire = Hire(

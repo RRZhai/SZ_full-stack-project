@@ -12,6 +12,7 @@ import Profile from "./Profile";
 import Reviews from "./Reviews";
 import Error404 from "./Error404";
 import JobForm from "./JobForm";
+import Chat from "./Chat";
 import { set } from "react-hook-form";
 
 const App = () => {
@@ -20,7 +21,7 @@ const App = () => {
   const [jobs, setJobs] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [filterJobs, setFilterJobs] = useState(jobs);
-
+  const [applyJob, setApplyJob] = useState(null);
   // const ThemeContext = createContext('light')
 
   // const [theme, setTheme] = useState('light')
@@ -43,7 +44,7 @@ const App = () => {
       .then((r) => r.json())
       .then(data => {
         setJobs(data)
-        setFilterJobs(data)
+        setFilterJobs(data.filter((job) => job.status === 'active'))
       })
       .catch((err) => console.error(err));
   }, []);
@@ -78,6 +79,7 @@ const App = () => {
 
   const handleSetRole = (role) => {
     setUserRole(role);
+    setFilterJobs(jobs.filter((job) => job.status === 'active'));
   };
 
   const handleJobsByLocation = (type) => {
@@ -104,7 +106,9 @@ const App = () => {
     }
   }
 
-  console.log(currentUser)
+  const handleApplyJob = (job) => {
+    setApplyJob(job);
+  }
 
   return (
     <div className="app">
@@ -149,7 +153,7 @@ const App = () => {
         />
         <Route
           path="/chat"
-          element={<div > Chat </div>}
+          element={<Chat currentUser={currentUser} job={applyJob}> Chat </Chat>}
         />
         <Route
           path="/jobs"
@@ -161,6 +165,7 @@ const App = () => {
               handleJobDelete={handleJobDelete}
               handleSubmitJob={handleSubmitJob}
               handleJobsByLocation={handleJobsByLocation}
+              handleApplyJob={handleApplyJob}
             />
           }
         />

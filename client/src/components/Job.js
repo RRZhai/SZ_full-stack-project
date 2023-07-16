@@ -7,11 +7,14 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
-
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
-const Job = ({ job, currentUser, userRole }) => {
+const Job = ({ job, currentUser, userRole, handleApplyJob }) => {
   const [readMore, setReadMore] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleReadMore = () => {
     setReadMore((current) => !current);
@@ -25,12 +28,21 @@ const Job = ({ job, currentUser, userRole }) => {
     color: theme.palette.text.secondary,
   }));
 
+  const convertDate = (date) => {
+    return date.slice(0, 10).replaceAll("-", "/");
+  };
+
   return (
     <Card sx={{ minWidth: 275 }}>
       <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          Job of the Day
-        </Typography>
+        <Stack direction="row" spacing={2}>
+          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+            Job of the Day
+          </Typography>
+          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+            {convertDate(job.date)}
+          </Typography>
+        </Stack>
         <Typography variant="h5" component="div">
           {job.job_type}
         </Typography>
@@ -44,14 +56,23 @@ const Job = ({ job, currentUser, userRole }) => {
           <Item>${job.pay_rate}/hr</Item>
           <Item>{job.start_time}</Item>
           <Item>{job.end_time}</Item>
-          <Item>{job.status}</Item>
+          <Item>{job.status.toUpperCase()}</Item>
         </Stack>
       </CardContent>
       <CardActions>
-        { userRole === "jobseeker" && job.status === 'active' ? (
-          <Button variant="contained" href="chat">Apply</Button>) 
-        : (<Button disabled>Apply</Button>) 
-        }
+        {userRole === "jobseeker" && job.status === "active" ? (
+          <Button
+            variant="contained"
+            onClick={(e) => {
+              handleApplyJob(job);
+              navigate("/chat");
+            }}
+          >
+            Apply
+          </Button>
+        ) : (
+          <Button disabled>Apply</Button>
+        )}
         <Button onClick={handleReadMore} size="small">
           Learn More
         </Button>
