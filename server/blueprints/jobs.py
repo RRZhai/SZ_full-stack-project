@@ -18,7 +18,7 @@ class Jobs(Resource):
         try:
             data = request.get_json()
             content = data.get("content")
-
+            import ipdb; ipdb.set_trace()
             if id := session.get("user_id"):
                 current_user = db.session.get(User, id)
 
