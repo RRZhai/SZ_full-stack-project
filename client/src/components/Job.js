@@ -7,11 +7,14 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
-
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
-const Job = ({ job, currentUser, userRole }) => {
+const Job = ({ job, currentUser, userRole, handleApplyJob }) => {
   const [readMore, setReadMore] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleReadMore = () => {
     setReadMore((current) => !current);
@@ -26,8 +29,8 @@ const Job = ({ job, currentUser, userRole }) => {
   }));
 
   const convertDate = (date) => {
-    return date.slice(0, 10).replaceAll('-', '/');
-  }
+    return date.slice(0, 10).replaceAll("-", "/");
+  };
 
   return (
     <Card sx={{ minWidth: 275 }}>
@@ -36,7 +39,9 @@ const Job = ({ job, currentUser, userRole }) => {
           <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
             Job of the Day
           </Typography>
-          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>{convertDate(job.date)}</Typography>
+          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+            {convertDate(job.date)}
+          </Typography>
         </Stack>
         <Typography variant="h5" component="div">
           {job.job_type}
@@ -56,7 +61,13 @@ const Job = ({ job, currentUser, userRole }) => {
       </CardContent>
       <CardActions>
         {userRole === "jobseeker" && job.status === "active" ? (
-          <Button variant="contained" href="chat">
+          <Button
+            variant="contained"
+            onClick={(e) => {
+              handleApplyJob(job);
+              navigate("/chat");
+            }}
+          >
             Apply
           </Button>
         ) : (
