@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 8a9198c63d21
+Revision ID: c369ffb7ba05
 Revises: 
-Create Date: 2023-07-14 17:51:38.527835
+Create Date: 2023-07-15 20:58:48.769014
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '8a9198c63d21'
+revision = 'c369ffb7ba05'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -53,8 +53,9 @@ def upgrade():
     sa.Column('state', sa.String(), nullable=False),
     sa.Column('employee_id', sa.Integer(), nullable=True),
     sa.Column('hire_id', sa.Integer(), nullable=True),
-    sa.Column('start_time', sa.DateTime(), nullable=False),
-    sa.Column('end_time', sa.DateTime(), nullable=False),
+    sa.Column('date', sa.Date(), nullable=True),
+    sa.Column('start_time', sa.Time(), nullable=True),
+    sa.Column('end_time', sa.Time(), nullable=True),
     sa.Column('status', sa.String(), nullable=True),
     sa.Column('created_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
     sa.ForeignKeyConstraint(['employee_id'], ['users.id'], name=op.f('fk_jobs_employee_id_users')),
