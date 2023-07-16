@@ -57,8 +57,9 @@ if __name__ == '__main__':
                 state=fake.state(),
                 employee_id=randint(1, 50),
                 hire_id=randint(1, 10),
-                start_time=fake.date_time(),
-                end_time=fake.date_time(),
+                date=fake.date(),
+                start_time=fake.time(),
+                end_time=fake.time(),
                 status=rc(['active', 'accepted', 'completed', 'cancelled'])
             )
             jobs.append(job)
