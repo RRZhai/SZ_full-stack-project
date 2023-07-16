@@ -10,13 +10,15 @@ class Login(Resource):
     def post(self): 
         try:
             data = request.get_json()
-            
+            # import ipdb; ipdb.set_trace()
+
             email = data.get('email')
             password = data.get('password')
             if user := User.query.filter(User.email == email).first():
                 if user.authenticate(password):
-                    session['user_id'] = user.id
                     import ipdb; ipdb.set_trace()
+                    session['user_id'] = user.id
                     return make_response(user_schema.dump(user), 200)
+            return make_response({'error': 'Invalid credentials'}, 401)
         except: 
             return make_response({'error': 'Invalid credentials'}, 401) 

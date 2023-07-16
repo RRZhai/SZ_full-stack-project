@@ -8,7 +8,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String, nullable=False)
     _password_hash = db.Column(db.String)
-    name = db.Column(db.String, nullable=True)
+    name = db.Column(db.String)
     bio = db.Column(db.String)
     profile_pic_url = db.Column(db.String)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
@@ -18,14 +18,10 @@ class User(db.Model):
     jobs = db.relationship("Job", back_populates="user", cascade="all, delete-orphan")
     hires = db.relationship("Hire", back_populates="user", cascade="all, delete-orphan")
     reviews = db.relationship("Review", back_populates="user", cascade="all, delete-orphan")
-
-
-    def __repr__(self):
-        return f"User #{self.id}: {self.email}"
     
     @hybrid_property
     def password_hash(self):
-        raise AttributeError("Password hashes may not be viewed")
+        return self._password_hash
     
     @password_hash.setter
     def password_hash(self, password):
@@ -35,3 +31,6 @@ class User(db.Model):
     def authenticate(self, password):
         return bcrypt.check_password_hash(self._password_hash, 
                                             password.encode('utf-8'))
+    
+    def __repr__(self):
+        return f"User #{self.id}: {self.email}"

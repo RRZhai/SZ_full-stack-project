@@ -1,4 +1,4 @@
-from blueprints import Resource, Blueprint, make_response, g, abort 
+from blueprints import login_required, Resource, Blueprint, make_response, g, abort 
 from models import db
 from models.job import Job
 from schemas.job_schema import JobSchema
@@ -12,7 +12,8 @@ class JobById(Resource):
     def get(self, id):
         job = job_schema.dump(db.session.get(Job, id))
         return make_response(job, 200)
-        
+    
+    @login_required
     def delete(self, id):
         try:
             job = db.session.get(Job, id)
