@@ -16,7 +16,6 @@ class Login(Resource):
             password = data.get('password')
             if user := User.query.filter(User.email == email).first():
                 if user.authenticate(password):
-                    import ipdb; ipdb.set_trace()
                     session['user_id'] = user.id
                     return make_response(user_schema.dump(user), 200)
             return make_response({'error': 'Invalid credentials'}, 401)

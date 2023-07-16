@@ -21,7 +21,7 @@ import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
 
-import Error404 from "./Error404";
+import Error from "./Error";
 
 const SignUpForm = ({ currentUser, updateCurrentUser }) => {
   const navigate = useNavigate();
@@ -30,7 +30,7 @@ const SignUpForm = ({ currentUser, updateCurrentUser }) => {
     navigate("/");
   }
   const [showPassword, setShowPassword] = useState(false);
-  const [errors, setErrors] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -58,15 +58,25 @@ const SignUpForm = ({ currentUser, updateCurrentUser }) => {
             method: 'POST',
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(values)
-        }).then(resp => resp.json())
-        .then(data => updateCurrentUser(data))
-        .catch((err) => setErrors("Sign up not successful, please try again"));
+        })
+        .then((resp) => {
+          if (resp.ok) {
+            resp.json().then((data) => {
+              updateCurrentUser(data);
+              navigate("/");
+            });
+          } else {
+            resp.json()
+            // .then((err) => setErrorMessage(err));
+          }
+        })
+        .catch(setErrorMessage("Sign up not successful, please try again"));
     },
   });
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Grid component="main" maxWidth="xs">
+      <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
         <Grid
           item
@@ -102,7 +112,6 @@ const SignUpForm = ({ currentUser, updateCurrentUser }) => {
               Sign up
             </Typography>
             <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 3 }}>
-              <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <TextField
                     required
@@ -150,8 +159,7 @@ const SignUpForm = ({ currentUser, updateCurrentUser }) => {
                   />
                   <p style={{ color: "red" }}>{formik.errors.password}</p>
                 </Grid>
-              </Grid>
-              {errors ? <Error404 msg={errors} /> : null}
+              {errorMessage ? <Error msg={errorMessage} /> : null}
               <Button
                 type="submit"
                 fullWidth
