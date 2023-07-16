@@ -20,7 +20,7 @@ import { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 
-import Error404 from "./Error404";
+import Error from "./Error";
 
 const LoginForm = ({ currentUser, updateCurrentUser }) => {
   const defaultTheme = createTheme();
@@ -46,33 +46,28 @@ const LoginForm = ({ currentUser, updateCurrentUser }) => {
     initialValues: {
       email: "",
       password: "",
-      name:''
     },
     validationSchema: userSchema,
     onSubmit: (values) => {
-      debugger
       fetch("/login", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
       })
-        .then((res) => {
-          if (res.ok) {
-            res.json().then((data) => {
-              console.log(data);
+        .then((resp) => {
+          if (resp.ok) {
+            resp.json().then((data) => {
               updateCurrentUser(data);
               navigate("/");
             });
           } else {
-            res.json().then((err) => setErrors(err.error));
+            resp.json().then((err) => setErrors(err));
           }
         })
-        .catch((err) => setErrors(err.error));
+        .catch((err) => setErrors(err));
     },
   });
-  
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
@@ -150,7 +145,7 @@ const LoginForm = ({ currentUser, updateCurrentUser }) => {
                 />
                 <p style={{ color: "red" }}>{formik.errors.password}</p>
               </Grid>
-              {errors ? <Error404 msg={errors} /> : null}
+              {errors ? <Error msg={errors} /> : null}
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"

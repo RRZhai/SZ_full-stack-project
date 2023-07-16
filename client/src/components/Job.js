@@ -10,7 +10,7 @@ import Paper from "@mui/material/Paper";
 
 import { useState } from "react";
 
-const Job = ({ job }) => {
+const Job = ({ job, currentUser, userRole }) => {
   const [readMore, setReadMore] = useState(false);
 
   const handleReadMore = () => {
@@ -24,6 +24,7 @@ const Job = ({ job }) => {
     textAlign: "center",
     color: theme.palette.text.secondary,
   }));
+
   return (
     <Card sx={{ minWidth: 275 }}>
       <CardContent>
@@ -43,10 +44,14 @@ const Job = ({ job }) => {
           <Item>${job.pay_rate}/hr</Item>
           <Item>{job.start_time}</Item>
           <Item>{job.end_time}</Item>
+          <Item>{job.status}</Item>
         </Stack>
       </CardContent>
       <CardActions>
-        <Button variant="contained">Apply</Button>
+        { userRole === "jobseeker" && job.status === 'active' ? (
+          <Button variant="contained" href="chat">Apply</Button>) 
+        : (<Button disabled>Apply</Button>) 
+        }
         <Button onClick={handleReadMore} size="small">
           Learn More
         </Button>
