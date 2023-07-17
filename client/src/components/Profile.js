@@ -26,7 +26,6 @@ const Profile = ({ currentUser, updateCurrentUser }) => {
   const updateProfileUser = (updated_user) => {
     setProfileUser(updated_user);
   };
-  console.log(currentUser);
 
   const labels: { [index: string]: string } = {
     0.5: "Useless",
