@@ -105,7 +105,7 @@ const Profile = ({ profileUser, updateCurrentUser }) => {
           </Box>
         </Box>
       </Drawer>
-      <Reviews reviews={profileUser?.reviews} profileUser={profileUser} />
+      <Reviews profileUser={profileUser} />
     </Box>
   );
 };

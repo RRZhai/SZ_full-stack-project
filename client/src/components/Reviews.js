@@ -9,12 +9,23 @@ import {
   CardActionArea,
   CardContent,
   Typography,
-  Rating
+  Rating,
 } from "@mui/material";
 
-const Review = () => {
+const Review = ({ profileUser }) => {
   const { reviews } = useContext(ReviewContext);
-  
+
+    const filteredReview = reviews.filter(function (obj) {
+      return profileUser?.reviews.indexOf(obj) !== -1;
+    });
+
+//   const filteredReview = reviews.filter((review) =>
+//     profileUser.reviews.filter((comment) => comment.id === review.id)
+//   );
+
+//   console.log(profileUser);
+//   console.log(filteredReview);
+
   return (
     <Container>
       <Grid>

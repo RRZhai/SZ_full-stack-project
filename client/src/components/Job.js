@@ -41,16 +41,13 @@ const Job = ({
   const convertDate = (date) => {
     return date.slice(0, 10).replaceAll("-", "/");
   };
-  console.log(job.employee_id);
 
   useEffect(() => {
-    fetch(`/users/${job.employee_id}`)
+    fetch(`/users/${job?.employee_id}`)
       .then((r) => r.json())
       .then((data) => setEmployee(data))
       .catch((err) => console.error(err));
   }, []);
-
-  console.log(employee);
 
   return (
     <Card sx={{ minWidth: 275 }}>
