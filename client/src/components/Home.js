@@ -3,7 +3,6 @@ import Box from '@mui/material/Box';
 
 const Home = ({handleSetRole, currentUser}) => {
 
-
     return(
         <div className='home'>
             <Box>
