@@ -29,9 +29,10 @@ class Jobs(Resource):
         try:
             data = request.get_json()
             new_job = Job(**data)
+        
             db.session.add(new_job)
+            # import ipdb; ipdb.set_trace()
             db.session.commit()
-            import ipdb; ipdb.set_trace()
 
             return make_response(jsonify(job_schema.dump(new_job)), 201)
         except Exception as e:
