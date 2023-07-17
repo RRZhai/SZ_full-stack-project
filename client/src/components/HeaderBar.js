@@ -27,6 +27,7 @@ function HeaderBar({
   handleActiveJob,
   handleSetRole,
   handleJobsByLocation,
+  handleProfileUser
 }) {
   const isActive = true;
   const notActive = false;
@@ -146,6 +147,7 @@ function HeaderBar({
                         key="profile"
                         onClick={() => {
                           handleCloseUserMenu();
+                          handleProfileUser(currentUser)
                         }}
                         component={Link}
                         to="/profile/:name"

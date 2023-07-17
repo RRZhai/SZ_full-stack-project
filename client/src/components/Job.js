@@ -8,11 +8,21 @@ import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { IconButton } from "@mui/material";
+import Avatar from "@mui/material/Avatar";
 
-const Job = ({ job, currentUser, userRole, handleApplyJob }) => {
+const Job = ({
+  job,
+  currentUser,
+  userRole,
+  handleApplyJob,
+  handleJobDelete,
+  handleProfileUser,
+}) => {
   const [readMore, setReadMore] = useState(false);
+  const [employee, setEmployee] = useState(null);
 
   const navigate = useNavigate();
 
@@ -31,17 +41,48 @@ const Job = ({ job, currentUser, userRole, handleApplyJob }) => {
   const convertDate = (date) => {
     return date.slice(0, 10).replaceAll("-", "/");
   };
+  console.log(job.employee_id);
+
+  useEffect(() => {
+    fetch(`/users/${job.employee_id}`)
+      .then((r) => r.json())
+      .then((data) => setEmployee(data))
+      .catch((err) => console.error(err));
+  }, []);
+
+  console.log(employee);
 
   return (
     <Card sx={{ minWidth: 275 }}>
       <CardContent>
-        <Stack direction="row" spacing={2}>
-          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-            Job of the Day
-          </Typography>
-          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-            {convertDate(job.date)}
-          </Typography>
+        <Stack direction="row" spacing={20}>
+          <Stack direction="row" spacing={2}>
+            <Typography
+              sx={{ fontSize: 14 }}
+              color="text.secondary"
+              gutterBottom
+            >
+              Job of the Day
+            </Typography>
+            <Typography
+              sx={{ fontSize: 14 }}
+              color="text.secondary"
+              gutterBottom
+            >
+              {convertDate(job.date)}
+            </Typography>
+          </Stack>
+          <IconButton
+            onClick={(e) => handleProfileUser(employee)}
+            component={Link}
+            to="/profile/:name"
+            sx={{ p: 0 }}
+          >
+            <Avatar
+              alt={employee?.name}
+              src={`../${employee?.profile_pic_num}.png`}
+            />
+          </IconButton>
         </Stack>
         <Typography variant="h5" component="div">
           {job.job_type}
@@ -76,6 +117,11 @@ const Job = ({ job, currentUser, userRole, handleApplyJob }) => {
         <Button onClick={handleReadMore} size="small">
           Learn More
         </Button>
+        {job.employee_id === currentUser?.id ? (
+          <Button onClick={(e) => handleJobDelete(job.id)} size="small">
+            Delete
+          </Button>
+        ) : null}
       </CardActions>
       <CardContent>
         {readMore ? (

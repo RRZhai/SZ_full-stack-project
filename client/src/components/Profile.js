@@ -18,27 +18,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Typography } from "@mui/material";
 
-const Profile = ({ currentUser, updateCurrentUser }) => {
+const Profile = ({ profileUser, updateCurrentUser }) => {
   const navigate = useNavigate();
   const { username } = useParams();
-  const [profileUser, setProfileUser] = useState(null);
-
-  const updateProfileUser = (updated_user) => {
-    setProfileUser(updated_user);
-  };
-
-  const labels: { [index: string]: string } = {
-    0.5: "Useless",
-    1: "Useless+",
-    1.5: "Poor",
-    2: "Poor+",
-    2.5: "Ok",
-    3: "Ok+",
-    3.5: "Good",
-    4: "Good+",
-    4.5: "Excellent",
-    5: "Excellent+",
-  };
 
   const aveRating = (user) => {
     let sum = 0;
@@ -86,25 +68,24 @@ const Profile = ({ currentUser, updateCurrentUser }) => {
             }}
           >
             <Typography variant="h5" component="div">
-              {currentUser?.name}
+              {profileUser?.name}
             </Typography>
             <Typography
               sx={{ fontSize: 14 }}
               color="text.secondary"
               gutterBottom
             >
-              {currentUser?.email}
+              {profileUser?.email}
             </Typography>
             <Rating
               name="text-feedback"
-              value={aveRating(currentUser)}
+              value={aveRating(profileUser)}
               readOnly
               precision={0.5}
               emptyIcon={
                 <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
               }
             />
-            <Box sx={{ ml: 2 }}>{labels[aveRating(currentUser)]}</Box>
           </Box>
           <Box>
             <Typography sx={{ mb: 1.5 }} color="text.secondary">
@@ -119,12 +100,12 @@ const Profile = ({ currentUser, updateCurrentUser }) => {
                 alignContent: "center",
               }}
             >
-              {currentUser?.bio}
+              {profileUser?.bio}
             </Typography>
           </Box>
         </Box>
       </Drawer>
-      <Reviews reviews={currentUser?.reviews} currentUser={currentUser} />
+      <Reviews reviews={profileUser?.reviews} profileUser={profileUser} />
     </Box>
   );
 };

@@ -22,6 +22,8 @@ const App = () => {
   const [reviews, setReviews] = useState([]);
   const [filterJobs, setFilterJobs] = useState(jobs);
   const [applyJob, setApplyJob] = useState(null);
+  const [profileUser, setProfileuser] = useState(null)
+
   // const ThemeContext = createContext('light')
 
   // const [theme, setTheme] = useState('light')
@@ -42,9 +44,9 @@ const App = () => {
   useEffect(() => {
     fetch("/jobs")
       .then((r) => r.json())
-      .then(data => {
-        setJobs(data)
-        setFilterJobs(data.filter((job) => job.status === 'active'))
+      .then((data) => {
+        setJobs(data);
+        setFilterJobs(data.filter((job) => job.status === "active"));
       })
       .catch((err) => console.error(err));
   }, []);
@@ -56,13 +58,6 @@ const App = () => {
       .catch((err) => console.error(err));
   }, []);
 
-  const handleSetReviews = () => {
-    fetch("/reviews")
-      .then((r) => r.json())
-      .then(setReviews)
-      .catch((err) => console.error(err));
-  };
-
   const handleSubmitJob = (data) => {
     setJobs((current) => [data, ...current]);
   };
@@ -70,7 +65,11 @@ const App = () => {
   const handleJobDelete = (id) => {
     fetch(`/jobs/${id}`, {
       method: "DELETE",
-    }).then(setJobs((current) => current.filter((item) => item.id !== id)));
+    })
+      .then(setJobs((current) => current.filter((item) => item.id !== id)))
+      .then(
+        setFilterJobs((current) => current.filter((item) => item.id !== id))
+      );
   };
 
   const updateCurrentUser = (updated_user) => {
@@ -79,35 +78,59 @@ const App = () => {
 
   const handleSetRole = (role) => {
     setUserRole(role);
-    setFilterJobs(jobs.filter((job) => job.status === 'active'));
+    setFilterJobs(jobs.filter((job) => job.status === "active"));
   };
 
   const handleJobsByLocation = (type) => {
-      setFilterJobs(
-        jobs.filter((job) => job.city.toLowerCase().includes(type.toLowerCase()))
-      );
-    }
+    setFilterJobs(
+      jobs.filter((job) => job.city.toLowerCase().includes(type.toLowerCase()))
+    );
+  };
 
   const handleActiveJob = (active) => {
     if (userRole === "employee") {
-      const filterJobsByRole = jobs.filter((job) => job.employee_id === currentUser.id);
+      const filterJobsByRole = jobs.filter(
+        (job) => job.employee_id === currentUser.id
+      );
       if (!active) {
-        setFilterJobs(filterJobsByRole.filter((job) => job.status === 'completed' || job.status === 'cancelled'));
+        setFilterJobs(
+          filterJobsByRole.filter(
+            (job) => job.status === "completed" || job.status === "cancelled"
+          )
+        );
       } else {
-        setFilterJobs(filterJobsByRole.filter((job) => job.status === 'active' || job.status === 'pending'));
+        setFilterJobs(
+          filterJobsByRole.filter(
+            (job) => job.status === "active" || job.status === "pending"
+          )
+        );
       }
     } else {
-      const filterJobsByRole = jobs.filter((job) => job.hires?.job_seeker_id === currentUser.id);
+      const filterJobsByRole = jobs.filter(
+        (job) => job.hires?.job_seeker_id === currentUser.id
+      );
       if (!active) {
-        setFilterJobs(filterJobsByRole.filter((job) => job.status === 'completed' || job.status === 'cancelled'));
+        setFilterJobs(
+          filterJobsByRole.filter(
+            (job) => job.status === "completed" || job.status === "cancelled"
+          )
+        );
       } else {
-        setFilterJobs(filterJobsByRole.filter((job) => job.status === 'active' || job.status === 'pending'));
+        setFilterJobs(
+          filterJobsByRole.filter(
+            (job) => job.status === "active" || job.status === "pending"
+          )
+        );
       }
     }
-  }
+  };
 
   const handleApplyJob = (job) => {
     setApplyJob(job);
+  };
+
+  const handleProfileUser = (user) => {
+    setProfileuser(user)
   }
 
   return (
@@ -119,9 +142,15 @@ const App = () => {
         updateCurrentUser={updateCurrentUser}
         handleSetRole={handleSetRole}
         handleJobsByLocation={handleJobsByLocation}
+        handleProfileUser={handleProfileUser}
       />
       <Routes>
-        <Route path="/" element={<Home currentUser={currentUser} handleSetRole={handleSetRole} />} />
+        <Route
+          path="/"
+          element={
+            <Home currentUser={currentUser} handleSetRole={handleSetRole} />
+          }
+        />
         <Route
           path="/login"
           element={
@@ -137,11 +166,7 @@ const App = () => {
         />
         <Route
           path="/profile/:name"
-          element={
-            <Profile
-              currentUser={currentUser}
-            />
-          }
+          element={<Profile profileUser={profileUser} />}
         />
         <Route
           path="/account_deletion"
@@ -149,11 +174,21 @@ const App = () => {
         />
         <Route
           path="/newjob"
-          element={<JobForm currentUser={currentUser} handleSubmitJob={handleSubmitJob} />}
+          element={
+            <JobForm
+              currentUser={currentUser}
+              handleSubmitJob={handleSubmitJob}
+            />
+          }
         />
         <Route
           path="/chat"
-          element={<Chat currentUser={currentUser} job={applyJob}> Chat </Chat>}
+          element={
+            <Chat currentUser={currentUser} job={applyJob}>
+              {" "}
+              Chat{" "}
+            </Chat>
+          }
         />
         <Route
           path="/jobs"
@@ -166,6 +201,8 @@ const App = () => {
               handleSubmitJob={handleSubmitJob}
               handleJobsByLocation={handleJobsByLocation}
               handleApplyJob={handleApplyJob}
+              handleJobDelete={handleJobDelete}
+              handleProfileUser={handleProfileUser}
             />
           }
         />
