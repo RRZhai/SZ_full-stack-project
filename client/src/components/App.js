@@ -88,7 +88,7 @@ const App = () => {
     );
   };
 
-  // const [myJob, setMyJob] = useState(jobs);
+  const [myJob, setMyJob] = useState(jobs);
 
   // const handleMyJob = () => {
   //   if (userRole === "employee"){
@@ -98,7 +98,6 @@ const App = () => {
   //   }
   // }
 
-  // handleMyJob()
 
   const handleActiveJob = (active) => {
     if (userRole === "employee") {
