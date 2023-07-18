@@ -17,18 +17,27 @@ import Reviews from "./Reviews";
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Typography } from "@mui/material";
+import { useContext } from "react";
+import { ReviewContext } from "../context/reviewContext";
+
 
 const Profile = ({ profileUser, updateCurrentUser }) => {
   const navigate = useNavigate();
   const { username } = useParams();
 
+  const { reviews } = useContext(ReviewContext);
+
+  const jobIds = profileUser?.jobs.map((job) => job.id);
+  const filterReview = reviews.filter((review) => jobIds?.includes(review.job_id));
+
+
   const aveRating = (user) => {
     let sum = 0;
-    if (user && user.reviews.length !== 0) {
-      user?.reviews.forEach((review) => {
+    if (user && user.filterReview?.length !== 0) {
+      user?.filterReview?.forEach((review) => {
         sum += review.rating;
       });
-      return sum / user?.reviews.length;
+      return sum / filterReview?.length;
     }
   };
 
@@ -105,7 +114,7 @@ const Profile = ({ profileUser, updateCurrentUser }) => {
           </Box>
         </Box>
       </Drawer>
-      <Reviews profileUser={profileUser} />
+      <Reviews profileUser={profileUser} filterReview={filterReview}/>
     </Box>
   );
 };
