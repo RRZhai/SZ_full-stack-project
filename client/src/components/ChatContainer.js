@@ -36,7 +36,7 @@ const ChatContainer = ({ jobs, currentUser }) => {
   );
 
   const relatedJobsAsJobseeker = jobs.filter(
-    (job) => job.hires?job_seeker_id === currentUser.id
+    (job) => job.hires?.job_seeker_id === currentUser.id
   );
 
   return (

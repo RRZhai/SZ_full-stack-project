@@ -21,7 +21,8 @@ class Signup(Resource):
             if User.query.filter(User.email == email).first(): 
                 return make_response({"error": "Email must be unique"}, 400)
 
-            new_user = User(email=email, name=name, _password_hash=password)
+            new_user = User(email=email, name=name)
+            new_user.password_hash = password
 
             db.session.add(new_user)
             db.session.commit()

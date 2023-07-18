@@ -31,7 +31,7 @@ const Chat = ({ currentUser, job }) => {
 
   useEffect(() => {
     console.log("Opening websocket connection");
-    webSocket.current = new WebSocket("ws://localhost:4000/chat");
+    webSocket.current = new WebSocket("ws://localhost:4000/chat/:id");
     webSocket.current.onopen = (e) => {
       console.log("Websocket connection opened", e);
     };
@@ -63,7 +63,7 @@ const Chat = ({ currentUser, job }) => {
   };
 
   const sendMessage = () => {
-    if (message) {
+    if (message && webSocket.current.readyState === WebSocket.open) {
       webSocket.current.send(
         JSON.stringify(new ChatMessageDto(currentUser, message))
       );

@@ -5,6 +5,7 @@ from models.user import User
 from schemas.hire_schema import HireSchema
 
 hires_schema = HireSchema(many=True)
+hire_schema = HireSchema()
 hires_bp = Blueprint("hires", __name__, url_prefix="/hires")
 
 class Hires(Resource):
@@ -19,10 +20,8 @@ class Hires(Resource):
             new_hire = Hire(**data)
         
             db.session.add(new_hire)
-            # import ipdb; ipdb.set_trace()
             db.session.commit()
-                
-            return make_response(hires_schema.dump(new_hire), 201)
+            return make_response(hire_schema.dump(new_hire), 201)
         except Exception as e: 
             db.session.rollback()
             return make_response({"errors": [str(e)]}, 400)
