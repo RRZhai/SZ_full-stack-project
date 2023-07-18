@@ -102,8 +102,8 @@ const Job = ({
           <Button
             variant="contained"
             onClick={(e) => {
-              handleApplyJob(job);
-              navigate("/chat");
+              handleApplyJob(e, job);
+              navigate("/chat/:id");
             }}
           >
             Apply

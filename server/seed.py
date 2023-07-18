@@ -59,7 +59,7 @@ if __name__ == '__main__':
                 address=fake.address(),
                 city=fake.city(),
                 state=fake.state(),
-                employee_id=randint(1, 50),
+                employee_id=randint(1, 10),
                 hire_id=randint(1, 10),
                 date=random_date,
                 start_time=random_time1,

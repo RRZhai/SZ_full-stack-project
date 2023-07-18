@@ -14,8 +14,8 @@ class HireSchema(ma.SQLAlchemySchema):
         ordered = True
         fields = ("id", "job_id", "job_seeker_id", "url")
     
-    job = fields.Nested("JobSchema", only=("id", "url"))
-    user = fields.Nested("UserSchema", only=("id", "username", "url"))
+    job = fields.Nested("JobSchema", only=("id", "job_type", "url"))
+    user = fields.Nested("UserSchema", only=("id", "email", "url"))
 
     url = ma.Hyperlinks(
         {
@@ -26,3 +26,4 @@ class HireSchema(ma.SQLAlchemySchema):
             "collection": ma.URLFor("hires")
         }
     )
+

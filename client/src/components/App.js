@@ -13,6 +13,7 @@ import Reviews from "./Reviews";
 import Error404 from "./Error404";
 import JobForm from "./JobForm";
 import Chat from "./Chat";
+import ChatContainer from "./ChatContainer";
 import { set } from "react-hook-form";
 
 const App = () => {
@@ -22,7 +23,7 @@ const App = () => {
   const [reviews, setReviews] = useState([]);
   const [filterJobs, setFilterJobs] = useState(jobs);
   const [applyJob, setApplyJob] = useState(null);
-  const [profileUser, setProfileuser] = useState(null)
+  const [profileUser, setProfileuser] = useState(null);
 
   // const ThemeContext = createContext('light')
 
@@ -95,15 +96,11 @@ const App = () => {
       if (!active) {
         setFilterJobs(
           filterJobsByRole.filter(
-            (job) => job.status === "completed" || job.status === "cancelled"
+            (job) => job.hires.length() || job.status === "cancelled"
           )
         );
       } else {
-        setFilterJobs(
-          filterJobsByRole.filter(
-            (job) => job.status === "active" || job.status === "pending"
-          )
-        );
+        setFilterJobs(filterJobsByRole.filter((job) => !job.hires.length()));
       }
     } else {
       const filterJobsByRole = jobs.filter(
@@ -125,13 +122,28 @@ const App = () => {
     }
   };
 
-  const handleApplyJob = (job) => {
-    setApplyJob(job);
+  const handleApplyJob = (e, job) => {
+    const newHire = {
+      job_id: job.id,
+      job_seeker_id: currentUser.id,
+    };
+    e.preventDefault();
+    fetch("/hires", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newHire),
+    })
+      .then((res) => res.json())
+      .then((hire) => {
+        setApplyJob(hire.job);
+      });
+    // fetch(`/jobs/${job.id}`)
+    // .catch((err) => console.error(err));
   };
 
   const handleProfileUser = (user) => {
-    setProfileuser(user)
-  }
+    setProfileuser(user);
+  };
 
   return (
     <div className="app">
@@ -184,11 +196,15 @@ const App = () => {
         <Route
           path="/chat"
           element={
-            <Chat currentUser={currentUser} job={applyJob}>
+            <ChatContainer currentUser={currentUser} jobs={jobs}>
               {" "}
               Chat{" "}
-            </Chat>
+            </ChatContainer>
           }
+        />
+        <Route
+          path="/chat/:id"
+          element={<Chat currentUser={currentUser} job={applyJob} />}
         />
         <Route
           path="/jobs"

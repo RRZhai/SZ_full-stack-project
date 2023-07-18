@@ -12,12 +12,6 @@ import {
 
 const Review = ({ profileUser, filterReview }) => {
 
-//   const filteredReview = reviews.filter((review) =>
-//     profileUser.reviews.filter((comment) => comment.id === review.id)
-//   );
-
-//   console.log(profileUser);
-
   return (
     <Container>
       <Grid>

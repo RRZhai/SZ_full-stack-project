@@ -22,6 +22,7 @@ import { useRef } from "react";
 import { set } from "react-hook-form";
 
 const Chat = ({ currentUser, job }) => {
+  console.log(job)
   const webSocket = useRef(null);
 
   const [messages, setMessages] = useState([]);
