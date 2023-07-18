@@ -31,13 +31,13 @@ const Profile = ({ profileUser, updateCurrentUser }) => {
   const filterReview = reviews.filter((review) => jobIds?.includes(review.job_id));
 
 
-  const aveRating = (user) => {
+  const aveRating = (user, reviews) => {
     let sum = 0;
-    if (user && user.filterReview?.length !== 0) {
-      user?.filterReview?.forEach((review) => {
+    if (user && reviews?.length !== 0) {
+      reviews?.forEach((review) => {
         sum += review.rating;
       });
-      return sum / filterReview?.length;
+      return sum / reviews?.length;
     }
   };
 
@@ -88,7 +88,7 @@ const Profile = ({ profileUser, updateCurrentUser }) => {
             </Typography>
             <Rating
               name="text-feedback"
-              value={aveRating(profileUser)}
+              value={aveRating(profileUser, filterReview)}
               readOnly
               precision={0.5}
               emptyIcon={

@@ -17,7 +17,6 @@ const Review = ({ profileUser, filterReview }) => {
 //   );
 
 //   console.log(profileUser);
-  console.log(filterReview);
 
   return (
     <Container>
