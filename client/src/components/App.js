@@ -9,6 +9,7 @@ import JobsContainer from "./JobsContainer";
 import Profile from "./Profile";
 import Error404 from "./Error404";
 import JobForm from "./JobForm";
+import MyJob from "./MyJob";
 import { set } from "react-hook-form";
 import { JobContext } from "../context/jobContext";
 import { UserContext } from "../context/userContext";
@@ -16,7 +17,6 @@ import { UserContext } from "../context/userContext";
 const App = () => {
   const { jobs, dispatch } = useContext(JobContext);
   const { user } = useContext(UserContext);
-  const [currentUser, setCurrentUser] = useState(user);
 
   const [userRole, setUserRole] = useState("");
   
@@ -48,45 +48,18 @@ const App = () => {
     );
   };
 
-  const myJobsAsEmployee = jobs.filter(
-    (job) => job.employee_id === currentUser?.id
-  );
-  const myJobsAsSeeker = jobs.filter(
-    (job) => job.hires?.job_seeker_id === currentUser?.id
-  );
-
   const handleActiveJob = (active) => {
-    if (userRole === "employee") {
-      if (!active) {
-        setFilterJobs(
-          myJobsAsEmployee.filter(
-            (job) => job.hires.length() || job.status === "completed"
-          )
-        );
-      } else {
-        setFilterJobs(myJobsAsEmployee.filter((job) => !job.hires.length()));
-      }
-    } else {
-      if (!active) {
-        setFilterJobs(
-          myJobsAsSeeker.filter(
-            (job) => job.status === "completed" || job.status === "cancelled"
-          )
-        );
-      } else {
-        setFilterJobs(
-          myJobsAsSeeker.filter(
-            (job) => job.status === "active" || job.status === "pending"
-          )
-        );
-      }
+    if(active){
+      setFilterJobs(jobs.filter((job) => job.status === "active" || job.status === "pending"));
+    } else if (!active) {
+      setFilterJobs(jobs.filter((job) => job.status === "completed"));
     }
   };
 
   const handleApplyJob = (e, job) => {
     const newHire = {
       job_id: job.id,
-      job_seeker_id: currentUser.id,
+      job_seeker_id: user.id,
     };
     e.preventDefault();
     fetch("/hires", {
@@ -102,8 +75,10 @@ const App = () => {
       body: JSON.stringify({ status: "pending" }),
     })
       .then((res) => {
+        debugger
         if (res.ok) {
           res.json().then((data) => {
+            console.log(data);
             setApplyJob(data);
           });
         }
@@ -118,7 +93,7 @@ const App = () => {
   return (
     <div className="app">
       <HeaderBar
-        currentUser={currentUser}
+        currentUser={user}
         userRole={userRole}
         handleActiveJob={handleActiveJob}
         handleSetRole={handleSetRole}
@@ -129,14 +104,14 @@ const App = () => {
         <Route
           path="/"
           element={
-            <Home currentUser={currentUser} handleSetRole={handleSetRole} />
+            <Home currentUser={user} handleSetRole={handleSetRole} />
           }
         />
         <Route
           path="/login"
           element={
             <LoginForm
-              currentUser={currentUser}
+              currentUser={user}
             />
           }
         />
@@ -149,10 +124,19 @@ const App = () => {
           element={<Profile profileUser={profileUser} />}
         />
         <Route
+          path="/myjobs"
+          element={
+            <MyJob
+              jobs={jobs}
+              currentUser={user}
+            />
+          }
+        />
+        <Route
           path="/newjob"
           element={
             <JobForm
-              currentUser={currentUser}
+              currentUser={user}
               handleSubmitJob={handleSubmitJob}
             />
           }
@@ -162,7 +146,7 @@ const App = () => {
           element={
             <JobsContainer
               userRole={userRole}
-              currentUser={currentUser}
+              currentUser={user}
               jobs={filterJobs}
               handleJobDelete={handleJobDelete}
               handleSubmitJob={handleSubmitJob}

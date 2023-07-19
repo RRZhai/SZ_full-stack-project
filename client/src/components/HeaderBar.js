@@ -158,7 +158,7 @@ function HeaderBar({
                         key="My Active Job"
                         onClick={(e) => handleActiveJob(isActive)}
                         component={Link}
-                        to="/jobs"
+                        to="/myjobs"
                       >
                         <Typography textAlign="right">My Active Job</Typography>
                       </MenuItem>
@@ -166,7 +166,7 @@ function HeaderBar({
                         key="My Past Job"
                         onClick={(e) => handleActiveJob(notActive)}
                         component={Link}
-                        to="/jobs"
+                        to="/myjobs"
                       >
                         <Typography textAlign="right">My Past Job</Typography>
                       </MenuItem>

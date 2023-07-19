@@ -38,3 +38,4 @@ class Jobs(Resource):
         except Exception as e:
             db.session.rollback()
             return make_response({"errors": [str(e)]}, 400)
+        

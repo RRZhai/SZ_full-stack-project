@@ -18,20 +18,23 @@ import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useNavigate } from "react-router-dom";
-
+import { useContext } from "react";
+import { UserContext } from "../context/userContext";
 import { useFormik } from "formik";
 import * as yup from "yup";
 
 import Error from "./Error";
 
-const SignUpForm = ({ currentUser, updateCurrentUser }) => {
+const SignUpForm = ({ currentUser }) => {
+  const { user, dispatch : userDispatch } = useContext(UserContext)
+
   const navigate = useNavigate();
   const defaultTheme = createTheme();
   if (currentUser) {
     navigate("/");
   }
   const [showPassword, setShowPassword] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [errors, setErrors] = useState(null);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -63,15 +66,14 @@ const SignUpForm = ({ currentUser, updateCurrentUser }) => {
         .then((resp) => {
           if (resp.ok) {
             resp.json().then((data) => {
-              updateCurrentUser(data);
+              userDispatch({type: "fetch", payload: data})
               navigate("/");
             });
           } else {
-            resp.json()
-            // .then((err) => setErrorMessage(err));
+            resp.json().then((err) => setErrors(err));
           }
         })
-        .catch(setErrorMessage("Sign up not successful, please try again"));
+        .catch((err) => setErrors(err));
     },
   });
 
@@ -160,7 +162,7 @@ const SignUpForm = ({ currentUser, updateCurrentUser }) => {
                   />
                   <p style={{ color: "red" }}>{formik.errors.password}</p>
                 </Grid>
-              {errorMessage ? <Error msg={errorMessage} /> : null}
+              {errors ? <Error msg={errors} /> : null}
               <Button
                 type="submit"
                 fullWidth

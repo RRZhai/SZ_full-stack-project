@@ -80,9 +80,9 @@ if __name__ == "__main__":
         )
 
         u7 = User(
-            email="shiyao@bikini.com",
+            email="SY@bikini.com",
             _password_hash="BikiniBottom",
-            name="Shiyao",
+            name="SY",
             bio="I......",
             profile_pic_url="https://www.coachhousevets.com/wp-content/uploads/2023/04/no-photo-icon-22.png",
         )

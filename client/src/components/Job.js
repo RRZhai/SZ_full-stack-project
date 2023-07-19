@@ -66,12 +66,12 @@ const Job = ({
             </Typography>
           </Stack>
           <IconButton
-            onClick={(e) => handleProfileUser(employee)}
+            onClick={(e) => handleProfileUser(job.user)}
             component={Link}
             to="/profile/:name"
             sx={{ p: 0 }}
           >
-            <Avatar alt={employee?.name} src={employee?.profile_pic_url} />
+            <Avatar alt={job.user?.name} src={job.user?.profile_pic_url} />
           </IconButton>
         </Stack>
         <Typography variant="h5" component="div">
