@@ -48,6 +48,7 @@ const Job = ({
   return (
     <Card sx={{ minWidth: 275 }}>
       <CardContent>
+        <Job job={job} />
         <Stack direction="row" spacing={20}>
           <Stack direction="row" spacing={2}>
             <Typography

@@ -137,6 +137,7 @@ const App = () => {
       .then((res) => {
         if (res.ok) {
           res.json().then((data) => {
+            debugger;
             setApplyJob(data);
           });
         }

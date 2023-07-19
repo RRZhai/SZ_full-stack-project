@@ -57,6 +57,7 @@ const Chat = ({ currentUser, job }) => {
     socket.emit("message", {message});
     setMessage("");
   };
+  console.log(job)
 
   console.log(message)
 
