@@ -32,7 +32,6 @@ const Job = ({
   };
 
   const employee = users?.find((employee) => employee.id === job.employee_id);
-  console.log(employee);
 
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -72,10 +71,7 @@ const Job = ({
             to="/profile/:name"
             sx={{ p: 0 }}
           >
-            <Avatar
-              alt={employee?.name}
-              src={employee?.profile_pic_url}
-            />
+            <Avatar alt={employee?.name} src={employee?.profile_pic_url} />
           </IconButton>
         </Stack>
         <Typography variant="h5" component="div">

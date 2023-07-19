@@ -28,8 +28,7 @@ const Profile = ({ profileUser, updateCurrentUser }) => {
   const { reviews } = useContext(ReviewContext);
   console.log("reviews", reviews);
 
-  const jobIds = profileUser?.jobs.map((job) => job.id);
-  const filterReview = reviews.filter((review) => jobIds?.includes(review.job_id));
+  const filterReview = reviews.filter((review) => review.reviewer_id===profileUser?.id);
 
 
   const aveRating = (user, reviews) => {

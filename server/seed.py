@@ -285,7 +285,105 @@ if __name__ == "__main__":
             end_time=time(14, 30),
             status='completed',
         )
-        jobs = [j1, j2, j3, j4, j5, j6, j7, j8, j9, j10, j11, j12]
+        j14 = Job(
+            job_type=rc(job_list),
+            description=fake.text(),
+            pay_rate=15.5,
+            address='12th street',
+            city='San Francisco',
+            state='CA',
+            employee_id=7,
+            hire_id=8,
+            date=date(2023, 1, 2),
+            start_time=time(12, 30),
+            end_time=time(14, 30),
+            status='completed',
+        )
+        j15 = Job(
+            job_type=rc(job_list),
+            description=fake.text(),
+            pay_rate=15.5,
+            address='12th street',
+            city='San Francisco',
+            state='CA',
+            employee_id=7,
+            hire_id=9,
+            date=date(2023, 6, 2),
+            start_time=time(12, 30),
+            end_time=time(14, 30),
+            status='completed',
+        )
+        j16 = Job(
+            job_type=rc(job_list),
+            description=fake.text(),
+            pay_rate=15.5,
+            address='12th street',
+            city='San Francisco',
+            state='CA',
+            employee_id=2,
+            hire_id=10,
+            date=date(2023, 3, 2),
+            start_time=time(12, 30),
+            end_time=time(14, 30),
+            status='completed',
+        )
+        j17 = Job(
+            job_type=rc(job_list),
+            description=fake.text(),
+            pay_rate=15.5,
+            address='12th street',
+            city='San Francisco',
+            state='CA',
+            employee_id=2,
+            hire_id=11,
+            date=date(2023, 3, 2),
+            start_time=time(12, 30),
+            end_time=time(14, 30),
+            status='completed',
+        )
+        j18 = Job(
+            job_type=rc(job_list),
+            description=fake.text(),
+            pay_rate=15.5,
+            address='1th street',
+            city='Bikini Bottom',
+            state='Underwater',
+            employee_id=3,
+            hire_id=None,
+            date=date(2023, 9, 2),
+            start_time=time(12, 30),
+            end_time=time(14, 30),
+            status='active',
+        )
+        j19 = Job(
+            job_type=rc(job_list),
+            description=fake.text(),
+            pay_rate=15.5,
+            address='1th street',
+            city='Bikini Bottom',
+            state='Underwater',
+            employee_id=2,
+            hire_id=None,
+            date=date(2023, 10, 2),
+            start_time=time(12, 30),
+            end_time=time(14, 30),
+            status='active',
+        )
+        j20 = Job(
+            job_type=rc(job_list),
+            description=fake.text(),
+            pay_rate=15.5,
+            address='Krusty Krab',
+            city='Bikini Bottom',
+            state='Underwater',
+            employee_id=1,
+            hire_id=None,
+            date=date(2023, 3, 2),
+            start_time=time(12, 30),
+            end_time=time(14, 30),
+            status='active',
+        )
+        jobs = [j1, j2, j3, j4, j5, j6, j7, j8, j9, j10, j11, j12, j13, j14, j15, j16, j17, j18, j19, j20]
 
         db.session.add_all(jobs)
 
@@ -294,37 +392,37 @@ if __name__ == "__main__":
             content = "Super easy to work with!",
             rating = 5,
             job_id = 6,
-            reviewer_id = 7,
+            reviewer_id = 5,
         )
         r2 = Review(
             content = "The job was done well, but the worker was late by 30 minutes",
             rating = 3,
             job_id = 6,
-            reviewer_id = 5,
+            reviewer_id = 7,
         )
         r3 = Review(
             content = "Such a great worker! Would hire again!",
             rating = 5,
             job_id = 7,
-            reviewer_id = 5,
+            reviewer_id = 7,
         )
         r4 = Review(
             content = "Such a great boss! Would work for again!",
             rating = 5,
             job_id = 7,
-            reviewer_id = 7,
+            reviewer_id = 5,
         )
         r5 = Review(
             content = "Horrible boss!!! I would never recommend working for them!",
             rating = 1,
             job_id = 12,
-            reviewer_id = 2,
+            reviewer_id = 3,
         )
         r6 = Review(
             content = "Worst worker ever!!!",
             rating = 1,
             job_id = 12,
-            reviewer_id = 3,
+            reviewer_id = 2,
         )
         r7 = Review(
             content = "The worker is definitely a professional! Completed the job in a timely manner! Highly recommend!",
@@ -332,7 +430,73 @@ if __name__ == "__main__":
             job_id = 13,
             reviewer_id = 7,
         )
-        reviews = [r1, r2, r3, r4, r5, r6, r7]
+        r8 = Review(
+            content = "The worker is definitely a professional! Completed the job in a timely manner! Highly recommend!",
+            rating = 5,
+            job_id = 13,
+            reviewer_id = 7,
+        )
+        r9 = Review(
+            content = "The worker is definitely a professional! Completed the job in a timely manner! Highly recommend!",
+            rating = 5,
+            job_id = 13,
+            reviewer_id = 7,
+        )
+        r10 = Review(
+            content = "The worker is definitely a professional! Completed the job in a timely manner! Highly recommend!",
+            rating = 5,
+            job_id = 13,
+            reviewer_id = 2,
+        )
+        r11 = Review(
+            content = 'BOSS IS A SCAMMER!!!',
+            rating = 1,
+            job_id = 14,
+            reviewer_id = 7,
+        )
+        r12 = Review(
+            content = 'She is supper friendly and I am willing to work with her again.',
+            rating = 5,
+            job_id = 14,
+            reviewer_id = 7,
+        )
+        r13 = Review(
+            content = 'Nothing to say',
+            rating = 3,
+            job_id = 15,
+            reviewer_id = 7,
+        )
+        r14 = Review(
+            content = '............',
+            rating = 4,
+            job_id = 16,
+            reviewer_id = 2,
+        )
+        r15 = Review(
+            content = 'They are very nice and I am willing to work with them again.',
+            rating = 4,
+            job_id = 17,
+            reviewer_id = 4,
+        )
+        r11 = Review(
+            content = 'Overall, I am satisfied with the work.',
+            rating = 3,
+            job_id = 15,
+            reviewer_id = 4,
+        )
+        r11 = Review(
+            content = 'Worst worker ever!!!',
+            rating = 1,
+            job_id = 16,
+            reviewer_id = 4,
+        )
+        r11 = Review(
+            content = 'Woring with them is ....!',
+            rating = 3,
+            job_id = 17,
+            reviewer_id = 4,
+        )
+        reviews = [r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13, r14, r15]
         db.session.add_all(reviews)
 
         print("Creating blacklists ...")
@@ -373,7 +537,24 @@ if __name__ == "__main__":
             job_id=13,
             job_seeker_id=2,
         )
-        hires = [h1, h2, h3, h4, h5, h6, h7]
+        h8 = Hire(
+            job_id=14,
+            job_seeker_id=1,
+        )
+        h9 = Hire(
+            job_id=15,
+            job_seeker_id=4,
+        )
+        h10 = Hire(
+            job_id=16,
+            job_seeker_id=4,
+        )
+        h11 = Hire(
+            job_id=17,
+            job_seeker_id=4,
+        )
+
+        hires = [h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11]
         db.session.add_all(hires)
 
         print("Committing ...")

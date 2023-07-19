@@ -52,13 +52,6 @@ const App = () => {
       .catch((err) => console.error(err));
   }, []);
 
-  useEffect(() => {
-    fetch("/reviews")
-      .then((r) => r.json())
-      .then(setReviews)
-      .catch((err) => console.error(err));
-  }, []);
-
   const handleSubmitJob = (data) => {
     setJobs((current) => [data, ...current]);
   };
@@ -88,44 +81,34 @@ const App = () => {
     );
   };
 
-  const [myJob, setMyJob] = useState(jobs);
-
-  const handleMyJob = () => {
-    if (userRole === "employee"){
-      setMyJob(jobs.filter(job => job.employee_id === currentUser.id))
-    } else if (userRole === "jobseeker"){
-      setMyJob(jobs.filter(job => job.hires?.job_seeker_id === currentUser))
-    }
-  }
-
+  const myJobsAsEmployee = jobs.filter(
+    (job) => job.employee_id === currentUser.id
+  );
+  const myJobsAsSeeker = jobs.filter(
+    (job) => job.hires?.job_seeker_id === currentUser
+  );
 
   const handleActiveJob = (active) => {
     if (userRole === "employee") {
-      const filterJobsByRole = jobs.filter(
-        (job) => job.employee_id === currentUser.id
-      );
       if (!active) {
         setFilterJobs(
-          filterJobsByRole.filter(
-            (job) => job.hires.length() || job.status === "cancelled"
+          myJobsAsEmployee.filter(
+            (job) => job.hires.length() || job.status === "completed"
           )
         );
       } else {
-        setFilterJobs(filterJobsByRole.filter((job) => !job.hires.length()));
+        setFilterJobs(myJobsAsEmployee.filter((job) => !job.hires.length()));
       }
     } else {
-      const filterJobsByRole = jobs.filter(
-        (job) => job.hires?.job_seeker_id === currentUser.id
-      );
       if (!active) {
         setFilterJobs(
-          filterJobsByRole.filter(
+          myJobsAsSeeker.filter(
             (job) => job.status === "completed" || job.status === "cancelled"
           )
         );
       } else {
         setFilterJobs(
-          filterJobsByRole.filter(
+          myJobsAsSeeker.filter(
             (job) => job.status === "active" || job.status === "pending"
           )
         );
@@ -145,11 +128,20 @@ const App = () => {
       body: JSON.stringify(newHire),
     })
       .then((res) => res.json())
-      .then((hire) => {
-        setApplyJob(hire.job);
-      });
-    // fetch(`/jobs/${job.id}`)
-    // .catch((err) => console.error(err));
+      .catch((err) => console.error(err));
+    fetch(`/jobs/${job.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status: "pending" }),
+    })
+      .then((res) => {
+        if (res.ok) {
+          res.json().then((data) => {
+            setApplyJob(data);
+          });
+        }
+      })
+      .catch((err) => console.error(err));
   };
 
   const handleProfileUser = (user) => {
