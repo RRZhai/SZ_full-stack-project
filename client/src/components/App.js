@@ -13,12 +13,14 @@ import Reviews from "./Reviews";
 import Error404 from "./Error404";
 import JobForm from "./JobForm";
 import { set } from "react-hook-form";
+import { JobContext } from "../context/jobContext";
 
 const App = () => {
+
   const [currentUser, setCurrentUser] = useState(false);
   const [userRole, setUserRole] = useState("");
   const [jobs, setJobs] = useState([]);
-  const [reviews, setReviews] = useState([]);
+  
   const [filterJobs, setFilterJobs] = useState(jobs);
   const [applyJob, setApplyJob] = useState(null);
   const [profileUser, setProfileuser] = useState(null);
@@ -80,10 +82,10 @@ const App = () => {
   };
 
   const myJobsAsEmployee = jobs.filter(
-    (job) => job.employee_id === currentUser.id
+    (job) => job.employee_id === currentUser?.id
   );
   const myJobsAsSeeker = jobs.filter(
-    (job) => job.hires?.job_seeker_id === currentUser
+    (job) => job.hires?.job_seeker_id === currentUser?.id
   );
 
   const handleActiveJob = (active) => {

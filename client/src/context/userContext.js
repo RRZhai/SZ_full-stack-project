@@ -1,49 +1,39 @@
-import { useEffect, useReducer, createContext, useState } from "react"
+import { useEffect, useReducer, createContext } from "react";
+import Cookie from "js-cookie";
 
-const UserContext = createContext()
+const UserContext = createContext();
 
-const initialState = []
+const initialState = null;
 
 const reducer = (state, action) => {
-    switch (action.type) {
-        case "fetch":
-            return action.payload
-        case "add":
-            return [action.payload, ...state]
-        case "patch":
-            return state.map(user => user.id === action.payload.id ? 
-                            action.payload : user)
-        case "remove":
-            return state.filter(user => user.id !== action.payload.id)
-        default:
-            return state;
-    }
-}
+  switch (action.type) {
+    case "fetch":
+      return action.payload;
+    case "remove":
+      return initialState;
+    default:
+      return state;
+  }
+};
 
 const UserProvider = ({ children }) => {
-    const [users, dispatch] = useReducer(reducer, initialState)
+  const [user, dispatch] = useReducer(reducer, initialState);
 
-    useEffect(() => {
-        fetch('/users')
-        .then(resp => {
-            resp.json().then(data => {
-                if (resp.ok){
-                    dispatch({
-                        type:'fetch',
-                        payload:data
-                    })
-                } else {
-                    throw new Error('Can not render users!')
-                }
-            })
-        }).catch(error => alert(error))
-    }, [])
+  useEffect(() => {
+    (async () => {
+      const res = await fetch("/me");
+      if (res.ok) {
+        const data = await res.json();
+        dispatch({ type: "fetch", payload: data.user });
+      }
+    })();
+  }, []);
 
-    return (
-        <UserContext.Provider value={{ users, dispatch }}>
-            { children }
-        </UserContext.Provider>
-    )
-}
+  return (
+    <UserContext.Provider value={{ user, dispatch }}>
+      {children}
+    </UserContext.Provider>
+  );
+};
 
-export { UserContext, UserProvider }
+export { UserContext, UserProvider };

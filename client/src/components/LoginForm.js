@@ -14,15 +14,19 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-
+import { UserContext } from "../context/userContext";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useFormik } from "formik";
+import {GoogleLogin} from '@react-oauth/google'
+
+
 import * as yup from "yup";
 
 import Error from "./Error";
 
 const LoginForm = ({ currentUser, updateCurrentUser }) => {
+  const { user, dispatch : userDispatch } = useContext(UserContext)
   const defaultTheme = createTheme();
   const navigate = useNavigate();
   if (currentUser) {
@@ -57,6 +61,7 @@ const LoginForm = ({ currentUser, updateCurrentUser }) => {
         .then((resp) => {
           if (resp.ok) {
             resp.json().then((data) => {
+              userDispatch({type: "fetch", payload: data})
               updateCurrentUser(data);
               navigate("/");
             });
@@ -158,6 +163,14 @@ const LoginForm = ({ currentUser, updateCurrentUser }) => {
               >
                 Sign In
               </Button>
+              <GoogleLogin
+                onSuccess={(credentialResponse) => {
+                  console.log(credentialResponse);
+                }}
+                onError={() => {
+                  console.log("Login Failed");
+                }}
+              />
               <Grid container>
                 <Grid item>
                   <Link href="/signup" variant="body2">

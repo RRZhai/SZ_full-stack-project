@@ -20,7 +20,7 @@ class Login(Resource):
             email = data.get('email')
             password = data.get('password')
             if user := User.query.filter(User.email == email).first():
-                import ipdb; ipdb.set_trace()
+                # import ipdb; ipdb.set_trace()
                 if user.authenticate(password):
                     session['user_id'] = user.id
                 
