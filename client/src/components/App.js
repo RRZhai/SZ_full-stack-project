@@ -5,69 +5,36 @@ import HeaderBar from "./HeaderBar";
 import Home from "./Home";
 import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
-import DeleteUser from "./DeleteUser";
 import JobsContainer from "./JobsContainer";
-import Job from "./Job";
 import Profile from "./Profile";
-import Reviews from "./Reviews";
 import Error404 from "./Error404";
 import JobForm from "./JobForm";
 import { set } from "react-hook-form";
 import { JobContext } from "../context/jobContext";
+import { UserContext } from "../context/userContext";
 
 const App = () => {
+  const { jobs, dispatch } = useContext(JobContext);
+  const { user } = useContext(UserContext);
+  const [currentUser, setCurrentUser] = useState(user);
 
-  const [currentUser, setCurrentUser] = useState(false);
   const [userRole, setUserRole] = useState("");
-  const [jobs, setJobs] = useState([]);
   
   const [filterJobs, setFilterJobs] = useState(jobs);
   const [applyJob, setApplyJob] = useState(null);
   const [profileUser, setProfileuser] = useState(null);
 
-  // const ThemeContext = createContext('light')
-
-  // const [theme, setTheme] = useState('light')
-  // if (userRole === "jobseeker") {
-  //   setTheme('dark')
-  // } else {
-  //   setTheme('light')
-  // }
-
-  useEffect(() => {
-    fetch("/checksession").then((res) => {
-      if (res.ok) {
-        res.json().then(setCurrentUser);
-      }
-    });
-  }, []);
-
-  useEffect(() => {
-    fetch("/jobs")
-      .then((r) => r.json())
-      .then((data) => {
-        setJobs(data);
-        setFilterJobs(data.filter((job) => job.status === "active"));
-      })
-      .catch((err) => console.error(err));
-  }, []);
-
   const handleSubmitJob = (data) => {
-    setJobs((current) => [data, ...current]);
+    setFilterJobs((current) => [data, ...current]);
   };
 
   const handleJobDelete = (id) => {
     fetch(`/jobs/${id}`, {
       method: "DELETE",
     })
-      .then(setJobs((current) => current.filter((item) => item.id !== id)))
       .then(
         setFilterJobs((current) => current.filter((item) => item.id !== id))
       );
-  };
-
-  const updateCurrentUser = (updated_user) => {
-    setCurrentUser(updated_user);
   };
 
   const handleSetRole = (role) => {
@@ -154,7 +121,6 @@ const App = () => {
         currentUser={currentUser}
         userRole={userRole}
         handleActiveJob={handleActiveJob}
-        updateCurrentUser={updateCurrentUser}
         handleSetRole={handleSetRole}
         handleJobsByLocation={handleJobsByLocation}
         handleProfileUser={handleProfileUser}
@@ -171,21 +137,16 @@ const App = () => {
           element={
             <LoginForm
               currentUser={currentUser}
-              updateCurrentUser={updateCurrentUser}
             />
           }
         />
         <Route
           path="/signup"
-          element={<SignupForm updateCurrentUser={updateCurrentUser} />}
+          element={<SignupForm />}
         />
         <Route
           path="/profile/:name"
           element={<Profile profileUser={profileUser} />}
-        />
-        <Route
-          path="/account_deletion"
-          element={<DeleteUser updateCurrentUser={updateCurrentUser} />}
         />
         <Route
           path="/newjob"
