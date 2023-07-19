@@ -48,8 +48,9 @@ const Chat = ({ currentUser, job }) => {
     // debugger
     socket.on("message", (payload) => {
       setMessages((messages) => [...messages, payload]);
+      debugger
     })
-  });
+  }, []);
 
   const sendMessage = (e) => {
     e.preventDefault()

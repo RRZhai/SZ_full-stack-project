@@ -90,13 +90,13 @@ const App = () => {
 
   const [myJob, setMyJob] = useState(jobs);
 
-  // const handleMyJob = () => {
-  //   if (userRole === "employee"){
-  //     setMyJob(jobs.filter(job => job.employee_id === currentUser.id))
-  //   } else if (userRole === "jobseeker"){
-  //     setMyJob(jobs.filter(job => job.hires?.job_seeker_id === currentUser))
-  //   }
-  // }
+  const handleMyJob = () => {
+    if (userRole === "employee"){
+      setMyJob(jobs.filter(job => job.employee_id === currentUser.id))
+    } else if (userRole === "jobseeker"){
+      setMyJob(jobs.filter(job => job.hires?.job_seeker_id === currentUser))
+    }
+  }
 
 
   const handleActiveJob = (active) => {
