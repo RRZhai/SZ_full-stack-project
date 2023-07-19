@@ -4,6 +4,12 @@ from blueprints.user_by_id import user_schema
 from models import db
 from models.user import User
 from flask import Flask, session
+from flask_jwt_extended import (
+    create_access_token, 
+    create_refresh_token, 
+    set_access_cookies,
+    set_refresh_cookies,
+)
 
 
 
@@ -29,6 +35,13 @@ class Signup(Resource):
 
             session['user_id'] = new_user.id 
 
-            return make_response(user_schema.dump(new_user), 201)
+            token = create_access_token(identity=new_user.id)
+            refresh_token = create_refresh_token(identity=new_user.id)
+            response = make_response({'user': user_schema.dump(new_user)}, 201)
+
+            set_access_cookies(response, token)
+            set_refresh_cookies(response, refresh_token)
+
+            return response
         except Exception as e: 
             return make_response({"error": [str(e)]}, 400)

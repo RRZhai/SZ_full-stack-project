@@ -12,8 +12,6 @@ import Profile from "./Profile";
 import Reviews from "./Reviews";
 import Error404 from "./Error404";
 import JobForm from "./JobForm";
-import Chat from "./Chat";
-import ChatContainer from "./ChatContainer";
 import { set } from "react-hook-form";
 
 const App = () => {
@@ -197,19 +195,6 @@ const App = () => {
           }
         />
         <Route
-          path="/chat"
-          element={
-            <ChatContainer currentUser={currentUser} jobs={jobs}>
-              {" "}
-              Chat{" "}
-            </ChatContainer>
-          }
-        />
-        <Route
-          path="/chat/:id"
-          element={<Chat currentUser={currentUser} job={applyJob} />}
-        />
-        <Route
           path="/jobs"
           element={
             <JobsContainer
@@ -220,7 +205,6 @@ const App = () => {
               handleSubmitJob={handleSubmitJob}
               handleJobsByLocation={handleJobsByLocation}
               handleApplyJob={handleApplyJob}
-              handleJobDelete={handleJobDelete}
               handleProfileUser={handleProfileUser}
             />
           }

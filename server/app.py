@@ -5,7 +5,8 @@
 # Remote library imports
 from flask import request, make_response
 from flask_restful import Resource
-
+from flask_jwt_extended import create_access_token, create_refresh_token, get_jwt_identity, jwt_required, JWTManager, set_access_cookies, set_refresh_cookies, unset_jwt_cookies
+from datetime import timedelta
 # Local imports
 from config import app, db, api
 
@@ -29,6 +30,12 @@ from blueprints.signup import Signup
 from blueprints.user_by_name import UserByName
 from blueprints.user_by_id import UserById
 from blueprints.users import Users
+from blueprints.signup import signup_bp
+from blueprints.login import login_bp
+from blueprints.logout import logout_bp
+from blueprints.users import users_bp
+from blueprints.login_google import login_with_google_bp
+from blueprints.me import me_bp
 
 api.add_resource(Blacklists, "/blacklists")
 api.add_resource(CheckSession, "/checksession") 
@@ -44,6 +51,24 @@ api.add_resource(Signup, "/signup")
 api.add_resource(UserByName, "/users/<string:name>")
 api.add_resource(UserById, "/users/<int:id>")
 api.add_resource(Users, "/users")
+
+app.register_blueprint(signup_bp)
+app.register_blueprint(login_bp)
+app.register_blueprint(logout_bp)
+app.register_blueprint(users_bp)
+app.register_blueprint(login_with_google_bp)
+app.register_blueprint(me_bp)
+
+@app.route('/')
+@app.route('/login')
+@app.route('/signup')
+@app.route('/logout')
+@app.route('/jobs')
+@app.route('/login_with_google')
+
+def index(id=None, name=None):
+    return make_response(open('index.html').read())
+
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

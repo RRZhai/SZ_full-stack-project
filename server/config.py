@@ -1,7 +1,7 @@
 # Standard library imports
 
 # Remote library imports
-from flask import Flask
+from flask import Flask, redirect, url_for, request, jsonify, make_response
 from flask_bcrypt import Bcrypt
 from flask_cors import CORS
 from flask_migrate import Migrate
@@ -12,15 +12,38 @@ from werkzeug.utils import secure_filename
 from dotenv import load_dotenv
 import uuid as uuid
 import os
+from datetime import timedelta
+from flask_caching import Cache
 
-# Local imports
+from flask_jwt_extended import (
+    create_access_token, 
+    create_refresh_token, 
+    get_jwt_identity,
+    jwt_required,
+    JWTManager,
+    set_access_cookies,
+    set_refresh_cookies,
+    unset_jwt_cookies,
+    get_jwt,
+    verify_jwt_in_request
+)
+
+from flask_login import (
+    LoginManager,
+    current_user,
+    login_required,
+    login_user,
+    logout_user,
+)
+from oauthlib.oauth2 import WebApplicationClient
+import requests
 
 # Instantiate app, set attributes
 app = Flask(__name__)
 
 load_dotenv(".env")
 app.secret_key=os.environ.get("SECRET_KEY", 'dev')
-
+app.config["JWT_SECRET_KEY"] = os.environ.get("JWT_SECRET_KEY")
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
@@ -42,6 +65,17 @@ CORS(app)
 
 bcrypt = Bcrypt(app)
 
-#Upload Config
-UPLOAD_PATH = "static/profile_images/"
-app.config['UPLOAD_PATH'] = UPLOAD_PATH
+jwt = JWTManager(app)
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=20)
+app.config["JWT_TOKEN_LOCATION"] = ["headers", "cookies"]
+app.config["JWT_COOKIE_SECURE"] = False
+app.config["CACHE_TYPE"] = "SimpleCache"
+cache = Cache(app)
+# Configuration
+GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID", None)
+GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET", None)
+GOOGLE_DISCOVERY_URL = (
+    "https://accounts.google.com/.well-known/openid-configuration"
+)
+
+client = WebApplicationClient(GOOGLE_CLIENT_ID)
