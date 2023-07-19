@@ -12,6 +12,7 @@ import {
   Icon,
   IconButton,
 } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import { useEffect, useState } from "react";
 import { ChatMessageDto } from "../models/chatMessageDto";
@@ -21,70 +22,53 @@ import SendIcon from "@mui/icons-material/Send";
 import { useRef } from "react";
 import { set } from "react-hook-form";
 
-const Chat = ({ currentUser, job }) => {
-  console.log(job)
-  const webSocket = useRef(null);
+import io from "socket.io-client";
 
+import React from "react";
+import { ReactDOM } from "react";
+import moment from "moment";
+
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: "center",
+  color: theme.palette.text.secondary,
+}));
+
+const socket = io("ws://localhost:8080");
+
+const Chat = ({ currentUser, job }) => {
+  const [users, setUsers] = useState([]);
   const [messages, setMessages] = useState([]);
 
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    console.log("Opening websocket connection");
-    webSocket.current = new WebSocket("ws://localhost:4000/chat/:id");
-    webSocket.current.onopen = (e) => {
-      console.log("Websocket connection opened", e);
-    };
-    webSocket.current.onclose = (e) => {
-      console.log("Websocket message close", e);
-    };
-    return () => {
-      console.log("Closing websocket connection");
-      webSocket.current.close();
-    };
-  }, []);
+    // debugger
+    socket.on("message", (payload) => {
+      setMessages((messages) => [...messages, payload]);
+    })
+  });
 
-  useEffect(() => {
-    webSocket.current.onmessage = (e) => {
-      const chatMessageDto = JSON.parse(e.data);
-      console.log("Websocket message received", chatMessageDto);
-      setMessages((messages) => [
-        ...messages,
-        {
-          user: currentUser,
-          message: chatMessageDto.message,
-        },
-      ]);
-    };
-  }, [messages]);
-
-  const handleMessage = (e) => {
-    setMessage(e.target.value);
+  const sendMessage = (e) => {
+    e.preventDefault()
+    socket.emit("message", {message});
+    setMessage("");
   };
 
-  const sendMessage = () => {
-    if (message && webSocket.current.readyState === WebSocket.open) {
-      webSocket.current.send(
-        JSON.stringify(new ChatMessageDto(currentUser, message))
-      );
-      setMessage("");
-    }
-  };
+  console.log(message)
 
-  const listChatMessages = messages.map((chatMessageDto, index) => {
+  const listChatMessages = messages.map((payload, index) => {
     return (
       <ListItem key={index}>
-        <Avatar
-          alt={chatMessageDto.user.name}
-          src={`../${chatMessageDto.user.profile_pic_num}.png`}
-        />
-        <ListItemText
-          primary={`${chatMessageDto.user}: ${chatMessageDto.message}`}
-        />
+        <Item>{moment(new Date()).format("h:mm:ss a")}</Item>
+        <Avatar alt={currentUser.name} src={`../${currentUser.profile_pic_num}.png`} />
+        <ListItemText primary={`${currentUser.name}: ${payload.message}`} />
       </ListItem>
     );
   });
-  
+
   return (
     <Container>
       <Paper elevation={5}>{job ? <Job job={job}></Job> : null}</Paper>
@@ -95,24 +79,20 @@ const Chat = ({ currentUser, job }) => {
               <List>{listChatMessages}</List>
             </Grid>
             <Grid xs={10} item>
-              <FormControl fullWidth>
+              <FormControl fullWidth onSubmit={sendMessage}>
                 <TextField
                   fullWidth
                   name="message"
                   value={message}
                   label="Type your message..."
-                  onChange={handleMessage}
+                  onChange={(e) => setMessage(e.target.value)}
                 />
+                <Grid item>
+                  <IconButton aria-label="send" color="primary">
+                    <SendIcon />
+                  </IconButton>
+                </Grid>
               </FormControl>
-            </Grid>
-            <Grid item>
-              <IconButton
-                aria-label="send"
-                color="primary"
-                onClick={sendMessage}
-              >
-                <SendIcon />
-              </IconButton>
             </Grid>
           </Grid>
         </Box>
