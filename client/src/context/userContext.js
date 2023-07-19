@@ -1,6 +1,6 @@
 import { useEffect, useReducer, createContext, useState } from "react"
 
-const EmployeeContext = createContext()
+const UserContext = createContext()
 
 const initialState = []
 
@@ -11,20 +11,20 @@ const reducer = (state, action) => {
         case "add":
             return [action.payload, ...state]
         case "patch":
-            return state.map(employee => employee.id === action.payload.id ? 
-                            action.payload : employee)
+            return state.map(user => user.id === action.payload.id ? 
+                            action.payload : user)
         case "remove":
-            return state.filter(employee => employee.id !== action.payload.id)
+            return state.filter(user => user.id !== action.payload.id)
         default:
             return state;
     }
 }
 
-const EmployeeProvider = ({ children }) => {
-    const [employee, dispatch] = useReducer(reducer, initialState)
+const UserProvider = ({ children }) => {
+    const [users, dispatch] = useReducer(reducer, initialState)
 
     useEffect(() => {
-        fetch('/user/')
+        fetch('/users')
         .then(resp => {
             resp.json().then(data => {
                 if (resp.ok){
@@ -33,17 +33,17 @@ const EmployeeProvider = ({ children }) => {
                         payload:data
                     })
                 } else {
-                    throw new Error('Can not render reviews!')
+                    throw new Error('Can not render users!')
                 }
             })
         }).catch(error => alert(error))
     }, [])
 
     return (
-        <ReviewContext.Provider value={{ reviews, dispatch }}>
+        <UserContext.Provider value={{ users, dispatch }}>
             { children }
-        </ReviewContext.Provider>
+        </UserContext.Provider>
     )
 }
 
-export { ReviewContext, ReviewProvider }
+export { UserContext, UserProvider }

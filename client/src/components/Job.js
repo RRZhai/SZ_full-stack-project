@@ -8,10 +8,11 @@ import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { IconButton } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
+import { UserContext } from "../context/userContext";
 
 const Job = ({
   job,
@@ -22,13 +23,16 @@ const Job = ({
   handleProfileUser,
 }) => {
   const [readMore, setReadMore] = useState(false);
-  const [employee, setEmployee] = useState(null);
+  const { users } = useContext(UserContext);
 
   const navigate = useNavigate();
 
   const handleReadMore = () => {
     setReadMore((current) => !current);
   };
+
+  const employee = users?.find((employee) => employee.id === job.employee_id);
+  console.log(employee);
 
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -41,13 +45,6 @@ const Job = ({
   const convertDate = (date) => {
     return date.slice(0, 10).replaceAll("-", "/");
   };
-
-  useEffect(() => {
-    fetch(`/users/${job?.employee_id}`)
-      .then((r) => r.json())
-      .then((data) => setEmployee(data))
-      .catch((err) => console.error(err));
-  }, []);
 
   return (
     <Card sx={{ minWidth: 275 }}>
@@ -77,7 +74,7 @@ const Job = ({
           >
             <Avatar
               alt={employee?.name}
-              src={`../${employee?.profile_pic_num}.png`}
+              src={employee?.profile_pic_url}
             />
           </IconButton>
         </Stack>
