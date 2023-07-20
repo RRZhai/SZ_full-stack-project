@@ -43,13 +43,13 @@ function HeaderBar({
   const logout = () => {
     fetch("/logout", {
       method: "DELETE",
-      headers: {'Content-Type': 'application/json'},
+      headers: { "Content-Type": "application/json" },
     })
       .then((resp) => {
         if (resp.ok) {
-            userDispatch({ type: "remove" });
-            updateCurrentUser(null);
-            navigate("/");
+          userDispatch({ type: "remove" });
+          updateCurrentUser(null);
+          navigate("/");
         } else {
           resp.json().then((err) => setErrors(err));
         }

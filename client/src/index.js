@@ -7,6 +7,7 @@ import { HireProvider } from "./context/hireContext";
 import { JobProvider } from "./context/jobContext";
 import { UserProvider } from "./context/userContext";
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import './index.css';
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -17,7 +18,6 @@ root.render(
   <JobProvider>
     <HireProvider>
       <ReviewProvider>
-        
           <App />
       </ReviewProvider>
     </HireProvider>
