@@ -144,7 +144,7 @@ const Job = ({
             </Button>
           </>
         ) : null}
-        <Button
+        {job?.status === 'completed' && job?.employee_id === currentUser.id ? (<Button 
           onClick={(e) => {
             if (readMore) {
               handleReadMore();
@@ -156,7 +156,20 @@ const Job = ({
           size="small"
         >
           add review
-        </Button>
+        </Button>) : null}
+        {job?.status === 'completed' && job?.hires?.job_seeker_id === currentUser.id ? (<Button 
+          onClick={(e) => {
+            if (readMore) {
+              handleReadMore();
+              handleAddReview();
+            } else {
+              handleAddReview();
+            }
+          }}
+          size="small"
+        >
+          add review
+        </Button>) : null}
       </CardActions>
       <CardContent>
         {readMore ? (

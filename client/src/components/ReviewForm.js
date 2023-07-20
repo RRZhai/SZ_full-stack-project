@@ -3,6 +3,7 @@ import { Rating, TextField } from "@mui/material";
 import Box from "@mui/material/Box";
 import StarIcon from "@mui/icons-material/Star";
 import { useEffect, useState } from "react";
+import Button from "@mui/material/Button";
 
 const labels: { [index: string]: string } = {
   0.5: "Useless",
@@ -21,7 +22,7 @@ function getLabelText(value) {
   return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
 }
 
-export default function ReviewForm({currentUser, userRole}) {
+export default function ReviewForm({ currentUser, userRole }) {
   const [value, setValue] = useState(0);
   const [hover, setHover] = useState(-1);
 
@@ -54,10 +55,17 @@ export default function ReviewForm({currentUser, userRole}) {
       <TextField
         fullWidth
         id="outlined-multiline-flexible"
-        label="Please leave a review"
+        label="Please leave a review..."
         multiline
         maxRows={4}
       />
+      <Button
+        variant="contained"
+        // onClick={submit}
+        size="small"
+      >
+        submit
+      </Button>
     </div>
   );
 }
