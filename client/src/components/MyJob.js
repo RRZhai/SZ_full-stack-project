@@ -66,6 +66,7 @@ const MyJob = ({
             job={job}
             currentUser={currentUser}
             handleJobDelete={handleJobDelete}
+            handleProfileUser={handleProfileUser}
           />
         ))}
       </Container>
@@ -81,6 +82,7 @@ const MyJob = ({
             job={job}
             currentUser={currentUser}
             handleJobDelete={handleJobDelete}
+            handleProfileUser={handleProfileUser}
           />
         ))}
         {relatedJobsAsJobseeker.map((job) => (
