@@ -71,19 +71,6 @@ function HeaderBar({
               Company
             </Link>
           </Typography>
-
-          {userRole === "employee" ? (
-            <Typography
-              variant="button"
-              color="text.primary"
-              component={Link}
-              to="/newjob"
-              noWrap
-              sx={{ flexGrow: 1 }}
-            >
-              Add New
-            </Typography>
-          ) : null}
           <Typography
             noWrap
             sx={{ flexGrow: 1 }}
@@ -91,6 +78,7 @@ function HeaderBar({
             color="text.primary"
             component={Link}
             to="/jobs"
+            onClick={(e) => handleActiveJob(isActive)}
           >
             All Active Jobs
           </Typography>

@@ -31,7 +31,7 @@ class Jobs(Resource):
             new_job = Job(**data)
         
             db.session.add(new_job)
-            import ipdb; ipdb.set_trace()
+            # import ipdb; ipdb.set_trace()
             db.session.commit()
 
             return make_response(jsonify(job_schema.dump(new_job)), 201)

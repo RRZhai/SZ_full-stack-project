@@ -19,7 +19,7 @@ const App = () => {
   const { user } = useContext(UserContext);
 
   const [userRole, setUserRole] = useState("");
-  
+
   const [filterJobs, setFilterJobs] = useState(jobs);
   const [applyJob, setApplyJob] = useState(null);
   const [profileUser, setProfileuser] = useState(null);
@@ -28,13 +28,12 @@ const App = () => {
     setFilterJobs((current) => [data, ...current]);
   };
 
-  const handleJobDelete = (id) => {
-    fetch(`/jobs/${id}`, {
+  const handleJobDelete = (job) => {
+    fetch(`/jobs/${job.id}`, {
       method: "DELETE",
-    })
-      .then(
-        setFilterJobs((current) => current.filter((item) => item.id !== id))
-      );
+    }).then((res) => {
+      setFilterJobs((current) => current.filter((item) => item.id !== job.id));
+    });
   };
 
   const handleSetRole = (role) => {
@@ -49,9 +48,13 @@ const App = () => {
   };
 
   const handleActiveJob = (active) => {
-    if(active){
-      setFilterJobs(jobs.filter((job) => job.status === "active" || job.status === "pending"));
-    } else if (!active) {
+    if (active) {
+      setFilterJobs(
+        jobs.filter(
+          (job) => job.status === "active" || job.status === "pending"
+        )
+      );
+    } else {
       setFilterJobs(jobs.filter((job) => job.status === "completed"));
     }
   };
@@ -68,22 +71,23 @@ const App = () => {
       body: JSON.stringify(newHire),
     })
       .then((res) => res.json())
-      .catch((err) => console.error(err));
-    fetch(`/jobs/${job.id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ status: "pending" }),
-    })
-      .then((res) => {
-        debugger
-        if (res.ok) {
-          res.json().then((data) => {
-            console.log(data);
-            setApplyJob(data);
-          });
-        }
-      })
-      .catch((err) => console.error(err));
+      .then((data) => {
+        fetch(`/jobs/${job.id}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ status: "pending", hire_id: data.id }),
+        })
+          .then((res) => {
+            if (res.ok) {
+              const pendingJob = res.json();
+              setApplyJob(pendingJob);
+              setFilterJobs((current) =>
+                current.filter((item) => item.id !== pendingJob.id)
+              );
+            }
+          })
+          .catch((err) => console.error(err));
+      });
   };
 
   const handleProfileUser = (user) => {
@@ -103,22 +107,10 @@ const App = () => {
       <Routes>
         <Route
           path="/"
-          element={
-            <Home currentUser={user} handleSetRole={handleSetRole} />
-          }
+          element={<Home currentUser={user} handleSetRole={handleSetRole} />}
         />
-        <Route
-          path="/login"
-          element={
-            <LoginForm
-              currentUser={user}
-            />
-          }
-        />
-        <Route
-          path="/signup"
-          element={<SignupForm />}
-        />
+        <Route path="/login" element={<LoginForm currentUser={user} />} />
+        <Route path="/signup" element={<SignupForm />} />
         <Route
           path="/profile/:name"
           element={<Profile profileUser={profileUser} />}
@@ -127,18 +119,18 @@ const App = () => {
           path="/myjobs"
           element={
             <MyJob
-              jobs={jobs}
+              userRole={userRole}
+              jobs={filterJobs}
               currentUser={user}
+              handleProfileUser={handleProfileUser}
+              handleJobDelete={handleJobDelete}
             />
           }
         />
         <Route
           path="/newjob"
           element={
-            <JobForm
-              currentUser={user}
-              handleSubmitJob={handleSubmitJob}
-            />
+            <JobForm currentUser={user} handleSubmitJob={handleSubmitJob} />
           }
         />
         <Route

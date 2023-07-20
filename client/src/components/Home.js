@@ -26,7 +26,7 @@ const Home = ({ handleSetRole, currentUser }) => {
       <Box>
         {currentUser ? (
           <Link
-            to={"/jobs"}
+            to={"/newjob"}
             onClick={(e) => handleSetRole(e.target.name)}
             name="employee"
           >

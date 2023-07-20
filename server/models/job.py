@@ -12,9 +12,9 @@ class Job(db.Model):
     state = db.Column(db.String,nullable=False)
     employee_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     hire_id = db.Column(db.Integer, db.ForeignKey("hires.id"))
-    date = db.Column(db.DateTime, nullable=False)
-    start_time = db.Column(db.Time(timezone=False))
-    end_time = db.Column(db.Time(timezone=False))
+    date = db.Column(db.String, nullable=False)
+    start_time = db.Column(db.String)
+    end_time = db.Column(db.String)
     status = db.Column(db.String)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     

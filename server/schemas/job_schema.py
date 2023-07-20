@@ -12,7 +12,7 @@ class JobSchema(ma.SQLAlchemySchema):
         model = Job
         load_instance = True
         ordered = True
-        fields = ("id", "job_type", "description", 'pay_rate', "address", 'city', 'state', 'employee_id', 'user','date','start_time', 'end_time', 'status', 'hires', "url")
+        fields = ("id", "job_type", "description", 'pay_rate', "address", 'city', 'state', 'employee_id', 'user','date','start_time', 'end_time', 'status', 'hire_id', 'hires', "url")
     
     reviews = fields.Nested("ReviewSchema", only=("id", "url"))
     user = fields.Nested("UserSchema", only=("id", "email", 'name', 'profile_pic_url', "url"))

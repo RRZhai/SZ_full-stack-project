@@ -31,6 +31,7 @@ const Job = ({
     setReadMore((current) => !current);
   };
 
+
   const employee = users?.find((employee) => employee.id === job.employee_id);
 
   const Item = styled(Paper)(({ theme }) => ({
@@ -43,6 +44,10 @@ const Job = ({
 
   const convertDate = (date) => {
     return date.slice(0, 10).replaceAll("-", "/");
+  };
+
+  const convertTime = (time) => {
+    return time.slice(11, 16);
   };
 
   return (
@@ -85,8 +90,8 @@ const Job = ({
           spacing={{ xs: 1, sm: 2, md: 10 }}
         >
           <Item>${job.pay_rate}/hr</Item>
-          <Item>{job.start_time}</Item>
-          <Item>{job.end_time}</Item>
+          <Item>{convertTime(job.start_time)}</Item>
+          <Item>{convertTime(job.end_time)}</Item>
           <Item>{job.status.toUpperCase()}</Item>
         </Stack>
       </CardContent>
@@ -108,7 +113,7 @@ const Job = ({
           Learn More
         </Button>
         {job.employee_id === currentUser?.id ? (
-          <Button onClick={(e) => handleJobDelete(job.id)} size="small">
+          <Button onClick={(e) => handleJobDelete(job)} size="small">
             Delete
           </Button>
         ) : null}
