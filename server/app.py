@@ -65,6 +65,7 @@ app.register_blueprint(me_bp)
 @app.route('/logout')
 @app.route('/jobs')
 @app.route('/login_with_google')
+@app.route('/me')
 
 def index(id=None, name=None):
     return make_response(open('index.html').read())
