@@ -13,10 +13,13 @@ import MyJob from "./MyJob";
 import { set } from "react-hook-form";
 import { JobContext } from "../context/jobContext";
 import { UserContext } from "../context/userContext";
+import { createTheme } from "@mui/material/styles";
+import { orange, green } from "@mui/material/colors";
+import { ThemeProvider } from "@emotion/react";
 
 const App = () => {
   const { jobs, dispatch } = useContext(JobContext);
-  const { user } = useContext(UserContext);
+  const { user, dispatch: userDispatch } = useContext(UserContext);
 
   const [userRole, setUserRole] = useState("");
   const [currentUser, setCurrentUser] = useState(user?.user);
@@ -24,13 +27,46 @@ const App = () => {
   const [applyJob, setApplyJob] = useState(null);
   const [profileUser, setProfileuser] = useState(null);
 
+  const [theme, setTheme] = useState(createTheme());
+
+  useEffect(() => {
+    if (userRole === "jobseeker") {
+      setTheme(
+        createTheme({
+          palette: {
+            primary: orange,
+          },
+        })
+      );
+    } else if (userRole === "employee") {
+      setTheme(
+        createTheme({
+          palette: {
+            primary: green,
+          },
+        })
+      );
+    } else setTheme(createTheme());
+  }, [userRole]);
+
+  useEffect(() => {
+    (async () => {
+        const res = await fetch("/me")
+        if (res.ok) {
+            const data = await res.json()
+            userDispatch({ type: "fetch", payload: data.user })
+            setCurrentUser(data.user)
+        } 
+    })();
+}, [])
+
   const handleSubmitJob = (data) => {
     setFilterJobs((current) => [data, ...current]);
   };
 
   const updateCurrentUser = (user) => {
     setCurrentUser(user);
-  }
+  };
 
   const handleJobDelete = (job) => {
     fetch(`/jobs/${job.id}`, {
@@ -108,14 +144,28 @@ const App = () => {
         handleJobsByLocation={handleJobsByLocation}
         handleProfileUser={handleProfileUser}
         updateCurrentUser={updateCurrentUser}
+        theme={theme}
       />
       <Routes>
         <Route
           path="/"
-          element={<Home currentUser={currentUser} handleSetRole={handleSetRole} />}
+          element={
+            <Home currentUser={currentUser} handleSetRole={handleSetRole} />
+          }
         />
-        <Route path="/login" element={<LoginForm currentUser={currentUser} updateCurrentUser={updateCurrentUser}/>} />
-        <Route path="/signup" element={<SignupForm updateCurrentUser={updateCurrentUser} />} />
+        <Route
+          path="/login"
+          element={
+            <LoginForm
+              currentUser={currentUser}
+              updateCurrentUser={updateCurrentUser}
+            />
+          }
+        />
+        <Route
+          path="/signup"
+          element={<SignupForm updateCurrentUser={updateCurrentUser} />}
+        />
         <Route
           path="/profile/:name"
           element={<Profile profileUser={profileUser} />}

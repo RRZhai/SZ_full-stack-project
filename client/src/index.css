@@ -1,6 +1,7 @@
 .grid {
-  display: gird;
-  grid-template-columns: repeat(auto-fit, ninmax(200px, 1fr));
+    display: flex;
+    float: center;
+    width: 100%;
 }
 
 .image-wrapper {
@@ -10,7 +11,7 @@
 
 .image-wrapper > img {
   display: block;
-  width: 100%;
+  width: 600px;
   height: 100%;
   aspect-ratio: 1/1;
   object-fit: cover;
@@ -22,7 +23,7 @@
   inset: 0;
   font-size: 2rem;
   padding: 1rem;
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.3);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -43,3 +44,4 @@
 .image-wrapper:hover > .content.fade {
   opacity: 1;
 }
+

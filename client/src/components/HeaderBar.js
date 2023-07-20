@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { AppBar } from "@mui/material";
 import { Box } from "@mui/material";
@@ -19,9 +19,7 @@ import MailIcon from "@mui/icons-material/Mail";
 import SearchIcon from "@mui/icons-material/Search";
 import { UserContext } from "../context/userContext";
 import { useContext } from "react";
-
-const defaultTheme = createTheme();
-
+import { orange, green } from "@mui/material/colors";
 function HeaderBar({
   currentUser,
   updateCurrentUser,
@@ -30,7 +28,9 @@ function HeaderBar({
   handleSetRole,
   handleJobsByLocation,
   handleProfileUser,
+  theme,
 }) {
+
   const { user, dispatch: userDispatch } = useContext(UserContext);
 
   const isActive = true;
@@ -66,20 +66,20 @@ function HeaderBar({
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={theme}>
       <GlobalStyles
         styles={{ ul: { margin: 0, padding: 0, listStyle: "none" } }}
       />
       <AppBar
         position="static"
-        color="default"
+        color="primary"
         elevation={0}
         sx={{ borderBottom: (theme) => `1px solid ${theme.palette.divider}` }}
       >
         <Toolbar sx={{ flexWrap: "wrap" }}>
-          <Typography variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
+          <Typography variant="h5" color="inherit" noWrap sx={{ flexGrow: 1 }}>
             <Link to="/" onClick={(e) => handleSetRole(null)}>
-              Company
+              GIGU
             </Link>
           </Typography>
           <Typography
@@ -166,6 +166,7 @@ function HeaderBar({
                         onClick={(e) => handleActiveJob(notActive)}
                         component={Link}
                         to="/myjobs"
+                        theme={theme}
                       >
                         <Typography textAlign="right">My Past Job</Typography>
                       </MenuItem>
