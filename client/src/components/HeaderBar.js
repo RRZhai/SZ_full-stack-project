@@ -41,7 +41,7 @@ function HeaderBar({
   const navigate = useNavigate();
 
   const logout = () => {
-    fetch("logout", {
+    fetch("/logout", {
       method: "DELETE",
       headers: {'Content-Type': 'application/json'},
     })

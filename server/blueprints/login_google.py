@@ -36,6 +36,7 @@ def get_google_provider_cfg():
 def login_with_google():
     google_provider_cfg = get_google_provider_cfg()
     authorization_endpoint = google_provider_cfg["authorization_endpoint"]
+    import ipdb; ipdb.set_trace()
 
     request_uri = client.prepare_request_uri(
         authorization_endpoint,
@@ -73,23 +74,23 @@ def callback():
     userinfo_response = requests.get(uri, headers=headers, data=body) 
 
     if userinfo_response.json().get("email_verified"):
-        unique_id = userinfo_response.json()["sub"]
-        users_email = userinfo_response.json()["email"]
+        id = userinfo_response.json()["sub"]
+        email = userinfo_response.json()["email"]
         picture = userinfo_response.json()["picture"]
-        users_name = userinfo_response.json()["given_name"]
+        name = userinfo_response.json()["given_name"]
     else:
         return make_response({"error": "Email not available \
                             or not verified by Google"}, 400)
     
     data = {
-        "id": unique_id,
-        "email": users_email,
+        "id": id,
+        "email": email,
         "profile_pic_url": picture,
         "bio": '',
-        "name": users_name
+        "name": name
     }
 
-    existing_user = User.query.filter(User.google_unique_id == unique_id).first()
+    existing_user = User.query.filter(User.id== id).first()
 
     if not existing_user: 
         user = user_schema.load(data)

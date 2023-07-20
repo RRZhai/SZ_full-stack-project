@@ -68,8 +68,10 @@ bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=20)
 app.config["JWT_TOKEN_LOCATION"] = ["headers", "cookies"]
-app.config["JWT_COOKIE_SECURE"] = False
+app.config["JWT_COOKIE_SECURE"] = True
+app.config['JWT_COOKIE_SAMESITE'] = 'None'
 app.config["CACHE_TYPE"] = "SimpleCache"
+
 cache = Cache(app)
 # Configuration
 GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID", None)

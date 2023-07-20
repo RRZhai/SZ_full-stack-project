@@ -19,7 +19,7 @@ import { useNavigate } from "react-router-dom";
 import { useState, useContext } from "react";
 import { useFormik } from "formik";
 import {GoogleLogin} from '@react-oauth/google'
-
+import jwt_decode from "jwt-decode";
 
 import * as yup from "yup";
 
@@ -40,6 +40,10 @@ const LoginForm = ({ currentUser, updateCurrentUser }) => {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+
+  const handleGoogleLogin = (userObject) => {
+    fetch("/login_with_google/callback",{})
+  }
 
   const userSchema = yup.object().shape({
     email: yup.string().email().required("Email is required"),
@@ -62,7 +66,6 @@ const LoginForm = ({ currentUser, updateCurrentUser }) => {
         if (resp.ok) {
           resp.json().then((data) => {
             userDispatch({type: "fetch", payload: data})
-            console.log(data?.user)
             updateCurrentUser(data?.user);
             navigate("/");
           });
@@ -167,9 +170,11 @@ const LoginForm = ({ currentUser, updateCurrentUser }) => {
               <GoogleLogin
                 onSuccess={(credentialResponse) => {
                   console.log(credentialResponse);
+                  var userObject = jwt_decode(credentialResponse.credential);
+                  console.log(userObject);
+                  updateCurrentUser(userObject);
                 }}
                 onError={() => {
-                  console.log("Login Failed");
                 }}
               />
               <Grid container>
