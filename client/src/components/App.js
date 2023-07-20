@@ -69,6 +69,7 @@ const App = () => {
               type: "fetch",
               payload: data,
             });
+            setFilterJobs(data);
           } else {
             throw new Error("Can not render jobs!");
           }
@@ -107,10 +108,10 @@ const App = () => {
       method: "DELETE",
     }).then((res) => {
       if (res.ok) {
-          jobDispatch({ type: "remove", payload: job });
-          setFilterJobs((current) =>
-            current.filter((item) => item.id !== job.id)
-          );
+        jobDispatch({ type: "remove", payload: job });
+        setFilterJobs((current) =>
+          current.filter((item) => item.id !== job.id)
+        );
       }
     });
   };
@@ -161,10 +162,9 @@ const App = () => {
               res.json().then((data) => {
                 setApplyJob(data);
                 jobDispatch({ type: "patch", payload: data });
-                const filterPendingJob = jobs.filter(
-                  (item) => item.id !== data.id
+                setFilterJobs((current) =>
+                  current.filter((item) => item.id !== job.id)
                 );
-                setFilterJobs((current) => [filterPendingJob, ...current]);
               });
             }
           })

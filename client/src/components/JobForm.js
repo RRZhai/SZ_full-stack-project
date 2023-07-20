@@ -42,7 +42,7 @@ const JobForm = ({ handleSubmitJob, currentUser }) => {
       address: "",
       city: "",
       state: "",
-      employee_id: currentUser.id,
+      employee_id: currentUser?.id,
       hire_id: null,
       date: "",
       start_time: "",
