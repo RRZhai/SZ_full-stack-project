@@ -171,8 +171,6 @@ const App = () => {
       });
   };
 
-  console.log(filterJobs);
-
   const handleProfileUser = (user) => {
     setProfileuser(user);
   };
