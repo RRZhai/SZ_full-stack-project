@@ -21,6 +21,7 @@ const Job = ({
   handleApplyJob,
   handleJobDelete,
   handleProfileUser,
+  handleJobComplete,
 }) => {
   const [readMore, setReadMore] = useState(false);
 
@@ -92,12 +93,11 @@ const Job = ({
         </Stack>
       </CardContent>
       <CardActions>
-        {userRole === "jobseeker" && job.status === "active" ? (
+        {userRole === "jobseeker" && job.status === "active" && job.employee_id !== currentUser.id ? (
           <Button
             variant="contained"
             onClick={(e) => {
               handleApplyJob(e, job);
-              navigate("/chat/:id");
             }}
           >
             Apply
@@ -108,10 +108,15 @@ const Job = ({
         <Button onClick={handleReadMore} size="small">
           Learn More
         </Button>
-        {job.employee_id === currentUser?.id ? (
-          <Button onClick={(e) => handleJobDelete(job)} size="small">
-            Delete
+        {job.employee_id === currentUser?.id && job.status === 'active' ? (
+          <>
+          <Button variant="contained" onClick={(e) => handleJobDelete(job)} size="small">
+            Cancel
           </Button>
+          <Button variant="contained" onClick={(e) => handleJobComplete(job)} size="small">
+            complete
+          </Button>
+          </>
         ) : null}
       </CardActions>
       <CardContent>

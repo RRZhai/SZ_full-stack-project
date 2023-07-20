@@ -30,7 +30,6 @@ function HeaderBar({
   handleProfileUser,
   theme,
 }) {
-
   const { user, dispatch: userDispatch } = useContext(UserContext);
 
   const isActive = true;
@@ -77,10 +76,16 @@ function HeaderBar({
         sx={{ borderBottom: (theme) => `1px solid ${theme.palette.divider}` }}
       >
         <Toolbar sx={{ flexWrap: "wrap" }}>
-          <Typography variant="h5" color="inherit" noWrap sx={{ flexGrow: 1 }}>
-            <Link to="/" onClick={(e) => handleSetRole(null)}>
-              GIGU
-            </Link>
+          <Typography
+            variant="h5"
+            color="inherit"
+            noWrap
+            sx={{ flexGrow: 1 }}
+            component={Link}
+            to="/"
+            onClick={(e) => handleSetRole(null)}
+          >
+            GIGU
           </Typography>
           <Typography
             noWrap
@@ -199,4 +204,3 @@ function HeaderBar({
 }
 
 export default HeaderBar;
-

@@ -113,8 +113,8 @@ if __name__ == "__main__":
             employee_id=7,
             hire_id=None,
             date=date(2023, 12, 25),
-            start_time=time(12, 30),
-            end_time=time(14, 30),
+            start_time='2023-07-19T12:00:00.000Z',
+            end_time='2023-07-19T15:00:00.000Z',
             status='active',
         )
         j2 = Job(
@@ -127,8 +127,8 @@ if __name__ == "__main__":
             employee_id=7,
             hire_id=None,
             date=date(2023, 8, 20),
-            start_time=time(9, 00),
-            end_time=time(11, 00),
+            start_time='2023-07-19T12:00:00.000Z',
+            end_time='2023-07-19T15:00:00.000Z',
             status='active',
         )
         j3 = Job(
@@ -141,8 +141,8 @@ if __name__ == "__main__":
             employee_id=2,
             hire_id=None,
             date=date(2023, 8, 1),
-            start_time=time(10, 30),
-            end_time=time(12, 30),
+            start_time='2023-07-19T12:00:00.000Z',
+            end_time='2023-07-19T15:00:00.000Z',
             status='active',
         )
         j4 = Job(
@@ -155,8 +155,8 @@ if __name__ == "__main__":
             employee_id=2,
             hire_id=None,
             date=date(2023, 8, 2),
-            start_time=time(10, 30),
-            end_time=time(12, 30),
+            start_time='2023-07-19T12:00:00.000Z',
+            end_time='2023-07-19T15:00:00.000Z',
             status='active',
         )
         j5 = Job(
@@ -169,8 +169,8 @@ if __name__ == "__main__":
             employee_id=2,
             hire_id=None,
             date=date(2023, 8, 3),
-            start_time=time(10, 30),
-            end_time=time(12, 30),
+            start_time='2023-07-19T12:00:00.000Z',
+            end_time='2023-07-19T15:00:00.000Z',
             status='active',
         )
         j6 = Job(
@@ -183,8 +183,8 @@ if __name__ == "__main__":
             employee_id=5,
             hire_id=1,
             date=date(2023, 7, 1),
-            start_time=time(17, 30),
-            end_time=time(20, 30),
+            start_time='2023-07-19T12:00:00.000Z',
+            end_time='2023-07-19T15:00:00.000Z',
             status='completed',
         )
         j7 = Job(
@@ -197,8 +197,8 @@ if __name__ == "__main__":
             employee_id=5,
             hire_id=2,
             date=date(2023, 6, 30),
-            start_time=time(17, 00),
-            end_time=time(19, 00),
+            start_time='2023-07-19T12:00:00.000Z',
+            end_time='2023-07-19T15:00:00.000Z',
             status='completed',
         )
         j8 = Job(
@@ -211,8 +211,8 @@ if __name__ == "__main__":
             employee_id=4,
             hire_id=3,
             date=date(2023, 10, 2),
-            start_time=time(12, 30),
-            end_time=time(14, 30),
+            start_time='2023-07-19T12:00:00.000Z',
+            end_time='2023-07-19T15:00:00.000Z',
             status='pending',
         )
         j9 = Job(
@@ -225,8 +225,8 @@ if __name__ == "__main__":
             employee_id=4,
             hire_id=4,
             date=date(2023, 10, 10),
-            start_time=time(12, 30),
-            end_time=time(14, 30),
+            start_time='2023-07-19T12:00:00.000Z',
+            end_time='2023-07-19T15:00:00.000Z',
             status='pending',
         )
         j10 = Job(
@@ -239,8 +239,8 @@ if __name__ == "__main__":
             employee_id=2,
             hire_id=None,
             date=date(2023, 10, 9),
-            start_time=time(12, 30),
-            end_time=time(14, 30),
+            start_time='2023-07-19T12:00:00.000Z',
+            end_time='2023-07-19T15:00:00.000Z',
             status='active',
         )
         j11 = Job(
@@ -253,8 +253,8 @@ if __name__ == "__main__":
             employee_id=1,
             hire_id=5,
             date=date(2023, 10, 2),
-            start_time=time(12, 30),
-            end_time=time(14, 30),
+            start_time='2023-07-19T12:00:00.000Z',
+            end_time='2023-07-19T15:00:00.000Z',
             status='pending',
         )
         j12 = Job(
@@ -267,8 +267,8 @@ if __name__ == "__main__":
             employee_id=3,
             hire_id=6,
             date=date(2023, 4, 2),
-            start_time=time(12, 30),
-            end_time=time(14, 30),
+            start_time='2023-07-19T12:00:00.000Z',
+            end_time='2023-07-19T15:00:00.000Z',
             status='completed',
         )
         j13 = Job(
@@ -281,8 +281,8 @@ if __name__ == "__main__":
             employee_id=7,
             hire_id=7,
             date=date(2023, 3, 2),
-            start_time=time(12, 30),
-            end_time=time(14, 30),
+            start_time='2023-07-19T12:00:00.000Z',
+            end_time='2023-07-19T15:00:00.000Z',
             status='completed',
         )
         j14 = Job(
@@ -295,8 +295,8 @@ if __name__ == "__main__":
             employee_id=7,
             hire_id=8,
             date=date(2023, 1, 2),
-            start_time=time(12, 30),
-            end_time=time(14, 30),
+            start_time='2023-07-19T12:00:00.000Z',
+            end_time='2023-07-19T15:00:00.000Z',
             status='completed',
         )
         j15 = Job(
@@ -309,8 +309,8 @@ if __name__ == "__main__":
             employee_id=7,
             hire_id=9,
             date=date(2023, 6, 2),
-            start_time=time(12, 30),
-            end_time=time(14, 30),
+            start_time='2023-07-19T12:00:00.000Z',
+            end_time='2023-07-19T15:00:00.000Z',
             status='completed',
         )
         j16 = Job(
@@ -323,8 +323,8 @@ if __name__ == "__main__":
             employee_id=2,
             hire_id=10,
             date=date(2023, 3, 2),
-            start_time=time(12, 30),
-            end_time=time(14, 30),
+            start_time='2023-07-19T12:00:00.000Z',
+            end_time='2023-07-19T15:00:00.000Z',
             status='completed',
         )
         j17 = Job(
@@ -337,8 +337,8 @@ if __name__ == "__main__":
             employee_id=2,
             hire_id=11,
             date=date(2023, 3, 2),
-            start_time=time(12, 30),
-            end_time=time(14, 30),
+            start_time='2023-07-19T12:00:00.000Z',
+            end_time='2023-07-19T15:00:00.000Z',
             status='completed',
         )
         j18 = Job(
@@ -351,8 +351,8 @@ if __name__ == "__main__":
             employee_id=3,
             hire_id=None,
             date=date(2023, 9, 2),
-            start_time=time(12, 30),
-            end_time=time(14, 30),
+            start_time='2023-07-19T12:00:00.000Z',
+            end_time='2023-07-19T15:00:00.000Z',
             status='active',
         )
         j19 = Job(
@@ -365,8 +365,8 @@ if __name__ == "__main__":
             employee_id=2,
             hire_id=None,
             date=date(2023, 10, 2),
-            start_time=time(12, 30),
-            end_time=time(14, 30),
+            start_time='2023-07-19T12:00:00.000Z',
+            end_time='2023-07-19T15:00:00.000Z',
             status='active',
         )
         j20 = Job(
@@ -379,8 +379,8 @@ if __name__ == "__main__":
             employee_id=1,
             hire_id=None,
             date=date(2023, 3, 2),
-            start_time=time(12, 30),
-            end_time=time(14, 30),
+            start_time='2023-07-19T12:00:00.000Z',
+            end_time='2023-07-19T15:00:00.000Z',
             status='active',
         )
         jobs = [j1, j2, j3, j4, j5, j6, j7, j8, j9, j10, j11, j12, j13, j14, j15, j16, j17, j18, j19, j20]

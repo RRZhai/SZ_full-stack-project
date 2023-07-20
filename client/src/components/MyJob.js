@@ -24,6 +24,8 @@ const MyJob = ({
   handleJobDelete,
   jobs,
   handleProfileUser,
+  pendingJobs,
+  handleJobComplete,
 }) => {
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -33,11 +35,11 @@ const MyJob = ({
     color: theme.palette.text.secondary,
   }));
 
-  const relatedJobsAsEmployee = jobs.filter(
+  const relatedJobsAsEmployee = jobs?.filter(
     (job) => job.employee_id === currentUser?.id
   );
 
-  const relatedJobsAsJobseeker = jobs.filter(
+  const relatedJobsAsJobseeker = jobs?.filter(
     (job) => job.hires?.job_seeker_id === currentUser?.id
   );
   if (userRole === "employee") {
@@ -52,6 +54,7 @@ const MyJob = ({
             job={job}
             currentUser={currentUser}
             handleJobDelete={handleJobDelete}
+            handleJobComplete={handleJobComplete}
           />
         ))}
       </Container>
@@ -79,17 +82,19 @@ const MyJob = ({
         <Typography variant="h5" component="div">
           My Work and My Hire
         </Typography>
-        {relatedJobsAsEmployee.map((job) => (
+        {relatedJobsAsEmployee?.map((job) => (
           <Job
             key={job.id}
             job={job}
             currentUser={currentUser}
             handleJobDelete={handleJobDelete}
             handleProfileUser={handleProfileUser}
+            handleJobComplete={handleJobComplete}
           />
         ))}
-        {relatedJobsAsJobseeker.map((job) => (
+        {relatedJobsAsJobseeker?.map((job) => (
           <Job
+            key={job.id}
             job={job}
             currentUser={currentUser}
             handleJobDelete={handleJobDelete}

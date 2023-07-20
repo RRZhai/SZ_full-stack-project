@@ -18,7 +18,7 @@ import { orange, green } from "@mui/material/colors";
 import { ThemeProvider } from "@emotion/react";
 
 const App = () => {
-  const { jobs, dispatch } = useContext(JobContext);
+  const { jobs, dispatch: jobDispatch } = useContext(JobContext);
   const { user, dispatch: userDispatch } = useContext(UserContext);
 
   const [userRole, setUserRole] = useState("");
@@ -60,10 +60,25 @@ const App = () => {
     })();
   }, []);
 
-  console.log(currentUser);
-  console.log(user);
+  useEffect(() => {
+    fetch("/jobs")
+      .then((resp) => {
+        resp.json().then((data) => {
+          if (resp.ok) {
+            jobDispatch({
+              type: "fetch",
+              payload: data,
+            });
+          } else {
+            throw new Error("Can not render jobs!");
+          }
+        });
+      })
+      .catch((error) => alert(error));
+  }, []);
 
   const handleSubmitJob = (data) => {
+    jobDispatch({ type: "add", payload: data });
     setFilterJobs((current) => [data, ...current]);
   };
 
@@ -71,34 +86,55 @@ const App = () => {
     setCurrentUser(user);
   };
 
+  const handleJobComplete = (job) => {
+    fetch(`/jobs/${job.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status: "completed" }),
+    }).then((res) => {
+      if (res.ok) {
+        res.json().then((data) => {
+          jobDispatch({ type: "patch", payload: data });
+          const filterPastJob = jobs.filter((item) => item.id !== data.id);
+          setFilterJobs((current) => [current, ...filterPastJob]);
+        });
+      }
+    });
+  };
+
   const handleJobDelete = (job) => {
     fetch(`/jobs/${job.id}`, {
       method: "DELETE",
     }).then((res) => {
-      setFilterJobs((current) => current.filter((item) => item.id !== job.id));
+      if (res.ok) {
+          jobDispatch({ type: "remove", payload: job });
+          setFilterJobs((current) =>
+            current.filter((item) => item.id !== job.id)
+          );
+      }
     });
   };
 
   const handleSetRole = (role) => {
     setUserRole(role);
-    setFilterJobs(jobs.filter((job) => job.status === "active"));
+    setFilterJobs(jobs?.filter((job) => job.status === "active"));
   };
 
   const handleJobsByLocation = (type) => {
     setFilterJobs(
-      jobs.filter((job) => job.city.toLowerCase().includes(type.toLowerCase()))
+      jobs?.filter((job) => job.city.toLowerCase().includes(type.toLowerCase()))
     );
   };
 
   const handleActiveJob = (active) => {
     if (active) {
       setFilterJobs(
-        jobs.filter(
+        jobs?.filter(
           (job) => job.status === "active" || job.status === "pending"
         )
       );
     } else {
-      setFilterJobs(jobs.filter((job) => job.status === "completed"));
+      setFilterJobs(jobs?.filter((job) => job.status === "completed"));
     }
   };
 
@@ -122,11 +158,14 @@ const App = () => {
         })
           .then((res) => {
             if (res.ok) {
-              const pendingJob = res.json();
-              setApplyJob(pendingJob);
-              setFilterJobs((current) =>
-                current.filter((item) => item.id !== pendingJob.id)
-              );
+              res.json().then((data) => {
+                setApplyJob(data);
+                jobDispatch({ type: "patch", payload: data });
+                const filterPendingJob = jobs.filter(
+                  (item) => item.id !== data.id
+                );
+                setFilterJobs((current) => [filterPendingJob, ...current]);
+              });
             }
           })
           .catch((err) => console.error(err));
@@ -179,7 +218,13 @@ const App = () => {
           />
           <Route
             path="/profile/:name"
-            element={<Profile theme={theme} profileUser={profileUser} />}
+            element={
+              <Profile
+                theme={theme}
+                currentUser={currentUser}
+                profileUser={profileUser}
+              />
+            }
           />
           <Route
             path="/myjobs"
@@ -191,6 +236,8 @@ const App = () => {
                 handleProfileUser={handleProfileUser}
                 handleJobDelete={handleJobDelete}
                 theme={theme}
+                pendingJob={applyJob}
+                handleJobComplete={handleJobComplete}
               />
             }
           />
@@ -217,6 +264,7 @@ const App = () => {
                 handleJobsByLocation={handleJobsByLocation}
                 handleApplyJob={handleApplyJob}
                 handleProfileUser={handleProfileUser}
+                handleJobComplete={handleJobComplete}
               />
             }
           />

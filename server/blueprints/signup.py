@@ -23,11 +23,12 @@ class Signup(Resource):
             email = data.get("email")
             name = data.get("name")
             password = data.get("password")
+            profile_pic_url = data.get("profile_pic_url")
 
             if User.query.filter(User.email == email).first(): 
                 return make_response({"error": "Email must be unique"}, 400)
 
-            new_user = User(email=email, name=name)
+            new_user = User(email=email, name=name, profile_pic_url=profile_pic_url)
             new_user.password_hash = password
 
             db.session.add(new_user)

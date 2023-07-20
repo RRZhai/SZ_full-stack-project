@@ -21,7 +21,7 @@ import { useContext } from "react";
 import { ReviewContext } from "../context/reviewContext";
 
 
-const Profile = ({ profileUser, updateCurrentUser }) => {
+const Profile = ({ profileUser, updateCurrentUser, currentUser }) => {
   const navigate = useNavigate();
   const { username } = useParams();
 
