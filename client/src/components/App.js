@@ -19,7 +19,7 @@ const App = () => {
   const { user } = useContext(UserContext);
 
   const [userRole, setUserRole] = useState("");
-
+  const [currentUser, setCurrentUser] = useState(user?.user);
   const [filterJobs, setFilterJobs] = useState(jobs);
   const [applyJob, setApplyJob] = useState(null);
   const [profileUser, setProfileuser] = useState(null);
@@ -27,6 +27,10 @@ const App = () => {
   const handleSubmitJob = (data) => {
     setFilterJobs((current) => [data, ...current]);
   };
+
+  const updateCurrentUser = (user) => {
+    setCurrentUser(user);
+  }
 
   const handleJobDelete = (job) => {
     fetch(`/jobs/${job.id}`, {
@@ -62,7 +66,7 @@ const App = () => {
   const handleApplyJob = (e, job) => {
     const newHire = {
       job_id: job.id,
-      job_seeker_id: user.id,
+      job_seeker_id: currentUser?.id,
     };
     e.preventDefault();
     fetch("/hires", {
@@ -97,20 +101,21 @@ const App = () => {
   return (
     <div className="app">
       <HeaderBar
-        currentUser={user}
+        currentUser={currentUser}
         userRole={userRole}
         handleActiveJob={handleActiveJob}
         handleSetRole={handleSetRole}
         handleJobsByLocation={handleJobsByLocation}
         handleProfileUser={handleProfileUser}
+        updateCurrentUser={updateCurrentUser}
       />
       <Routes>
         <Route
           path="/"
-          element={<Home currentUser={user} handleSetRole={handleSetRole} />}
+          element={<Home currentUser={currentUser} handleSetRole={handleSetRole} />}
         />
-        <Route path="/login" element={<LoginForm currentUser={user} />} />
-        <Route path="/signup" element={<SignupForm />} />
+        <Route path="/login" element={<LoginForm currentUser={currentUser} updateCurrentUser={updateCurrentUser}/>} />
+        <Route path="/signup" element={<SignupForm updateCurrentUser={updateCurrentUser} />} />
         <Route
           path="/profile/:name"
           element={<Profile profileUser={profileUser} />}
@@ -121,7 +126,7 @@ const App = () => {
             <MyJob
               userRole={userRole}
               jobs={filterJobs}
-              currentUser={user}
+              currentUser={currentUser}
               handleProfileUser={handleProfileUser}
               handleJobDelete={handleJobDelete}
             />
@@ -138,7 +143,7 @@ const App = () => {
           element={
             <JobsContainer
               userRole={userRole}
-              currentUser={user}
+              currentUser={currentUser}
               jobs={filterJobs}
               handleJobDelete={handleJobDelete}
               handleSubmitJob={handleSubmitJob}

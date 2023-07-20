@@ -27,13 +27,14 @@ const JobForm = ({ handleSubmitJob, currentUser }) => {
       .max(200, "Description must be at most 200 characters")
       .required("Job description is required"),
     pay_rate: yup.number().required("Payrate is required"),
+    employee_id: yup.number().required("You must login first!"),
     address: yup.string().required("Please enter a valid address"),
     city: yup.string().required("Please enter a valid city"),
     state: yup.string().required("Please enter a valid state"),
   });
 
   const navigate = useNavigate();
-
+console.log(currentUser?.id)
   const formik = useFormik({
     initialValues: {
       job_type: "Babysitting",
@@ -42,7 +43,7 @@ const JobForm = ({ handleSubmitJob, currentUser }) => {
       address: "",
       city: "",
       state: "",
-      employee_id: currentUser.id,
+      employee_id: currentUser?.id,
       hire_id: null,
       date: "",
       start_time: "",
@@ -60,7 +61,6 @@ const JobForm = ({ handleSubmitJob, currentUser }) => {
           if (res.ok) {
             res.json().then((data) => {
               handleSubmitJob(data);
-              console.log(data);
               navigate("/jobs");
             });
           } else {

@@ -48,6 +48,7 @@ const MyJob = ({
         </Typography>
         {relatedJobsAsEmployee.map((job) => (
           <Job
+            key={job.id}
             job={job}
             currentUser={currentUser}
             handleJobDelete={handleJobDelete}
@@ -63,6 +64,7 @@ const MyJob = ({
         </Typography>
         {relatedJobsAsJobseeker.map((job) => (
           <Job
+            key={job.id}
             job={job}
             currentUser={currentUser}
             handleJobDelete={handleJobDelete}
@@ -79,6 +81,7 @@ const MyJob = ({
         </Typography>
         {relatedJobsAsEmployee.map((job) => (
           <Job
+            key={job.id}
             job={job}
             currentUser={currentUser}
             handleJobDelete={handleJobDelete}
@@ -87,10 +90,10 @@ const MyJob = ({
         ))}
         {relatedJobsAsJobseeker.map((job) => (
           <Job
-          job={job}
-          currentUser={currentUser}
-          handleJobDelete={handleJobDelete}
-        />
+            job={job}
+            currentUser={currentUser}
+            handleJobDelete={handleJobDelete}
+          />
         ))}
       </Container>
     );

@@ -22,10 +22,10 @@ import { useContext } from "react";
 import { UserContext } from "../context/userContext";
 import { useFormik } from "formik";
 import * as yup from "yup";
-
 import Error from "./Error";
+import { Upcoming } from "@mui/icons-material";
 
-const SignUpForm = ({ currentUser }) => {
+const SignUpForm = ({ currentUser, updateCurrentUser }) => {
   const { user, dispatch : userDispatch } = useContext(UserContext)
 
   const navigate = useNavigate();
@@ -58,7 +58,7 @@ const SignUpForm = ({ currentUser }) => {
     },
     validationSchema: userSchema,
     onSubmit: (values) => {
-        fetch('signup',{
+        fetch('/signup',{
             method: 'POST',
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(values)
@@ -67,6 +67,7 @@ const SignUpForm = ({ currentUser }) => {
           if (resp.ok) {
             resp.json().then((data) => {
               userDispatch({type: "fetch", payload: data})
+              updateCurrentUser(data);
               navigate("/");
             });
           } else {

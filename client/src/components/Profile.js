@@ -26,7 +26,6 @@ const Profile = ({ profileUser, updateCurrentUser }) => {
   const { username } = useParams();
 
   const { reviews } = useContext(ReviewContext);
-  console.log("reviews", reviews);
 
   const filterReview = reviews.filter((review) => review.reviewer_id===profileUser?.id);
 

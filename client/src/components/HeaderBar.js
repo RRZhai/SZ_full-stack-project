@@ -17,6 +17,8 @@ import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
 import MailIcon from "@mui/icons-material/Mail";
 import SearchIcon from "@mui/icons-material/Search";
+import { UserContext } from "../context/userContext";
+import { useContext } from "react";
 
 const defaultTheme = createTheme();
 
@@ -27,23 +29,32 @@ function HeaderBar({
   handleActiveJob,
   handleSetRole,
   handleJobsByLocation,
-  handleProfileUser
+  handleProfileUser,
 }) {
+  const { user, dispatch: userDispatch } = useContext(UserContext);
+
   const isActive = true;
   const notActive = false;
   const [anchorElUser, setAnchorElUser] = useState(null);
+  const [errors, setErrors] = useState(null);
 
   const navigate = useNavigate();
 
   const logout = () => {
-    fetch("/logout", {
+    fetch("logout", {
       method: "DELETE",
-    }).then((res) => {
-      if (res.ok) {
-        updateCurrentUser(null);
-        navigate("/");
-      }
-    });
+      headers: {'Content-Type': 'application/json'},
+    })
+      .then((resp) => {
+        if (resp.ok) {
+            userDispatch({ type: "remove" });
+            updateCurrentUser(null);
+            navigate("/");
+        } else {
+          resp.json().then((err) => setErrors(err));
+        }
+      })
+      .catch((err) => setErrors(err));
   };
 
   const handleOpenUserMenu = (event) => {
@@ -135,7 +146,7 @@ function HeaderBar({
                         key="profile"
                         onClick={() => {
                           handleCloseUserMenu();
-                          handleProfileUser(currentUser)
+                          handleProfileUser(currentUser);
                         }}
                         component={Link}
                         to="/profile/:name"

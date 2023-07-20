@@ -25,7 +25,7 @@ import * as yup from "yup";
 
 import Error from "./Error";
 
-const LoginForm = ({ currentUser }) => {
+const LoginForm = ({ currentUser, updateCurrentUser }) => {
   const { user, dispatch : userDispatch } = useContext(UserContext)
   const defaultTheme = createTheme();
   const navigate = useNavigate();
@@ -62,6 +62,7 @@ const LoginForm = ({ currentUser }) => {
           if (resp.ok) {
             resp.json().then((data) => {
               userDispatch({type: "fetch", payload: data})
+              updateCurrentUser(data);
               navigate("/");
             });
           } else {
