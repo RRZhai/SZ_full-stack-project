@@ -45,7 +45,6 @@ const Job = ({
 
   const convertDate = (date) => {
     return date?.slice(0, 10).replaceAll("-", "/");
-    return date?.slice(0, 10).replaceAll("-", "/");
   };
 
   const convertTime = (time) => {
@@ -135,41 +134,50 @@ const Job = ({
             >
               Cancel
             </Button>
-            <Button
-              variant="contained"
-              onClick={(e) => handleJobComplete(job)}
-              size="small"
-            >
-              complete
-            </Button>
+            {job.hires ? (
+              <Button
+                variant="contained"
+                onClick={(e) => handleJobComplete(job)}
+                size="small"
+              >
+                complete
+              </Button>
+            ) : (
+              <Button disabled>complete</Button>
+            )}
           </>
         ) : null}
-        {job?.status === 'completed' && job?.employee_id === currentUser.id ? (<Button 
-          onClick={(e) => {
-            if (readMore) {
-              handleReadMore();
-              handleAddReview();
-            } else {
-              handleAddReview();
-            }
-          }}
-          size="small"
-        >
-          add review
-        </Button>) : null}
-        {job?.status === 'completed' && job?.hires?.job_seeker_id === currentUser.id ? (<Button 
-          onClick={(e) => {
-            if (readMore) {
-              handleReadMore();
-              handleAddReview();
-            } else {
-              handleAddReview();
-            }
-          }}
-          size="small"
-        >
-          add review
-        </Button>) : null}
+        {job?.status === "completed" && job?.employee_id === currentUser.id ? (
+          <Button
+            onClick={(e) => {
+              if (readMore) {
+                handleReadMore();
+                handleAddReview();
+              } else {
+                handleAddReview();
+              }
+            }}
+            size="small"
+          >
+            add review
+          </Button>
+        ) : null}
+        {job?.status === "completed" &&
+        job?.hires?.job_seeker_id === currentUser.id ? (
+          <Button
+            onClick={(e) => {
+              if (readMore) {
+                handleReadMore();
+                handleAddReview();
+              } else {
+                handleAddReview();
+              }
+            }}
+            size="small"
+          >
+            add review
+          </Button>
+        ) : null}
       </CardActions>
       <CardContent>
         {readMore ? (

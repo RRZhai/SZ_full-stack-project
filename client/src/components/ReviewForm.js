@@ -4,6 +4,10 @@ import Box from "@mui/material/Box";
 import StarIcon from "@mui/icons-material/Star";
 import { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
+import { useFormik } from "formik";
+import { useContext } from "react";
+import { ReviewContext } from "../context/reviewContext";
+import * as yup from "yup";
 
 const labels: { [index: string]: string } = {
   0.5: "Useless",
@@ -22,19 +26,56 @@ function getLabelText(value) {
   return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
 }
 
-export default function ReviewForm({ currentUser, userRole }) {
+export default function ReviewForm({ currentUser, userRole, job }) {
   const [value, setValue] = useState(0);
   const [hover, setHover] = useState(-1);
+  const [error, setError] = useState(null);
+
+  const { review, dispatch: reviewDispatch } = useContext(ReviewContext);
+  const reviewSchema = yup.object().shape({
+    content: yup
+      .string()
+      .min(10, "Description must be at least 10 characters")
+      .max(200, "Description must be at most 200 characters")
+      .required("Review content is required"),
+    job_id: yup.number().required("Job ID is required"),
+    reviewer_id: yup.number().required("You must login first!"),
+  });
+
+  const reviewerId = job?.employee_id === currentUser.id ? job.hires?.job_seeker_id : job.employee_id;
+
+  console.log(job)
+  const formik = useFormik({
+    initialValues: {
+      job_id: job?.id,
+      rating: value,
+      reviewer_id:reviewerId,
+      content: "",
+    },
+    validationSchema: reviewSchema,
+    onSubmit: (values) => {
+      debugger;
+      fetch("/reviews", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      })
+        .then((res) => {
+          if (res.ok) {
+            res.json().then((data) => {
+              reviewDispatch({ type: "add", payload: data });
+            });
+          } else {
+            res.json().then((error) => setError(error.message));
+          }
+        })
+        .catch(setError("New review not published, please try again"));
+    },
+  });
 
   return (
-    <div>
-      <Box
-        sx={{
-          width: 200,
-          display: "flex",
-          alignItems: "center",
-        }}
-      >
+    <Box component="form" onSubmit={formik.handleSubmit}>
+      <Box>
         <Rating
           name="hover-feedback"
           value={value}
@@ -42,6 +83,7 @@ export default function ReviewForm({ currentUser, userRole }) {
           getLabelText={getLabelText}
           onChange={(event, newValue) => {
             setValue(newValue);
+            formik.setFieldValue("rating", newValue);
           }}
           onChangeActive={(event, newHover) => {
             setHover(newHover);
@@ -55,104 +97,16 @@ export default function ReviewForm({ currentUser, userRole }) {
       <TextField
         fullWidth
         id="outlined-multiline-flexible"
-        label="Please leave a review..."
+        label="review"
         multiline
+        name="content"
+        placeholder="Please leave a review..."
+        onChange={formik.handleChange}
         maxRows={4}
       />
-      <Button
-        variant="contained"
-        // onClick={submit}
-        size="small"
-      >
+      <Button variant="contained" type="submit" size="small">
         submit
       </Button>
-    </div>
+    </Box>
   );
 }
-
-// import * as React from 'react';
-// import Box from '@mui/material/Box';
-// import TextField from '@mui/material/TextField';
-
-// export default function MultilineTextFields() {
-//   return (
-//     <Box
-//       component="form"
-//       sx={{
-//         '& .MuiTextField-root': { m: 1, width: '25ch' },
-//       }}
-//       noValidate
-//       autoComplete="off"
-//     >
-//       <div>
-//         <TextField
-//           id="outlined-multiline-flexible"
-//           label="Multiline"
-//           multiline
-//           maxRows={4}
-//         />
-//         <TextField
-//           id="outlined-textarea"
-//           label="Multiline Placeholder"
-//           placeholder="Placeholder"
-//           multiline
-//         />
-//         <TextField
-//           id="outlined-multiline-static"
-//           label="Multiline"
-//           multiline
-//           rows={4}
-//           defaultValue="Default Value"
-//         />
-//       </div>
-//       <div>
-//         <TextField
-//           id="filled-multiline-flexible"
-//           label="Multiline"
-//           multiline
-//           maxRows={4}
-//           variant="filled"
-//         />
-//         <TextField
-//           id="filled-textarea"
-//           label="Multiline Placeholder"
-//           placeholder="Placeholder"
-//           multiline
-//           variant="filled"
-//         />
-//         <TextField
-//           id="filled-multiline-static"
-//           label="Multiline"
-//           multiline
-//           rows={4}
-//           defaultValue="Default Value"
-//           variant="filled"
-//         />
-//       </div>
-//       <div>
-//         <TextField
-//           id="standard-multiline-flexible"
-//           label="Multiline"
-//           multiline
-//           maxRows={4}
-//           variant="standard"
-//         />
-//         <TextField
-//           id="standard-textarea"
-//           label="Multiline Placeholder"
-//           placeholder="Placeholder"
-//           multiline
-//           variant="standard"
-//         />
-//         <TextField
-//           id="standard-multiline-static"
-//           label="Multiline"
-//           multiline
-//           rows={4}
-//           defaultValue="Default Value"
-//           variant="standard"
-//         />
-//       </div>
-//     </Box>
-//   );
-// }
