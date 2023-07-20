@@ -53,25 +53,26 @@ const LoginForm = ({ currentUser, updateCurrentUser }) => {
     },
     validationSchema: userSchema,
     onSubmit: (values) => {
-      fetch("/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
+      fetch('/login',{
+          method: 'POST',
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify(values)
       })
-        .then((resp) => {
-          if (resp.ok) {
-            resp.json().then((data) => {
-              userDispatch({type: "fetch", payload: data})
-              updateCurrentUser(data);
-              navigate("/");
-            });
-          } else {
-            resp.json().then((err) => setErrors(err));
-          }
-        })
-        .catch((err) => setErrors(err));
-    },
-  });
+      .then((resp) => {
+        if (resp.ok) {
+          resp.json().then((data) => {
+            userDispatch({type: "fetch", payload: data})
+            console.log(data?.user)
+            updateCurrentUser(data?.user);
+            navigate("/");
+          });
+        } else {
+          resp.json().then((err) => setErrors(err));
+        }
+      })
+      .catch((err) => setErrors(err));
+  },
+});
 
   return (
     <ThemeProvider theme={defaultTheme}>

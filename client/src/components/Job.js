@@ -23,16 +23,12 @@ const Job = ({
   handleProfileUser,
 }) => {
   const [readMore, setReadMore] = useState(false);
-  const { users } = useContext(UserContext);
 
   const navigate = useNavigate();
 
   const handleReadMore = () => {
     setReadMore((current) => !current);
   };
-
-
-  const employee = users?.find((employee) => employee.id === job.employee_id);
 
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",

@@ -67,7 +67,7 @@ const SignUpForm = ({ currentUser, updateCurrentUser }) => {
           if (resp.ok) {
             resp.json().then((data) => {
               userDispatch({type: "fetch", payload: data})
-              updateCurrentUser(data);
+              updateCurrentUser(data.user);
               navigate("/");
             });
           } else {
