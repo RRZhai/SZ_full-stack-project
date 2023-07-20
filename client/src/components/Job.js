@@ -40,11 +40,11 @@ const Job = ({
   }));
 
   const convertDate = (date) => {
-    return date.slice(0, 10).replaceAll("-", "/");
+    return date?.slice(0, 10).replaceAll("-", "/");
   };
 
   const convertTime = (time) => {
-    return time.slice(11, 16);
+    return time?.slice(11, 16);
   };
 
   return (
@@ -87,9 +87,9 @@ const Job = ({
           spacing={{ xs: 1, sm: 2, md: 10 }}
         >
           <Item>${job.pay_rate}/hr</Item>
-          <Item>{convertTime(job.start_time)}</Item>
-          <Item>{convertTime(job.end_time)}</Item>
-          <Item>{job.status.toUpperCase()}</Item>
+          <Item>{convertTime(job?.start_time)}</Item>
+          <Item>{convertTime(job?.end_time)}</Item>
+          <Item>{job?.status.toUpperCase()}</Item>
         </Stack>
       </CardContent>
       <CardActions>
