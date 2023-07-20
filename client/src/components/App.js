@@ -69,6 +69,7 @@ const App = () => {
               type: "fetch",
               payload: data,
             });
+            setFilterJobs(data);
           } else {
             throw new Error("Can not render jobs!");
           }

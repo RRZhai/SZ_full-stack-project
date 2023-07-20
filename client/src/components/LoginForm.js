@@ -173,7 +173,9 @@ const LoginForm = ({ currentUser, updateCurrentUser }) => {
                   var userObject = jwt_decode(credentialResponse.credential);
                   console.log(userObject);
                   fetch("/login_with_google/callback", {
+                    method: "POST",
                     headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(userObject),
                   })
                     .then((resp) => {
                       if (resp.ok) {

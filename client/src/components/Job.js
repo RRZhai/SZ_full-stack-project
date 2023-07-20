@@ -41,9 +41,11 @@ const Job = ({
 
   const convertDate = (date) => {
     return date?.slice(0, 10).replaceAll("-", "/");
+    return date?.slice(0, 10).replaceAll("-", "/");
   };
 
   const convertTime = (time) => {
+    return time?.slice(11, 16);
     return time?.slice(11, 16);
   };
 
