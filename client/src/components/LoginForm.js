@@ -18,7 +18,7 @@ import { UserContext } from "../context/userContext";
 import { useNavigate } from "react-router-dom";
 import { useState, useContext } from "react";
 import { useFormik } from "formik";
-import {GoogleLogin} from '@react-oauth/google'
+import { GoogleLogin } from "@react-oauth/google";
 import jwt_decode from "jwt-decode";
 
 import * as yup from "yup";
@@ -26,7 +26,7 @@ import * as yup from "yup";
 import Error from "./Error";
 
 const LoginForm = ({ currentUser, updateCurrentUser }) => {
-  const { user, dispatch : userDispatch } = useContext(UserContext)
+  const { user, dispatch: userDispatch } = useContext(UserContext);
   const defaultTheme = createTheme();
   const navigate = useNavigate();
   if (currentUser) {
@@ -42,8 +42,8 @@ const LoginForm = ({ currentUser, updateCurrentUser }) => {
   };
 
   const handleGoogleLogin = (userObject) => {
-    fetch("/login_with_google/callback",{})
-  }
+    fetch("/login_with_google/callback", {});
+  };
 
   const userSchema = yup.object().shape({
     email: yup.string().email().required("Email is required"),
@@ -57,25 +57,25 @@ const LoginForm = ({ currentUser, updateCurrentUser }) => {
     },
     validationSchema: userSchema,
     onSubmit: (values) => {
-      fetch('/login',{
-          method: 'POST',
-          headers: {"Content-Type": "application/json"},
-          body: JSON.stringify(values)
+      fetch("/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
       })
-      .then((resp) => {
-        if (resp.ok) {
-          resp.json().then((data) => {
-            userDispatch({type: "fetch", payload: data})
-            updateCurrentUser(data?.user);
-            navigate("/");
-          });
-        } else {
-          resp.json().then((err) => setErrors(err));
-        }
-      })
-      .catch((err) => setErrors(err));
-  },
-});
+        .then((resp) => {
+          if (resp.ok) {
+            resp.json().then((data) => {
+              userDispatch({ type: "fetch", payload: data });
+              updateCurrentUser(data?.user);
+              navigate("/");
+            });
+          } else {
+            resp.json().then((err) => setErrors(err));
+          }
+        })
+        .catch((err) => setErrors(err));
+    },
+  });
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -172,10 +172,24 @@ const LoginForm = ({ currentUser, updateCurrentUser }) => {
                   console.log(credentialResponse);
                   var userObject = jwt_decode(credentialResponse.credential);
                   console.log(userObject);
+                  fetch("/login_with_google/callback", {
+                    headers: { "Content-Type": "application/json" },
+                  })
+                    .then((resp) => {
+                      if (resp.ok) {
+                        resp.json().then((data) => {
+                          userDispatch({ type: "fetch", payload: data });
+                          updateCurrentUser(data?.user);
+                          navigate("/");
+                        });
+                      } else {
+                        resp.json().then((err) => setErrors(err));
+                      }
+                    })
+                    .catch((err) => setErrors(err));
                   updateCurrentUser(userObject);
                 }}
-                onError={() => {
-                }}
+                onError={() => {}}
               />
               <Grid container>
                 <Grid item>

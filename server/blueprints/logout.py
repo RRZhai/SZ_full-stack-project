@@ -9,9 +9,6 @@ from flask_jwt_extended import (
 logout_bp = Blueprint("logout", __name__, url_prefix="/logout")
 
 class Logout(Resource):
-    def delete(self): 
-        if session.get('user_id'):
-            response = make_response({}, 204)
-            unset_jwt_cookies(response)
-            return response
-        return make_response({'error': 'Unauthorized'}, 401)
+    def post(self): 
+        session['user_id'] = None
+        return make_response({}, 204)

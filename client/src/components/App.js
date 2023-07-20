@@ -22,7 +22,7 @@ const App = () => {
   const { user, dispatch: userDispatch } = useContext(UserContext);
 
   const [userRole, setUserRole] = useState("");
-  const [currentUser, setCurrentUser] = useState(user?.user);
+  const [currentUser, setCurrentUser] = useState(null);
   const [filterJobs, setFilterJobs] = useState(jobs);
   const [applyJob, setApplyJob] = useState(null);
   const [profileUser, setProfileuser] = useState(null);
@@ -59,6 +59,9 @@ const App = () => {
         } 
     })();
 }, [])
+
+console.log(currentUser)
+console.log(user)
 
   const handleSubmitJob = (data) => {
     setFilterJobs((current) => [data, ...current]);

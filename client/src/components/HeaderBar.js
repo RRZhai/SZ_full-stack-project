@@ -42,7 +42,7 @@ function HeaderBar({
 
   const logout = () => {
     fetch("/logout", {
-      method: "DELETE",
+      method: "POST",
       headers: { "Content-Type": "application/json" },
     })
       .then((resp) => {
