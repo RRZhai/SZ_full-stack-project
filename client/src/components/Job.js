@@ -12,7 +12,7 @@ import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { IconButton } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
-import { UserContext } from "../context/userContext";
+import ReviewForm from "./ReviewForm";
 
 const Job = ({
   job,
@@ -24,11 +24,15 @@ const Job = ({
   handleJobComplete,
 }) => {
   const [readMore, setReadMore] = useState(false);
+  const [addReview, setAddReview] = useState(false);
 
   const navigate = useNavigate();
 
   const handleReadMore = () => {
     setReadMore((current) => !current);
+  };
+  const handleAddReview = () => {
+    setAddReview((current) => !current);
   };
 
   const Item = styled(Paper)(({ theme }) => ({
@@ -95,7 +99,9 @@ const Job = ({
         </Stack>
       </CardContent>
       <CardActions>
-        {userRole === "jobseeker" && job.status === "active" && job.employee_id !== currentUser.id ? (
+        {userRole === "jobseeker" &&
+        job.status === "active" &&
+        job.employee_id !== currentUser.id ? (
           <Button
             variant="contained"
             onClick={(e) => {
@@ -107,23 +113,59 @@ const Job = ({
         ) : (
           <Button disabled>Apply</Button>
         )}
-        <Button onClick={handleReadMore} size="small">
+        <Button
+          onClick={(e) => {
+            if (addReview) {
+              handleReadMore();
+              handleAddReview();
+            } else {
+              handleReadMore();
+            }
+          }}
+          size="small"
+        >
           Learn More
         </Button>
-        {job.employee_id === currentUser?.id && job.status === 'active' ? (
+        {job.employee_id === currentUser?.id && job.status === "active" ? (
           <>
-          <Button variant="contained" onClick={(e) => handleJobDelete(job)} size="small">
-            Cancel
-          </Button>
-          <Button variant="contained" onClick={(e) => handleJobComplete(job)} size="small">
-            complete
-          </Button>
+            <Button
+              variant="contained"
+              onClick={(e) => handleJobDelete(job)}
+              size="small"
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="contained"
+              onClick={(e) => handleJobComplete(job)}
+              size="small"
+            >
+              complete
+            </Button>
           </>
         ) : null}
+        <Button
+          onClick={(e) => {
+            if (readMore) {
+              handleReadMore();
+              handleAddReview();
+            } else {
+              handleAddReview();
+            }
+          }}
+          size="small"
+        >
+          add review
+        </Button>
       </CardActions>
       <CardContent>
         {readMore ? (
           <Typography variant="body2">{job.description}</Typography>
+        ) : null}
+      </CardContent>
+      <CardContent>
+        {addReview ? (
+          <ReviewForm job={job} currentUser={currentUser} userRole={userRole} />
         ) : null}
       </CardContent>
     </Card>
