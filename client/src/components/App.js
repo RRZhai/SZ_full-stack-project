@@ -51,17 +51,17 @@ const App = () => {
 
   useEffect(() => {
     (async () => {
-        const res = await fetch("/me")
-        if (res.ok) {
-            const data = await res.json()
-            userDispatch({ type: "fetch", payload: data.user })
-            setCurrentUser(data.user)
-        } 
+      const res = await fetch("/me");
+      if (res.ok) {
+        const data = await res.json();
+        userDispatch({ type: "fetch", payload: data.user });
+        setCurrentUser(data.user);
+      }
     })();
-}, [])
+  }, []);
 
-console.log(currentUser)
-console.log(user)
+  console.log(currentUser);
+  console.log(user);
 
   const handleSubmitJob = (data) => {
     setFilterJobs((current) => [data, ...current]);
@@ -138,77 +138,92 @@ console.log(user)
   };
 
   return (
-    <div className="app">
-      <HeaderBar
-        currentUser={currentUser}
-        userRole={userRole}
-        handleActiveJob={handleActiveJob}
-        handleSetRole={handleSetRole}
-        handleJobsByLocation={handleJobsByLocation}
-        handleProfileUser={handleProfileUser}
-        updateCurrentUser={updateCurrentUser}
-        theme={theme}
-      />
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <Home currentUser={currentUser} handleSetRole={handleSetRole} />
-          }
+    <ThemeProvider theme={theme}>
+      <div className="app">
+        <HeaderBar
+          currentUser={currentUser}
+          userRole={userRole}
+          handleActiveJob={handleActiveJob}
+          handleSetRole={handleSetRole}
+          handleJobsByLocation={handleJobsByLocation}
+          handleProfileUser={handleProfileUser}
+          updateCurrentUser={updateCurrentUser}
+          theme={theme}
         />
-        <Route
-          path="/login"
-          element={
-            <LoginForm
-              currentUser={currentUser}
-              updateCurrentUser={updateCurrentUser}
-            />
-          }
-        />
-        <Route
-          path="/signup"
-          element={<SignupForm updateCurrentUser={updateCurrentUser} />}
-        />
-        <Route
-          path="/profile/:name"
-          element={<Profile profileUser={profileUser} />}
-        />
-        <Route
-          path="/myjobs"
-          element={
-            <MyJob
-              userRole={userRole}
-              jobs={filterJobs}
-              currentUser={currentUser}
-              handleProfileUser={handleProfileUser}
-              handleJobDelete={handleJobDelete}
-            />
-          }
-        />
-        <Route
-          path="/newjob"
-          element={
-            <JobForm currentUser={user} handleSubmitJob={handleSubmitJob} />
-          }
-        />
-        <Route
-          path="/jobs"
-          element={
-            <JobsContainer
-              userRole={userRole}
-              currentUser={currentUser}
-              jobs={filterJobs}
-              handleJobDelete={handleJobDelete}
-              handleSubmitJob={handleSubmitJob}
-              handleJobsByLocation={handleJobsByLocation}
-              handleApplyJob={handleApplyJob}
-              handleProfileUser={handleProfileUser}
-            />
-          }
-        />
-        <Route path="*" element={<Error404 />} />
-      </Routes>
-    </div>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Home
+                theme={theme}
+                currentUser={currentUser}
+                handleSetRole={handleSetRole}
+              />
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <LoginForm
+                currentUser={currentUser}
+                updateCurrentUser={updateCurrentUser}
+                theme={theme}
+              />
+            }
+          />
+          <Route
+            path="/signup"
+            element={
+              <SignupForm theme={theme} updateCurrentUser={updateCurrentUser} />
+            }
+          />
+          <Route
+            path="/profile/:name"
+            element={<Profile theme={theme} profileUser={profileUser} />}
+          />
+          <Route
+            path="/myjobs"
+            element={
+              <MyJob
+                userRole={userRole}
+                jobs={filterJobs}
+                currentUser={currentUser}
+                handleProfileUser={handleProfileUser}
+                handleJobDelete={handleJobDelete}
+                theme={theme}
+              />
+            }
+          />
+          <Route
+            path="/newjob"
+            element={
+              <JobForm
+                theme={theme}
+                currentUser={user}
+                handleSubmitJob={handleSubmitJob}
+              />
+            }
+          />
+          <Route
+            path="/jobs"
+            element={
+              <JobsContainer
+                theme={theme}
+                userRole={userRole}
+                currentUser={currentUser}
+                jobs={filterJobs}
+                handleJobDelete={handleJobDelete}
+                handleSubmitJob={handleSubmitJob}
+                handleJobsByLocation={handleJobsByLocation}
+                handleApplyJob={handleApplyJob}
+                handleProfileUser={handleProfileUser}
+              />
+            }
+          />
+          <Route path="*" element={<Error404 theme={theme} />} />
+        </Routes>
+      </div>
+    </ThemeProvider>
   );
 };
 

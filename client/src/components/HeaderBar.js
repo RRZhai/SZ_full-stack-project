@@ -188,7 +188,7 @@ function HeaderBar({
             ) : null}
           </nav>
           {currentUser ? null : (
-            <Button href="login" variant="outlined" sx={{ my: 1, mx: 1.5 }}>
+            <Button href="login" color="inherit" sx={{ my: 1, mx: 1.5 }}>
               Login
             </Button>
           )}
@@ -199,3 +199,4 @@ function HeaderBar({
 }
 
 export default HeaderBar;
+
