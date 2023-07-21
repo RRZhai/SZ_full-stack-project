@@ -66,9 +66,9 @@ function HeaderBar({
 
   return (
     <ThemeProvider theme={theme}>
-      <GlobalStyles
+      {/* <GlobalStyles
         styles={{ ul: { margin: 0, padding: 0, listStyle: "none" } }}
-      />
+      /> */}
       <AppBar
         position="static"
         color="primary"
@@ -99,17 +99,30 @@ function HeaderBar({
               Add New Job
             </Typography>
           ) : null}
-          <Typography
-            noWrap
-            sx={{ flexGrow: 1 }}
-            variant="button"
-            color="text.primary"
-            component={Link}
-            to="/jobs"
-            onClick={(e) => handleActiveJob(isActive)}
-          >
-            All Active Jobs
-          </Typography>
+          {currentUser ? (
+            <Typography
+              noWrap
+              sx={{ flexGrow: 1 }}
+              variant="button"
+              color="text.primary"
+              component={Link}
+              to="/jobs"
+              onClick={(e) => handleActiveJob(isActive)}
+            >
+              All Active Jobs
+            </Typography>
+          ) : (
+            <Typography
+              noWrap
+              sx={{ flexGrow: 1 }}
+              variant="button"
+              color="text.primary"
+              component={Link}
+              to="/login"
+            >
+              All Active Jobs
+            </Typography>
+          )}
           <div>
             <TextField
               id="search-bar"

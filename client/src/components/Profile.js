@@ -97,7 +97,7 @@ const Profile = ({ profileUser, updateCurrentUser, currentUser }) => {
           </Box>
           <Box>
             <Typography sx={{ mb: 1.5 }} color="text.secondary">
-              bio:
+              bio: 
             </Typography>
             <Typography
               variant="subtitle1"
