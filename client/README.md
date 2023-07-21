@@ -1,70 +1,45 @@
-# Getting Started with Create React App
+# GIGU
+Welcome to GIGU! 
+This is your gateway to find short-term one-time jobs in babysitting, pet sitting, house sitting, and more! With GIGU, you can find jobs that fit your schedule and earn extra cash. Whether you are a student, a freelancer, or a full-time employee, GIGU has you covered.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## How it works
+GIGU is a user-friendly job searching engine that connects job seekers and employers for short-term gigs. Here's how it works:
 
-## Available Scripts
+**Job Search:** Job seekers can easily search for available gigs in their preferred categories such as babysitting, modeling, event staffing, and more. Filter jobs based on location, date, and other relevant criteria.
 
-In the project directory, you can run:
+**Job Listing:** Employers can publish gig opportunities, providing all the necessary details, including job description, date, time, location, and compensation. GigHub makes it simple to reach potential candidates quickly.
 
-### `npm start`
+**Apply and Hire:** Job seekers can apply for gigs directly through the platform. Employers can review applications, view candidate profiles, and hire the perfect fit for their gig.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Getting Started
+Getting started with GigHub is quick and easy:
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+**Sign Up:** Create an account with GigHub using your email or social media profiles.
 
-### `npm test`
+**Job Search:** Start searching for short-term gigs that match your interests and availability.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+**Post a Job:** If you're an employer, post your gig opportunity and find the right candidates in no time.
 
-### `npm run build`
+**Apply and Hire:** Apply for gigs or hire candidates directly through the platform.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+![image description](../markdown/giguhome.png)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## User Stories
+As a user, you will be able to:
+- Create an account
+- Log in to your account
+- Search for active jobs based on your location
+- View job details
+- Apply for jobs
+- Post a job
+- View applicate profiles
+- Hire candidates
+- Review candidates
+- Confirm job completion
+- Rate candidates
+- Cancel your job
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## References
+[formik](https://formik.org/docs/overview)
+[react-bootstrap](https://react-bootstrap.github.io/)
+[AddGoogleInMyWeb](https://www.wpbeginner.com/plugins/how-to-add-one-click-login-with-google-in-wordpress/)
