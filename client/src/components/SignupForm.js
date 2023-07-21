@@ -44,6 +44,7 @@ const SignUpForm = ({ currentUser, updateCurrentUser }) => {
 
   const userSchema = yup.object().shape({
     email: yup.string().email().required("Email is required"),
+    name: yup.string().required("Name is required"),
     password: yup
       .string()
       .min(10, "Password must be at least 10 characters")

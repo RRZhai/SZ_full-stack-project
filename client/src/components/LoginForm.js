@@ -125,7 +125,6 @@ const LoginForm = ({ currentUser, updateCurrentUser }) => {
                   name="email"
                   onChange={formik.handleChange}
                 />
-                <p style={{ color: "red" }}>{formik.errors.email}</p>
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -152,7 +151,6 @@ const LoginForm = ({ currentUser, updateCurrentUser }) => {
                     ),
                   }}
                 />
-                <p style={{ color: "red" }}>{formik.errors.password}</p>
               </Grid>
               {errors ? <Error msg={errors} /> : null}
               <FormControlLabel
@@ -175,7 +173,6 @@ const LoginForm = ({ currentUser, updateCurrentUser }) => {
                   fetch("/login_with_google/callback", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(userObject),
                   })
                     .then((resp) => {
                       if (resp.ok) {
