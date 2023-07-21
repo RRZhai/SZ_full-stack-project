@@ -16,6 +16,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { TimeField } from "@mui/x-date-pickers/TimeField";
+import Error from "./Error";
 
 const JobForm = ({ handleSubmitJob, currentUser }) => {
   const [error, setError] = useState(null);
@@ -57,7 +58,6 @@ const JobForm = ({ handleSubmitJob, currentUser }) => {
         body: JSON.stringify(values),
       })
         .then((res) => {
-          debugger
           if (res.ok) {
             res.json().then((data) => {
               handleSubmitJob(data);
@@ -188,8 +188,8 @@ const JobForm = ({ handleSubmitJob, currentUser }) => {
           onChange={time => formik.setFieldValue('end_time', time)}
           format="HH:mm"
         />
-
       </LocalizationProvider>
+      {error ? <Error message={error} /> : null}
       <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
         Submit
       </Button>

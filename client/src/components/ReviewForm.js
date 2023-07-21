@@ -9,6 +9,7 @@ import { useContext } from "react";
 import { ReviewContext } from "../context/reviewContext";
 import * as yup from "yup";
 
+
 const labels: { [index: string]: string } = {
   0.5: "Useless",
   1: "Useless+",
@@ -44,7 +45,6 @@ function ReviewForm({ currentUser, userRole, job }) {
 
   const reviewerId = job?.employee_id === currentUser.id ? job.hires?.job_seeker_id : job.employee_id;
 
-  console.log(job)
   const formik = useFormik({
     initialValues: {
       job_id: job?.id,
