@@ -26,7 +26,7 @@ function getLabelText(value) {
   return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
 }
 
-export default function ReviewForm({ currentUser, userRole, job }) {
+function ReviewForm({ currentUser, userRole, job }) {
   const [value, setValue] = useState(0);
   const [hover, setHover] = useState(-1);
   const [error, setError] = useState(null);
@@ -109,3 +109,5 @@ export default function ReviewForm({ currentUser, userRole, job }) {
     </Box>
   );
 }
+
+export default ReviewForm;

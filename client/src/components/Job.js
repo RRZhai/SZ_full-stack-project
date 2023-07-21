@@ -51,8 +51,6 @@ const Job = ({
     return time?.slice(11, 16);
   };
 
-  console.log("job", job);
-
   return (
     <Card sx={{ minWidth: 275 }}>
       <CardContent>
