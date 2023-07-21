@@ -59,7 +59,7 @@ const App = () => {
       }
     })();
   }, []);
-
+console.log(filterJobs)
   useEffect(() => {
     fetch("/jobs")
       .then((resp) => {
