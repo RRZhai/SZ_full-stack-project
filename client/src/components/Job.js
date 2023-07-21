@@ -126,21 +126,17 @@ const Job = ({
         >
           Learn More
         </Button>
-        {(job.employee_id === currentUser?.id && job.status === "pending") ||
-        "active" ? (
+        {(job?.employee_id === currentUser?.id && job.status !== 'completed') ? (
           <>
-            {job.status === "complete" ? (
-              <Button
-                variant="contained"
-                onClick={(e) => handleJobDelete(job)}
-                size="small"
-              >
-                Cancel
-              </Button>
-            ) : (
-              <Button disabled>Cancel</Button>
-            )}
-            {job.hires && job.status === "complete" ? (
+          
+            <Button
+              variant="contained"
+              onClick={(e) => handleJobDelete(job)}
+              size="small"
+            >
+              Cancel
+            </Button>
+            {job.hires ? (
               <Button
                 variant="contained"
                 onClick={(e) => handleJobComplete(job)}

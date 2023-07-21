@@ -61,7 +61,6 @@ export default function ReviewForm({ currentUser, userRole, job }) {
       })
         .then((res) => {
           if (res.ok) {
-            debugger
             res.json().then((data) => {
               reviewDispatch({ type: "add", payload: data });
             });
