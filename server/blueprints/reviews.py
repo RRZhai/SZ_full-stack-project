@@ -23,7 +23,7 @@ class Reviews(Resource):
             # import ipdb; ipdb.set_trace()
             db.session.commit()
                 
-            return make_response(review_schema.dump(new_review), 201)
+            return make_response(review_schema.dump(review), 201)
         except Exception as e: 
             db.session.rollback()
             return make_response({"errors": [str(e)]}, 400)

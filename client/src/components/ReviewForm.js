@@ -54,7 +54,6 @@ export default function ReviewForm({ currentUser, userRole, job }) {
     },
     validationSchema: reviewSchema,
     onSubmit: (values) => {
-      debugger;
       fetch("/reviews", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -62,6 +61,7 @@ export default function ReviewForm({ currentUser, userRole, job }) {
       })
         .then((res) => {
           if (res.ok) {
+            debugger
             res.json().then((data) => {
               reviewDispatch({ type: "add", payload: data });
             });

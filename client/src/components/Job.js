@@ -49,8 +49,9 @@ const Job = ({
 
   const convertTime = (time) => {
     return time?.slice(11, 16);
-    return time?.slice(11, 16);
   };
+
+  console.log("job", job);
 
   return (
     <Card sx={{ minWidth: 275 }}>
@@ -125,16 +126,21 @@ const Job = ({
         >
           Learn More
         </Button>
-        {job.employee_id === currentUser?.id && job.status === "active" ? (
+        {(job.employee_id === currentUser?.id && job.status === "pending") ||
+        "active" ? (
           <>
-            <Button
-              variant="contained"
-              onClick={(e) => handleJobDelete(job)}
-              size="small"
-            >
-              Cancel
-            </Button>
-            {job.hires ? (
+            {job.status === "complete" ? (
+              <Button
+                variant="contained"
+                onClick={(e) => handleJobDelete(job)}
+                size="small"
+              >
+                Cancel
+              </Button>
+            ) : (
+              <Button disabled>Cancel</Button>
+            )}
+            {job.hires && job.status === "complete" ? (
               <Button
                 variant="contained"
                 onClick={(e) => handleJobComplete(job)}
@@ -181,7 +187,9 @@ const Job = ({
       </CardActions>
       <CardContent>
         {readMore ? (
-          <Typography variant="body2">{job.description}</Typography>
+          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+            {job.description}
+          </Typography>
         ) : null}
       </CardContent>
       <CardContent>
