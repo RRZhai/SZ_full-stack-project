@@ -87,6 +87,18 @@ function HeaderBar({
           >
             GIGU
           </Typography>
+          {currentUser && userRole === "employee" ? (
+            <Typography
+              noWrap
+              sx={{ flexGrow: 1 }}
+              variant="button"
+              color="text.primary"
+              component={Link}
+              to="/newjob"
+            >
+              Add New Job
+            </Typography>
+          ) : null}
           <Typography
             noWrap
             sx={{ flexGrow: 1 }}

@@ -17,20 +17,13 @@ class Reviews(Resource):
     def post(self):
         try:
             data = request.get_json()
-            content = data.get("content")
-
-            if id := session.get("user_id"):
-                current_user = db.session.get(User, id)
-
-                new_review = Review(content=content)
-                new_review.user = current_user
-
-                review_schema.validate(new_review)
-
-                db.session.add(new_review)
-                db.session.commit()
+            review = Review(**data)
+        
+            db.session.add(review)
+            # import ipdb; ipdb.set_trace()
+            db.session.commit()
                 
-                return make_response(review_schema.dump(new_review), 201)
+            return make_response(review_schema.dump(review), 201)
         except Exception as e: 
             db.session.rollback()
             return make_response({"errors": [str(e)]}, 400)

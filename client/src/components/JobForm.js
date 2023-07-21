@@ -57,6 +57,7 @@ const JobForm = ({ handleSubmitJob, currentUser }) => {
         body: JSON.stringify(values),
       })
         .then((res) => {
+          debugger
           if (res.ok) {
             res.json().then((data) => {
               handleSubmitJob(data);
