@@ -64,7 +64,7 @@ const JobForm = ({ handleSubmitJob, currentUser }) => {
               navigate("/jobs");
             });
           } else {
-            res.json().then((error) => setError(error.message));
+            res.json().then((error) => setError(error));
           }
         })
         .catch(setError("New job not published, please try again"));
