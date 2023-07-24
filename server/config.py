@@ -66,7 +66,7 @@ CORS(app)
 bcrypt = Bcrypt(app)
 
 jwt = JWTManager(app)
-app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=20)
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=15)
 app.config["JWT_TOKEN_LOCATION"] = ["headers", "cookies"]
 app.config["JWT_COOKIE_SECURE"] = True
 app.config['JWT_COOKIE_SAMESITE'] = 'None'

@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { useState } from "react";
 import Job from "./Job";
 import { JobContext } from "../context/jobContext";
-
+import { Container } from "@mui/material";
 const JobsContainer = ({
   userRole,
   jobs,
@@ -13,7 +13,7 @@ const JobsContainer = ({
   handleProfileUser,
 }) => {
   return (
-    <div>
+    <Container>
       {jobs
         ? jobs.map((job) => (
             <Job
@@ -28,7 +28,7 @@ const JobsContainer = ({
             />
           ))
         : null}
-    </div>
+    </Container>
   );
 };
 

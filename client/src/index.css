@@ -1,6 +1,6 @@
 .grid {
     display: flex;
-    float: center;
+    float: left;
     width: 100%;
 }
 
@@ -11,7 +11,7 @@
 
 .image-wrapper > img {
   display: block;
-  width: 600px;
+  width: 650px;
   height: 100%;
   aspect-ratio: 1/1;
   object-fit: cover;

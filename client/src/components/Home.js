@@ -3,7 +3,6 @@ import Box from "@mui/material/Box";
 
 const Home = ({ handleSetRole, currentUser }) => {
   return (
-    <div className="home">
       <div className="grid">
         <div>
           {currentUser ? (
@@ -60,7 +59,6 @@ const Home = ({ handleSetRole, currentUser }) => {
           )}
         </div>
       </div>
-    </div>
   );
 };
 
