@@ -1,5 +1,5 @@
 # GIGU
-
+ 
 This on demand job search app is created using React frontend and Python with Flask backend. The app is deployed on Heroku and can be accessed at ...
 
 Please see the instructions below to run the app locally. You can also visit this README.md file for a walkthrough of the app.
